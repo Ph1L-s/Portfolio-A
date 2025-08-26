@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Nav } from '../nav/nav';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterModule],
+  imports: [Nav],
   templateUrl: './header.html',
   styleUrl: './header.scss'
 })
