@@ -1,0 +1,35 @@
+.hero-section {
+  background: linear-gradient(35deg, #0a0a0a 0%, #1c1c1c 35%, #08463b 60%, #2a6b5f 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 2rem;
+  
+  .subtitle {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+  }
+  
+  .main-title {
+    font-size: 4rem;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.1;
+  }
+  
+  .description {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-top: 1rem;
+    opacity: 0.8;
+  }
+}
