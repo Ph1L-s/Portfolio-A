@@ -4,7 +4,7 @@ import { Hero } from '../../components/hero/hero';
 import { About } from '../../components/about/about';
 import { Skills } from '../../components/skills/skills';
 import { Projects } from '../../components/projects/projects';
-import { Contact } from '../../components/contact/contact';
+import { Reviews } from '../../components/reviews/reviews';
 import { Footer } from '../../components/footer/footer';
 
 @Component({
@@ -15,7 +15,7 @@ import { Footer } from '../../components/footer/footer';
     About,
     Skills,
     Projects,
-    Contact,
+    Reviews,
     Footer
   ],
   templateUrl: './home.html',

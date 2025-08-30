@@ -1,8 +1,21 @@
 <nav>
+  <div class="language-toggle" [class.de-active]="selectedLanguage === 'DE'">
+    <button 
+      class="lang-btn" 
+      [class.active]="selectedLanguage === 'EN'"
+      (click)="selectLanguage('EN')">
+      EN
+    </button>
+    <button 
+      class="lang-btn" 
+      [class.active]="selectedLanguage === 'DE'"
+      (click)="selectLanguage('DE')">
+      DE
+    </button>
+  </div>
   <ul class="nav-links">
     <li><a href="#about">About me</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a routerLink="/contact">Contact</a></li>
   </ul>
 </nav>
