@@ -19,14 +19,15 @@
   z-index: 2;
   
   .subtitle {
-    font-size: 1.2rem;
-    font-weight: 500;
+    font-family: 'FiraCode', monospace;
+    font-size: 1.95rem;
+    font-weight: 300;
     margin-bottom: 1rem;
     opacity: 0.9;
   }
   
   .main-title {
-    font-size: 4rem;
+    font-size: 6.5rem;
     font-weight: 800;
     margin: 0;
     line-height: 1.1;
@@ -167,6 +168,42 @@
   height: 200px;
   background: #3dcfb6;
   opacity: 0.8;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 1rem;
+  
+  .scroll-button {
+    background: transparent;
+    border: 1px solid #3dcfb6;
+    border-radius: 25px;
+    width: 75px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: none;
+    position: relative;
+    top: -80px;
+    
+    
+    img {
+      width: 16px;
+      height: 16px;
+      filter: brightness(0) invert(1);
+      animation: bounceIcon 1.6s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes bounceIcon {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(8px); 
+  }
 }
 
 .hero-banner {
