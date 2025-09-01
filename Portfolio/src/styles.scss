@@ -1,7 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* testing replace it with the correct font and download them for resources !!! DON'T USE FONTS WITH FETCHING */
-@import url('https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700&display=swap');
+@font-face {
+  font-family: 'Karla';
+  src: url('/fonts/Karla-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FiraCode';
+  src: url('/fonts/FiraCode-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
 
 html {
   scroll-behavior: smooth;
@@ -16,4 +29,11 @@ html {
 body {
   font-family: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
+}
+
+/* Global content container for consistent layout */
+.content-container {
+  max-width: 2440px;
+  margin: 0 auto;
+  padding: 0 8rem;
 }
