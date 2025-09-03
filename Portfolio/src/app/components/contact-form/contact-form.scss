@@ -72,11 +72,12 @@
       position: relative;
       
       label {
+        font-family: 'Fira Code', monospace;
         display: block;
         color: #3DCFB6;
         font-size: 1.1rem;
         font-weight: 500;
-        margin-bottom: 1rem;
+        margin-bottom: 0.85rem;
       }
       
       input, textarea {
@@ -102,7 +103,7 @@
       .underline {
         height: 1px;
         background: rgba(255, 255, 255, 0.3);
-        margin-top: 0.5rem;
+        margin-top: 0.2rem;
         transition: background-color 0.3s ease;
       }
       
@@ -169,6 +170,7 @@
     margin: 0;
     
     .privacy-link {
+      font-family: 'Fira Code', monospace;
       color: #3DCFB6;
       text-decoration: underline;
       cursor: pointer;
