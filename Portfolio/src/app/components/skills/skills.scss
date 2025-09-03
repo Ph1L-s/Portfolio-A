@@ -18,15 +18,11 @@
   }
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
+
+.content-container {
   position: relative;
   z-index: 1;
-}
-
-.container {
+  
   .section-label {
     color: #3DCFB6;
     font-size: 1rem;
@@ -162,7 +158,9 @@
     cursor: pointer;
     
     &:hover {
-      transform: scale(1.1);
+      img {
+        transform: scale(1.1);
+      }
     }
     
     img {
@@ -170,6 +168,7 @@
       height: 60px;
       object-fit: contain;
       margin-bottom: 0.5rem;
+      transition: transform 0.3s ease;
     }
     
     .tech-label {
