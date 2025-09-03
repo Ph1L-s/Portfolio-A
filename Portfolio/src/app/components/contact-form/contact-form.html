@@ -12,106 +12,52 @@
     <div class="contact-right">
       <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
         <div class="form-section">
-          @if (nameHighlight()) {
-            <div class="field-container highlight">
-              <div class="underline"></div>
-              <label for="name">What's your name?</label>
-              @if (nameErrorClass()) {
-                <input type="text" id="name" formControlName="name" [placeholder]="namePlaceholder()" class="error-placeholder">
-              } @else {
-                <input type="text" id="name" formControlName="name" [placeholder]="namePlaceholder()">
-              }
-              <div class="underline"></div>
-            </div>
-          } @else {
-            <div class="field-container">
-              <div class="underline"></div>
-              <label for="name">What's your name?</label>
-              @if (nameErrorClass()) {
-                <input type="text" id="name" formControlName="name" [placeholder]="namePlaceholder()" class="error-placeholder">
-              } @else {
-                <input type="text" id="name" formControlName="name" [placeholder]="namePlaceholder()">
-              }
-              <div class="underline"></div>
-            </div>
-          }
+          <div class="field-container">
+            <div class="underline"></div>
+            <label for="name">What's your name?</label>
+            @if (nameErrorClass()) {
+              <input type="text" id="name" formControlName="name" [placeholder]="namePlaceholder()" class="error-placeholder">
+            } @else {
+              <input type="text" id="name" formControlName="name" [placeholder]="namePlaceholder()">
+            }
+            <div class="underline"></div>
+          </div>
           
-          @if (emailHighlight()) {
-            <div class="field-container highlight">
-              <label for="email">What's your email?</label>
-              @if (emailErrorClass()) {
-                <input type="email" id="email" formControlName="email" [placeholder]="emailPlaceholder()" class="error-placeholder">
-              } @else {
-                <input type="email" id="email" formControlName="email" [placeholder]="emailPlaceholder()">
-              }
-              <div class="underline"></div>
-            </div>
-          } @else {
-            <div class="field-container">
-              <label for="email">What's your email?</label>
-              @if (emailErrorClass()) {
-                <input type="email" id="email" formControlName="email" [placeholder]="emailPlaceholder()" class="error-placeholder">
-              } @else {
-                <input type="email" id="email" formControlName="email" [placeholder]="emailPlaceholder()">
-              }
-              <div class="underline"></div>
-            </div>
-          }
+          <div class="field-container">
+            <label for="email">What's your email?</label>
+            @if (emailErrorClass()) {
+              <input type="email" id="email" formControlName="email" [placeholder]="emailPlaceholder()" class="error-placeholder">
+            } @else {
+              <input type="email" id="email" formControlName="email" [placeholder]="emailPlaceholder()">
+            }
+            <div class="underline"></div>
+          </div>
           
-          @if (messageHighlight()) {
-            <div class="field-container highlight">
-              <label for="message">How can I help you?</label>
-              @if (messageErrorClass()) {
-                <textarea id="message" formControlName="message" [placeholder]="messagePlaceholder()" class="error-placeholder"></textarea>
-              } @else {
-                <textarea id="message" formControlName="message" [placeholder]="messagePlaceholder()"></textarea>
-              }
-              <div class="underline last-underline"></div>
-            </div>
-          } @else {
-            <div class="field-container">
-              <label for="message">How can I help you?</label>
-              @if (messageErrorClass()) {
-                <textarea id="message" formControlName="message" [placeholder]="messagePlaceholder()" class="error-placeholder"></textarea>
-              } @else {
-                <textarea id="message" formControlName="message" [placeholder]="messagePlaceholder()"></textarea>
-              }
-              <div class="underline last-underline"></div>
-            </div>
-          }
+          <div class="field-container">
+            <label for="message">How can I help you?</label>
+            @if (messageErrorClass()) {
+              <textarea id="message" formControlName="message" [placeholder]="messagePlaceholder()" class="error-placeholder"></textarea>
+            } @else {
+              <textarea id="message" formControlName="message" [placeholder]="messagePlaceholder()"></textarea>
+            }
+            <div class="underline last-underline"></div>
+          </div>
         </div>
         
-        @if (privacyHighlight()) {
-          <div class="privacy-notice highlight">
-            <div class="checkbox-container">
-              <div class="custom-checkbox">
-                <input type="checkbox" id="privacy" formControlName="privacy" (change)="clearPrivacyError()">
-                <span class="checkmark">✓</span>
-              </div>
-              @if (showPrivacyError()) {
-                <div class="privacy-error">{{ privacyErrorText() }}</div>
-              }
+        <div class="privacy-notice">
+          <div class="checkbox-container">
+            <div class="custom-checkbox">
+              <input type="checkbox" id="privacy" formControlName="privacy" (change)="clearPrivacyError()">
+              <span class="checkmark">✓</span>
             </div>
-            <div class="privacy-content">
-              <span class="privacy-text">I've read the <a href="#" class="privacy-link">privacy policy</a> and agree to the processing of my data as outlined.</span>
-            </div>
+            @if (showPrivacyError()) {
+              <div class="privacy-error">{{ privacyErrorText() }}</div>
+            }
           </div>
-        } @else {
-          <div class="privacy-notice">
-            <div class="checkbox-container">
-              <div class="custom-checkbox">
-                <input type="checkbox" id="privacy" formControlName="privacy" (change)="clearPrivacyError()">
-                <span class="checkmark">✓</span>
-              </div>
-              @if (showPrivacyError()) {
-                <div class="privacy-error">{{ privacyErrorText() }}</div>
-              }
-            </div>
-            <div class="privacy-content">
-              <span class="privacy-text">I've read the <a href="#" class="privacy-link">privacy policy</a> and agree to the processing of my data as outlined.</span>
-            </div>
+          <div class="privacy-content">
+            <span class="privacy-text">I've read the <a href="#" class="privacy-link">privacy policy</a> and agree to the processing of my data as outlined.</span>
           </div>
-        }
+        </div>
         
         <button type="submit" class="send-message-btn">Say Hello :)</button>
       </form>

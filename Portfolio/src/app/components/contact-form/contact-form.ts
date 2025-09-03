@@ -24,13 +24,6 @@ export class ContactForm {
     privacy: ''
   });
 
-  fieldHighlight = signal({
-    name: false,
-    email: false,
-    message: false,
-    privacy: false
-  });
-
   // Computed properties for template bindings
   namePlaceholder = computed(() => this.errors().name || 'Your name goes here');
   emailPlaceholder = computed(() => this.errors().email || 'youremail@email.com');
@@ -39,11 +32,6 @@ export class ContactForm {
   nameErrorClass = computed(() => !!this.errors().name);
   emailErrorClass = computed(() => !!this.errors().email);
   messageErrorClass = computed(() => !!this.errors().message);
-  
-  nameHighlight = computed(() => this.fieldHighlight().name);
-  emailHighlight = computed(() => this.fieldHighlight().email);
-  messageHighlight = computed(() => this.fieldHighlight().message);
-  privacyHighlight = computed(() => this.fieldHighlight().privacy);
   
   showPrivacyError = computed(() => !!this.errors().privacy);
   privacyErrorText = computed(() => this.errors().privacy);
@@ -59,48 +47,26 @@ export class ContactForm {
   
   private showValidationErrors() {
     const newErrors = { name: '', email: '', message: '', privacy: '' };
-    const newHighlights = { name: false, email: false, message: false, privacy: false };
     
     if (this.contactForm.get('name')?.hasError('required')) {
       newErrors.name = 'Oops! It seems your name is missing';
-      newHighlights.name = true;
-      this.highlightField('name');
     }
     
     if (this.contactForm.get('email')?.hasError('required')) {
       newErrors.email = 'Hoppla! your email is required';
-      newHighlights.email = true;
-      this.highlightField('email');
     } else if (this.contactForm.get('email')?.hasError('email')) {
       newErrors.email = 'Please enter a valid email address';
-      newHighlights.email = true;
-      this.highlightField('email');
     }
     
     if (this.contactForm.get('message')?.hasError('required')) {
       newErrors.message = 'What do you need to develop?';
-      newHighlights.message = true;
-      this.highlightField('message');
     }
     
     if (this.contactForm.get('privacy')?.hasError('required')) {
       newErrors.privacy = 'Please accept the privacy policy.';
-      newHighlights.privacy = true;
-      this.highlightField('privacy');
     }
     
     this.errors.set(newErrors);
-    this.fieldHighlight.set(newHighlights);
-  }
-  
-  private highlightField(fieldName: keyof ReturnType<typeof this.fieldHighlight>) {
-    const current = this.fieldHighlight();
-    this.fieldHighlight.set({ ...current, [fieldName]: true });
-    
-    setTimeout(() => {
-      const updated = this.fieldHighlight();
-      this.fieldHighlight.set({ ...updated, [fieldName]: false });
-    }, 1500);
   }
   
   clearPrivacyError() {

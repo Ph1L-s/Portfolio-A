@@ -135,33 +135,6 @@
       
       .field-container {
         position: relative;
-        
-        &.highlight {
-          &::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: calc(100% - 2rem);
-            background: rgba(37, 100, 126, 0.6);
-            border-radius: 8px;
-            animation: highlightFade 1.5s ease-out forwards;
-            z-index: -1;
-            transform: translateY(-50%);
-          }
-        }
-      }
-      
-      @keyframes highlightFade {
-        0% {
-          opacity: 1;
-          background: rgba(37, 100, 126, 0.6);
-        }
-        100% {
-          opacity: 0;
-          background: rgba(37, 100, 126, 0);
-        }
       }
     }
   }
@@ -175,20 +148,6 @@
   margin-top: 2rem;
   margin-bottom: 3rem;
   
-  &.highlight {
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -8px;
-      right: -8px;
-      bottom: 0;
-      background: rgba(37, 100, 126, 0.6);
-      border-radius: 8px;
-      animation: highlightFade 1.5s ease-out forwards;
-      z-index: -1;
-    }
-  }
   
   .checkbox-container {
     flex-shrink: 0;
