@@ -7,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrl: './skills.scss'
 })
 export class Skills {
-
+  
+  scrollToContact() {
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }

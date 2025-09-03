@@ -1,18 +1,22 @@
 <section id="skills" class="skills-section">
+  <div class="background-dot"></div>
   <div class="container">
     <span class="section-label">Technologies</span>
     <div class="skills-content">
       <div class="skills-card">
-        <div class="background-dot"></div>
         <div class="skills-info">
           <h2 class="section-title">Skill Set</h2>
           <p class="skills-description">
             A short introduction of your skills. Highlight your experience, technical knowledge and what skills you use, especially your passion for them. What are your specialties and strengths?
           </p>
-          <p class="skills-note">
-            You need <strong>another skill?</strong> Talk to me! The better you know me, the quicker I'll adapt.
+          <h3 class="skills-subtitle">You need <span class="highlight">another skill?</span></h3>
+          <p class="skills-description">
+            Feel free to contact me. I look forward to expanding on my previous knowledge.
           </p>
-          <button class="skills-btn">Let's talk</button>
+          <button class="skills-btn" (click)="scrollToContact()">
+            <span class="text-static">Let's talk</span>
+            <span class="text-loop">Let's talk</span>
+          </button>
         </div>
       </div>
       
