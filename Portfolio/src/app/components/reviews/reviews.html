@@ -4,30 +4,51 @@
       <h2 class="section-title">What my colleagues say about me</h2>
     </div>
     
-    <div class="testimonial-container">
-      <div class="testimonial-card active">
-        <p class="testimonial-text">
-          ""
-        </p>
-        <div class="testimonial-author">
-          <span class="author-name">- Name - Position</span>
+    <div class="testimonial-carousel">
+      <div class="testimonial-track" [class.transitioning]="isTransitioning">
+        <div class="testimonial-card side-card" [attr.data-content]="getPrevTestimonial().text">
+          <p class="testimonial-text">{{getPrevTestimonial().text}}</p>
+          <div class="testimonial-divider"></div>
+          <div class="testimonial-author">
+            <span class="author-name">{{getPrevTestimonial().author}}</span>
+          </div>
         </div>
-      </div>
-      
-      <div class="testimonial-card">
-        <p class="testimonial-text">
-          ""
-        </p>
-        <div class="testimonial-author">
-          <span class="author-name">- Name - Position</span>
+        
+        <div class="testimonial-card center-card" [attr.data-content]="getCurrentTestimonial().text">
+          @if (true) {
+            <img src="designs/images/misc/quotes.svg" alt="Quotes" class="quote-svg">
+          }
+          <p class="testimonial-text">{{getCurrentTestimonial().text}}</p>
+          <div class="testimonial-divider"></div>
+          <div class="testimonial-author">
+            <span class="author-name">{{getCurrentTestimonial().author}}</span>
+          </div>
+        </div>
+        
+        <div class="testimonial-card side-card" [attr.data-content]="getNextTestimonial().text">
+          <p class="testimonial-text">{{getNextTestimonial().text}}</p>
+          <div class="testimonial-divider"></div>
+          <div class="testimonial-author">
+            <span class="author-name">{{getNextTestimonial().author}}</span>
+          </div>
         </div>
       </div>
     </div>
     
-    <div class="testimonial-dots">
-      <span class="dot active"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
+    <div class="navigation-wrapper">
+      <button class="carousel-arrow carousel-arrow-left" (click)="previousSlide()">
+        <img src="designs/images/misc/arrow_back.svg" alt="Previous">
+      </button>
+      
+      <div class="testimonial-indicators">
+        @for (testimonial of testimonials; track testimonial.author; let i = $index) {
+          <span class="indicator" [class.active]="i === currentSlide"></span>
+        }
+      </div>
+      
+      <button class="carousel-arrow carousel-arrow-right" (click)="nextSlide()">
+        <img src="designs/images/misc/arrow_forward.svg" alt="Next">
+      </button>
     </div>
   </div>
 </section>
