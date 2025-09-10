@@ -5,33 +5,24 @@
     </div>
     
     <div class="testimonial-carousel">
-      <div class="testimonial-track" [class.transitioning]="isTransitioning">
-        <div class="testimonial-card side-card" [attr.data-content]="getPrevTestimonial().text">
-          <p class="testimonial-text">{{getPrevTestimonial().text}}</p>
-          <div class="testimonial-divider"></div>
-          <div class="testimonial-author">
-            <span class="author-name">{{getPrevTestimonial().author}}</span>
+      <div class="testimonial-track" 
+           [class.transitioning]="isTransitioning" 
+           [style.transform]="getTransform()">
+        @for (testimonial of testimonials; track $index) {
+          <div class="testimonial-card" 
+               [class.active]="$index === currentIndex"
+               [class.prev]="$index === (currentIndex - 1 + testimonials.length) % testimonials.length"
+               [class.next]="$index === (currentIndex + 1) % testimonials.length">
+            @if ($index === currentIndex) {
+              <img src="designs/images/misc/quotes.svg" alt="Quotes" class="quote-svg">
+            }
+            <p class="testimonial-text">{{testimonial.text}}</p>
+            <div class="testimonial-author">
+              <div class="line"></div>
+              <span class="author-name">{{testimonial.author}}</span>
+            </div>
           </div>
-        </div>
-        
-        <div class="testimonial-card center-card" [attr.data-content]="getCurrentTestimonial().text">
-          @if (true) {
-            <img src="designs/images/misc/quotes.svg" alt="Quotes" class="quote-svg">
-          }
-          <p class="testimonial-text">{{getCurrentTestimonial().text}}</p>
-          <div class="testimonial-divider"></div>
-          <div class="testimonial-author">
-            <span class="author-name">{{getCurrentTestimonial().author}}</span>
-          </div>
-        </div>
-        
-        <div class="testimonial-card side-card" [attr.data-content]="getNextTestimonial().text">
-          <p class="testimonial-text">{{getNextTestimonial().text}}</p>
-          <div class="testimonial-divider"></div>
-          <div class="testimonial-author">
-            <span class="author-name">{{getNextTestimonial().author}}</span>
-          </div>
-        </div>
+        }
       </div>
     </div>
     
@@ -41,8 +32,8 @@
       </button>
       
       <div class="testimonial-indicators">
-        @for (testimonial of testimonials; track testimonial.author; let i = $index) {
-          <span class="indicator" [class.active]="i === currentSlide"></span>
+        @for (testimonial of originalTestimonials; track testimonial.author; let i = $index) {
+          <span class="indicator" [class.active]="i === currentIndex % originalTestimonials.length"></span>
         }
       </div>
       
