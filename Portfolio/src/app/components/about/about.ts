@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-about',
@@ -6,38 +6,9 @@ import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
   templateUrl: './about.html',
   styleUrl: './about.scss'
 })
-export class About implements OnInit, OnDestroy {
-  private observer!: IntersectionObserver;
+export class About {
 
-  constructor(private elementRef: ElementRef) {}
-
-  ngOnInit() {
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const imageElement = this.elementRef.nativeElement.querySelector('.about-image');
-            if (imageElement) {
-              imageElement.classList.add('animate');
-            }
-          }
-        });
-      },
-      {
-        threshold: 0.3,
-        rootMargin: '-50px 0px'
-      }
-    );
-
-    const aboutSection = this.elementRef.nativeElement.querySelector('.about-section');
-    if (aboutSection) {
-      this.observer.observe(aboutSection);
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.observer) {
-      this.observer.disconnect();
-    }
+  onImageHover(event: MouseEvent) {
+    (event.currentTarget as HTMLElement).classList.add('hovered');
   }
 }

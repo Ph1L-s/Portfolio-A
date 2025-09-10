@@ -7,28 +7,85 @@
         Explore a selection of my work here - Infused with projects as love my craft a builder.
       </p>
     </div>
-    
-    <div class="projects-list">
-      <div class="project-item">
-        <div class="project-info">
-          <h3>Join</h3>
-          <p>Angular | TypeScript | HTML | CSS | Firebase</p>
-        </div>
-      </div>
-      
-      <div class="project-item">
-        <div class="project-info">
-          <h3>El Pollo Loco</h3>
-          <p>HTML | CSS | JavaScript</p>
-        </div>
-      </div>
-      
-      <div class="project-item">
-        <div class="project-info">
-          <h3>DA Bubble</h3>
-          <p>Angular | Firebase | TypeScript</p>
-        </div>
+
+    <div class="projects-wrapper">
+      <!-- Table -->
+      <table class="projects-table">
+        <tbody>
+          @for (project of projects; track $index) {
+            <tr (mouseenter)="hoveredIndex = $index" 
+                (mouseleave)="hoveredIndex = -1"
+                (click)="openProject(project, $index)"
+                class="project-row">
+              <td class="project-name">{{ project.nameKey }}</td>
+              <td class="project-tech">
+                @for (tech of project.tech; track $index) {
+                  <span class="tech-name">{{ tech.tech }}</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <!-- Images -->
+      <div class="images-container">
+        @for (project of projects; track $index) {
+          <div class="image-wrapper"
+               [class.active]="hoveredIndex === $index"
+               [style.top]="getImageTop($index)">
+            <div class="image-shadow"></div>
+            <img [src]="project.image" [alt]="project.nameKey" />
+          </div>
+        }
       </div>
     </div>
   </div>
 </section>
+
+<!-- Lightbox -->
+@if (selectedProject) {
+  <div class="lightbox-overlay" (click)="closeProject()">
+    <div class="lightbox-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeProject()">×</button>
+      
+      <div class="lightbox-left">
+        <h4>{{ (selectedIndex || 0) + 1 < 10 ? '0' + ((selectedIndex || 0) + 1) : (selectedIndex || 0) + 1 }}</h4>
+        <h2>{{ selectedProject.nameKey }}</h2>
+        <h3>What is this project about?</h3>
+        <p>{{ selectedProject.descriptionKey }}</p>
+
+        <div class="tech-icons">
+          @for (tech of selectedProject.tech; track $index) {
+            <div class="tech-item">
+              <img [src]="tech.image" [alt]="tech.tech" />
+              <p>{{ tech.tech }}</p>
+            </div>
+          }
+        </div>
+
+        <div class="project-links">
+          @if (selectedProject.github) {
+            <a [href]="selectedProject.github" target="_blank">
+              GitHub
+            </a>
+          }
+          @if (selectedProject.liveTest) {
+            <a [href]="selectedProject.liveTest" target="_blank">
+              Live Test
+            </a>
+          }
+        </div>
+      </div>
+
+      <div class="lightbox-right">
+        <div class="project-image">
+          <img [src]="selectedProject.image" [alt]="selectedProject.nameKey" />
+        </div>
+        <button class="next-btn" (click)="goToNextProject()">
+          Next Project
+        </button>
+      </div>
+    </div>
+  </div>
+}
