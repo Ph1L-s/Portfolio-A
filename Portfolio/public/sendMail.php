@@ -1,19 +1,6 @@
-import { Component, signal, computed, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-
-@Component({
-  selector: 'app-contact-form',
-  imports: [ReactiveFormsModule],
-  templateUrl: './contact-form.html',
-  styleUrl: './contact-form.scss'
-})
-export class ContactForm {
-  private fb = new FormBuilder();
-  private http = inject(HttpClient);
-
-  // Trashmail domains blacklist (same as PHP backend)
-  private blacklistedDomains = [
+<?php
+// Trashmail/Disposable email domain blacklist
+$blacklistedDomains = [
     '10minutemail.com', '20minutemail.com', '2prong.com', '3d-game.com', '4warding.com',
     'agedmail.com', 'ajaxapp.net', 'amilegit.com', 'amiriindustrial.com', 'anonbox.net',
     'anonymousspeech.com', 'armyspy.com', 'binkmail.com', 'bobmail.info', 'brennendesreich.de',
@@ -83,150 +70,184 @@ export class ContactForm {
     'xyzfree.net', 'yep.it', 'yogamaven.com', 'yopmail.com', 'yopmail.fr',
     'yopmail.net', 'yourdomain.com', 'ypmail.webredirect.org', 'yuurok.com', 'zehnminuten.de',
     'zippymail.info', 'zoaxe.com', 'zoemail.org'
-  ];
+];
 
-  // Custom validators
-  private noTrashEmailValidator = (control: AbstractControl): ValidationErrors | null => {
-    if (!control.value) return null;
-    const email = control.value.toLowerCase();
-    const domain = email.split('@')[1];
-    if (domain && this.blacklistedDomains.includes(domain)) {
-      return { trashEmail: true };
-    }
-    return null;
-  };
+// Rate limiting storage (in production, use Redis or database)
+session_start();
 
-  private noSuspiciousPatternValidator = (control: AbstractControl): ValidationErrors | null => {
-    if (!control.value) return null;
-    const email = control.value.toLowerCase();
+function checkRateLimit() {
+    $maxEmails = 3;
+    $timeWindow = 600; // 10 minutes
+    $currentTime = time();
     
-    const suspiciousPatterns = [
-      /^[0-9]+@/,  // Starts with numbers only
-      /^[a-z]{1,2}[0-9]{6,}@/,  // Few letters followed by many numbers
-      /[0-9]{8,}/,  // Contains 8+ consecutive numbers
-      /^test[0-9]*@/,  // Starts with "test"
-      /^temp[0-9]*@/,  // Starts with "temp"
-    ];
-
-    for (const pattern of suspiciousPatterns) {
-      if (pattern.test(email)) {
-        return { suspiciousEmail: true };
-      }
-    }
-    return null;
-  };
-  
-  contactForm: FormGroup = this.fb.group({
-    name: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email, this.noTrashEmailValidator, this.noSuspiciousPatternValidator]],
-    message: ['', [Validators.required]],
-    privacy: [false, [Validators.requiredTrue]],
-    website: [''] // Honeypot field
-  });
-
-  errors = signal({
-    name: '',
-    email: '',
-    message: '',
-    privacy: ''
-  });
-
-  isSubmitting = signal(false);
-  submitStatus = signal<'idle' | 'success' | 'error'>('idle');
-
-  post = {
-    endPoint: '/sendMail.php', // Relative path to PHP file in public folder
-    body: (payload: any) => JSON.stringify(payload),
-    options: {
-      headers: { 'Content-Type': 'application/json' },
-      responseType: 'text' as const
-    }
-  };
-
-  // Computed properties for template bindings
-  namePlaceholder = computed(() => this.errors().name || 'Your name goes here');
-  emailPlaceholder = computed(() => this.errors().email || 'youremail@email.com');
-  messagePlaceholder = computed(() => this.errors().message || 'Hello Phil, I am interested in...');
-  
-  nameErrorClass = computed(() => !!this.errors().name);
-  emailErrorClass = computed(() => !!this.errors().email);
-  messageErrorClass = computed(() => !!this.errors().message);
-  
-  showPrivacyError = computed(() => !!this.errors().privacy);
-  privacyErrorText = computed(() => this.errors().privacy);
-
-  onSubmit() {
-    if (!this.contactForm.valid) {
-      this.showValidationErrors();
-      return;
-    }
-
-    this.isSubmitting.set(true);
-    this.submitStatus.set('idle');
-    this.clearAllErrors();
-
-    const formData = {
-      name: this.contactForm.get('name')?.value,
-      email: this.contactForm.get('email')?.value,
-      message: this.contactForm.get('message')?.value,
-      agree: this.contactForm.get('privacy')?.value,
-      website: this.contactForm.get('website')?.value // Honeypot field
-    };
-
-    this.http.post(this.post.endPoint, this.post.body(formData), this.post.options)
-      .subscribe({
-        next: (response) => {
-          console.info('Mail sent successfully:', response);
-          this.submitStatus.set('success');
-          this.contactForm.reset();
-          this.clearAllErrors();
-        },
-        error: (error) => {
-          console.error('Error sending mail:', error);
-          this.submitStatus.set('error');
-        },
-        complete: () => {
-          this.isSubmitting.set(false);
-          // Reset status after 5 seconds
-          setTimeout(() => this.submitStatus.set('idle'), 5000);
-        }
-      });
-  }
-  
-  private showValidationErrors() {
-    const newErrors = { name: '', email: '', message: '', privacy: '' };
-    
-    if (this.contactForm.get('name')?.hasError('required')) {
-      newErrors.name = 'Oops! It seems your name is missing';
+    if (!isset($_SESSION['email_attempts'])) {
+        $_SESSION['email_attempts'] = [];
     }
     
-    if (this.contactForm.get('email')?.hasError('required')) {
-      newErrors.email = 'Hoppla! your email is required';
-    } else if (this.contactForm.get('email')?.hasError('email')) {
-      newErrors.email = 'Please enter a valid email address';
-    } else if (this.contactForm.get('email')?.hasError('trashEmail')) {
-      newErrors.email = 'Disposable email addresses are not allowed';
-    } else if (this.contactForm.get('email')?.hasError('suspiciousEmail')) {
-      newErrors.email = 'Email format appears suspicious';
+    // Remove old attempts outside time window
+    $_SESSION['email_attempts'] = array_filter($_SESSION['email_attempts'], function($timestamp) use ($currentTime, $timeWindow) {
+        return ($currentTime - $timestamp) < $timeWindow;
+    });
+    
+    if (count($_SESSION['email_attempts']) >= $maxEmails) {
+        return false;
     }
     
-    if (this.contactForm.get('message')?.hasError('required')) {
-      newErrors.message = 'What do you need to develop?';
-    }
-    
-    if (this.contactForm.get('privacy')?.hasError('required')) {
-      newErrors.privacy = 'Please accept the privacy policy.';
-    }
-    
-    this.errors.set(newErrors);
-  }
-  
-  clearPrivacyError() {
-    const currentErrors = this.errors();
-    this.errors.set({ ...currentErrors, privacy: '' });
-  }
-
-  private clearAllErrors() {
-    this.errors.set({ name: '', email: '', message: '', privacy: '' });
-  }
+    return true;
 }
+
+function recordEmailAttempt() {
+    $_SESSION['email_attempts'][] = time();
+}
+
+function isTrashEmailDomain($email) {
+    global $blacklistedDomains;
+    $domain = strtolower(substr(strrchr($email, "@"), 1));
+    return in_array($domain, $blacklistedDomains);
+}
+
+function hasValidMXRecord($email) {
+    $domain = substr(strrchr($email, "@"), 1);
+    return checkdnsrr($domain, 'MX') || checkdnsrr($domain, 'A');
+}
+
+function isValidEmailPattern($email) {
+    // Check for suspicious patterns
+    $patterns = [
+        '/^[0-9]+@/',  // Starts with numbers only
+        '/^[a-z]{1,2}[0-9]{6,}@/',  // Few letters followed by many numbers
+        '/[0-9]{8,}/',  // Contains 8+ consecutive numbers
+        '/^test[0-9]*@/',  // Starts with "test"
+        '/^temp[0-9]*@/',  // Starts with "temp"
+    ];
+    
+    foreach ($patterns as $pattern) {
+        if (preg_match($pattern, strtolower($email))) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+switch ($_SERVER['REQUEST_METHOD']) {
+    case "OPTIONS": // Preflight request for CORS
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: POST");
+        header("Access-Control-Allow-Headers: content-type");
+        exit;
+
+    case "POST":
+        header("Access-Control-Allow-Origin: *");
+
+        // Rate limiting check
+        if (!checkRateLimit()) {
+            http_response_code(429);
+            echo "Rate limit exceeded. Please wait before sending another message.";
+            exit;
+        }
+
+        // Get raw JSON input
+        $json = file_get_contents("php://input");
+        $params = json_decode($json);
+
+        // Sanitize & validate inputs
+        $email       = filter_var($params->email ?? '', FILTER_VALIDATE_EMAIL);
+        $name        = trim(strip_tags($params->name ?? ''));
+        $userMessage = trim(strip_tags($params->message ?? ''));
+        $agree       = $params->agree ?? false;
+        $honeypot    = trim($params->website ?? ''); // Honeypot field
+
+        if (!$email || !$name || !$userMessage || !$agree) {
+            http_response_code(400);
+            echo "Invalid input";
+            exit;
+        }
+
+        // Honeypot check (if filled, it's likely a bot)
+        if (!empty($honeypot)) {
+            http_response_code(400);
+            echo "Spam detected";
+            exit;
+        }
+
+        // Advanced email validation
+        if (isTrashEmailDomain($email)) {
+            http_response_code(400);
+            echo "Disposable email addresses are not allowed";
+            exit;
+        }
+
+        if (!hasValidMXRecord($email)) {
+            http_response_code(400);
+            echo "Invalid email domain";
+            exit;
+        }
+
+        if (!isValidEmailPattern($email)) {
+            http_response_code(400);
+            echo "Email format appears suspicious";
+            exit;
+        }
+
+        // Record this attempt for rate limiting
+        recordEmailAttempt();
+
+        // Recipient & subject - YOUR EMAIL ADDRESS
+        $recipient = "phillips96.business@gmail.com";  
+        $subject   = "Portfolio Contact Form - {$name}";
+
+        // Plain text version (safe fallback)
+        $plainText = "New contact form submission from your portfolio:\n\n";
+        $plainText .= "From: {$name} <{$email}>\n";
+        $plainText .= "Message:\n{$userMessage}\n\n";
+        $plainText .= "Sent from: Portfolio Contact Form";
+
+        // HTML version (formatted)
+        $htmlText  = "
+        <html>
+          <body style='font-family: Arial, sans-serif; line-height: 1.6;'>
+            <h2 style='color: #3DCFB6;'>New Portfolio Contact Form Submission</h2>
+            <p><strong>From:</strong> {$name}</p>
+            <p><strong>Email:</strong> <a href='mailto:{$email}'>{$email}</a></p>
+            <p><strong>Message:</strong></p>
+            <div style='background: #f5f5f5; padding: 15px; border-left: 4px solid #3DCFB6; margin: 10px 0;'>
+              " . nl2br(htmlspecialchars($userMessage)) . "
+            </div>
+            <p style='color: #666; font-size: 0.9em;'>Sent from: Portfolio Contact Form</p>
+          </body>
+        </html>";
+
+        // Boundary for multipart message
+        $boundary = md5(uniqid(time()));
+
+        // Headers
+        $headers   = [];
+        $headers[] = "MIME-Version: 1.0";
+        $headers[] = "From: Portfolio Contact <noreply@" . $_SERVER['HTTP_HOST'] . ">"; 
+        $headers[] = "Reply-To: {$email}";
+        $headers[] = "Content-Type: multipart/alternative; boundary=\"{$boundary}\"";
+
+        // Body with both plain text + HTML
+        $body  = "--{$boundary}\r\n";
+        $body .= "Content-Type: text/plain; charset=utf-8\r\n\r\n";
+        $body .= $plainText . "\r\n";
+        $body .= "--{$boundary}\r\n";
+        $body .= "Content-Type: text/html; charset=utf-8\r\n\r\n";
+        $body .= $htmlText . "\r\n";
+        $body .= "--{$boundary}--";
+
+        // Send the email
+        if (mail($recipient, $subject, $body, implode("\r\n", $headers))) {
+            echo "Message sent successfully!";
+        } else {
+            http_response_code(500);
+            echo "Error sending message. Please try again.";
+        }
+        break;
+
+    default:
+        header("Allow: POST", true, 405);
+        exit;
+}
+?>
