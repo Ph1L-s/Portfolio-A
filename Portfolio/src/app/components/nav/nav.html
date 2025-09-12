@@ -1,22 +1,38 @@
 <nav>
-  <div class="language-toggle" [class.de-active]="selectedLanguage === 'DE'">
-    <button 
-      class="lang-btn" 
-      [class.active]="selectedLanguage === 'EN'"
-      (click)="selectLanguage('EN')">
-      EN
-    </button>
-    <button 
-      class="lang-btn" 
-      [class.active]="selectedLanguage === 'DE'"
-      (click)="selectLanguage('DE')">
-      DE
-    </button>
+  <!-- Mobile backdrop overlay -->
+  <div class="mobile-backdrop" *ngIf="isMenuOpen" (click)="toggleMenu()"></div>
+  
+  <!-- Desktop navigation -->
+  <div class="nav-container">
+    <div class="navbar-left" [class.open]="isMenuOpen">
+      <div class="language-toggle" [class.de-active]="selectedLanguage === 'DE'">
+        <button 
+          class="lang-btn" 
+          [class.active]="selectedLanguage === 'EN'"
+          (click)="selectLanguage('EN')">
+          EN
+        </button>
+        <button 
+          class="lang-btn" 
+          [class.active]="selectedLanguage === 'DE'"
+          (click)="selectLanguage('DE')">
+          DE
+        </button>
+      </div>
+      
+      <ul class="nav-links">
+        <li><a href="#about" (click)="closeMenu()">About me</a></li>
+        <li><a href="#skills" (click)="closeMenu()">Skills</a></li>
+        <li><a href="#projects" (click)="closeMenu()">Projects</a></li>
+        <li><a routerLink="/contact" (click)="closeMenu()">Contact</a></li>
+      </ul>
+    </div>
+    
+    <!-- Burger menu (mobile only) -->
+    <div class="burger" (click)="toggleMenu()" [class.active]="isMenuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
-  <ul class="nav-links">
-    <li><a href="#about">About me</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a routerLink="/contact">Contact</a></li>
-  </ul>
 </nav>

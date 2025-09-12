@@ -11,6 +11,15 @@
   margin: 0 auto;
   padding: 0 2rem;
   text-align: center;
+  
+  @media (max-width: 480px) {
+    padding: 0 1.5rem;
+  }
+  
+  @media (max-width: 320px) {
+    padding: 0 1rem;
+    max-width: calc(100vw - 2rem);
+  }
 }
 
 .reviews-header {
@@ -64,6 +73,15 @@
   margin: 0 auto 3rem;
   overflow: hidden;
   position: relative;
+  
+  @media (max-width: 480px) {
+    max-width: calc(100vw - 3rem);
+  }
+  
+  @media (max-width: 320px) {
+    max-width: calc(100vw - 2rem);
+    margin: 0 auto 2rem;
+  }
   
   &::before,
   &::after {
@@ -214,6 +232,17 @@
     width: 400px;
     height: 220px;
     padding: 1.5rem 2rem;
+    
+    @media (max-width: 480px) {
+      width: calc(100vw - 4rem);
+      max-width: 350px;
+    }
+    
+    @media (max-width: 320px) {
+      width: calc(100vw - 3rem);
+      max-width: 280px;
+      padding: 1rem 1.5rem;
+    }
     margin: 0 -0.5rem;
     
     .quote-mark {

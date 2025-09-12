@@ -287,13 +287,47 @@
     gap: 3rem;
   }
   
-  .contact-left h2 {
-    font-size: 2.5rem;
+  .contact-left {
+    text-align: center;
+    
+    h2 {
+      font-size: 2.5rem;
+    }
   }
   
   .send-message-btn {
     float: none;
     display: block;
     margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-form-section {
+    padding: 3rem 0;
+  }
+  
+  .contact-container {
+    gap: 2rem;
+  }
+  
+  .contact-left {
+    h2 {
+      font-size: 2rem;
+    }
+    
+    .contact-description {
+      font-size: 1.2rem;
+    }
+  }
+  
+  .contact-form .form-section label {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .contact-left h2 {
+    font-size: 1.8rem;
   }
 }

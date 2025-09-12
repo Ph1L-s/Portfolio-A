@@ -8,6 +8,15 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 0 2rem;
+  
+  @media (max-width: 480px) {
+    padding: 0 1.5rem;
+  }
+  
+  @media (max-width: 320px) {
+    padding: 0 1rem;
+    max-width: calc(100vw - 2rem);
+  }
 }
 
 .contact-content {
@@ -42,6 +51,14 @@
   text-align: left;
   border-top: 1px solid #3DCFB6;
   border-bottom: 1px solid #3DCFB6;
+  
+  @media (max-width: 480px) {
+    max-width: calc(100vw - 3rem);
+  }
+  
+  @media (max-width: 320px) {
+    max-width: calc(100vw - 2rem);
+  }
   
   .form-group {
     border-bottom: 1px solid #3DCFB6;

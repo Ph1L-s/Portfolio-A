@@ -23,15 +23,39 @@ header {
     padding: 1rem 8rem;
     max-width: 2440px;
     margin: 0 auto;
+    
+    @media (max-width: 1440px) {
+      padding: 1rem 6rem;
+    }
+    
+    @media (max-width: 1080px) {
+      padding: 1rem 4rem;
+    }
+    
+    @media (max-width: 768px) {
+      padding: 1rem 2rem;
+    }
+    
+    @media (max-width: 480px) {
+      padding: 1rem 1.5rem;
+    }
+    
+    @media (max-width: 320px) {
+      padding: 1rem 1rem;
+    }
   }
 
-    .logo {
+  .logo {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     color: white;
     font-size: 1.2rem;
     font-weight: 700;
+    
+    @media (max-width: 480px) {
+      font-size: 1rem;
+    }
     
     .logo-icon {
       background: #4ade80;
@@ -44,10 +68,20 @@ header {
       justify-content: center;
       font-weight: 800;
       font-size: 1rem;
+      
+      @media (max-width: 480px) {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+      }
     }
     
     .logo-text {
       font-weight: 600;
+      
+      @media (max-width: 320px) {
+        display: none;
+      }
     }
   }
 }

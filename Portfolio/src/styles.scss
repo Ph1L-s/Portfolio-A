@@ -29,11 +29,45 @@ html {
 body {
   font-family: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
+
+html {
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Responsive breakpoint variables */
+$mobile-xs: 320px;
+$mobile-sm: 480px;
+$mobile: 576px;
+$tablet: 768px;
+$desktop-sm: 992px;
+$desktop: 1080px;
+$desktop-lg: 1440px;
 
 /* Global content container for consistent layout */
 .content-container {
   max-width: 2440px;
   margin: 0 auto;
   padding: 0 8rem;
+  
+  @media (max-width: 1440px) {
+    padding: 0 6rem;
+  }
+  
+  @media (max-width: 1080px) {
+    padding: 0 4rem;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 0 2rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 1.5rem;
+  }
+  
+  @media (max-width: 320px) {
+    padding: 0 1rem;
+  }
 }
