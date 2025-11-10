@@ -5,12 +5,48 @@ import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
+/**
+ * Application configuration for the Angular portfolio.
+ *
+ * Configures core Angular providers including:
+ * - Error handling
+ * - Zoneless change detection for improved performance
+ * - Router with application routes
+ * - Client-side hydration with event replay for SSR
+ * - HTTP client for API communication
+ *
+ * @remarks
+ * This configuration uses Angular's modern standalone API and zoneless
+ * change detection for optimal performance. Event replay is enabled for
+ * better user experience during server-side rendering hydration.
+ */
 export const appConfig: ApplicationConfig = {
   providers: [
+    /**
+     * Provides global error listeners for unhandled errors and promise rejections
+     */
     provideBrowserGlobalErrorListeners(),
+
+    /**
+     * Enables zoneless change detection for improved performance.
+     * Components use signals and explicit change detection instead of zone.js.
+     */
     provideZonelessChangeDetection(),
-    provideRouter(routes), 
+
+    /**
+     * Configures routing with application route definitions
+     */
+    provideRouter(routes),
+
+    /**
+     * Enables client-side hydration with event replay.
+     * Preserves user interactions during the hydration process for better UX.
+     */
     provideClientHydration(withEventReplay()),
+
+    /**
+     * Provides HTTP client for making API requests (used by contact form)
+     */
     provideHttpClient()
   ]
 };
