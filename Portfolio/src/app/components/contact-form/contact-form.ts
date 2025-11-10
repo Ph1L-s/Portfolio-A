@@ -2,6 +2,20 @@ import { Component, signal, computed, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
+/**
+ * Contact form component with comprehensive spam protection and validation.
+ *
+ * Features:
+ * - Custom validators for disposable emails and suspicious patterns
+ * - Honeypot field for bot detection
+ * - Real-time validation feedback
+ * - Integration with PHP backend for email sending
+ *
+ * @remarks
+ * This component uses Angular signals for reactive state management and
+ * implements multiple layers of spam protection including domain blacklisting,
+ * pattern matching, and honeypot detection.
+ */
 @Component({
   selector: 'app-contact-form',
   imports: [ReactiveFormsModule],
@@ -12,7 +26,14 @@ export class ContactForm {
   private fb = new FormBuilder();
   private http = inject(HttpClient);
 
-  // Trashmail domains blacklist (same as PHP backend)
+  /**
+   * Blacklist of 200+ disposable email domains to prevent spam submissions.
+   * This list is synchronized with the PHP backend validation.
+   *
+   * @remarks
+   * Includes common temporary email services like mailinator, guerrillamail,
+   * 10minutemail, and many others that are frequently used for spam.
+   */
   private blacklistedDomains = [
     '10minutemail.com', '20minutemail.com', '2prong.com', '3d-game.com', '4warding.com',
     'agedmail.com', 'ajaxapp.net', 'amilegit.com', 'amiriindustrial.com', 'anonbox.net',
@@ -85,7 +106,23 @@ export class ContactForm {
     'zippymail.info', 'zoaxe.com', 'zoemail.org'
   ];
 
-  // Custom validators
+  /**
+   * Custom validator that rejects disposable/temporary email addresses.
+   *
+   * Checks the email domain against a blacklist of known disposable email providers.
+   * This prevents spam submissions from temporary email services.
+   *
+   * @param control - The form control containing the email value to validate
+   * @returns ValidationErrors with 'trashEmail' key if domain is blacklisted, null if valid
+   *
+   * @example
+   * // Usage in form control
+   * email: ['', [Validators.email, this.noTrashEmailValidator]]
+   *
+   * @remarks
+   * The validator is case-insensitive and only checks the domain portion after '@'.
+   * Empty values are considered valid to allow the required validator to handle them.
+   */
   private noTrashEmailValidator = (control: AbstractControl): ValidationErrors | null => {
     if (!control.value) return null;
     const email = control.value.toLowerCase();
@@ -96,10 +133,30 @@ export class ContactForm {
     return null;
   };
 
+  /**
+   * Custom validator that detects suspicious email patterns commonly used by bots and spammers.
+   *
+   * Checks for patterns like:
+   * - Emails starting with only numbers (e.g., 123456@example.com)
+   * - Few letters followed by many numbers (e.g., ab123456@example.com)
+   * - 8 or more consecutive numbers anywhere in the email
+   * - Emails starting with 'test' or 'temp'
+   *
+   * @param control - The form control containing the email value to validate
+   * @returns ValidationErrors with 'suspiciousEmail' key if pattern matches, null if valid
+   *
+   * @example
+   * // Usage in form control
+   * email: ['', [this.noSuspiciousPatternValidator]]
+   *
+   * @remarks
+   * This validator works in conjunction with noTrashEmailValidator to provide
+   * comprehensive spam protection. Empty values are considered valid.
+   */
   private noSuspiciousPatternValidator = (control: AbstractControl): ValidationErrors | null => {
     if (!control.value) return null;
     const email = control.value.toLowerCase();
-    
+
     const suspiciousPatterns = [
       /^[0-9]+@/,  // Starts with numbers only
       /^[a-z]{1,2}[0-9]{6,}@/,  // Few letters followed by many numbers
@@ -116,6 +173,13 @@ export class ContactForm {
     return null;
   };
   
+  /**
+   * Contact form with validation for name, email, message, privacy policy, and honeypot field.
+   *
+   * @remarks
+   * The 'website' field is a honeypot - it should remain empty for legitimate users.
+   * Bots typically fill all fields, allowing us to detect and reject automated submissions.
+   */
   contactForm: FormGroup = this.fb.group({
     name: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email, this.noTrashEmailValidator, this.noSuspiciousPatternValidator]],
@@ -124,6 +188,10 @@ export class ContactForm {
     website: [''] // Honeypot field
   });
 
+  /**
+   * Signal containing validation error messages for each form field.
+   * Empty strings indicate no error for that field.
+   */
   errors = signal({
     name: '',
     email: '',
@@ -131,9 +199,27 @@ export class ContactForm {
     privacy: ''
   });
 
+  /**
+   * Signal tracking whether the form is currently being submitted.
+   * Used to disable the submit button and show loading state.
+   */
   isSubmitting = signal(false);
+
+  /**
+   * Signal tracking the submission result status.
+   * - 'idle': No recent submission or status has been reset
+   * - 'success': Form submitted successfully
+   * - 'error': Form submission failed
+   *
+   * @remarks
+   * Status automatically resets to 'idle' after 5 seconds.
+   */
   submitStatus = signal<'idle' | 'success' | 'error'>('idle');
 
+  /**
+   * Configuration for the HTTP POST request to the PHP backend.
+   * Contains endpoint path, serialization function, and request options.
+   */
   post = {
     endPoint: '/sendMail.php', // Relative path to PHP file in public folder
     body: (payload: any) => JSON.stringify(payload),
@@ -143,18 +229,71 @@ export class ContactForm {
     }
   };
 
-  // Computed properties for template bindings
+  /**
+   * Computed property returning the placeholder text for the name field.
+   * Shows error message if present, otherwise shows default placeholder.
+   */
   namePlaceholder = computed(() => this.errors().name || 'Your name goes here');
+
+  /**
+   * Computed property returning the placeholder text for the email field.
+   * Shows error message if present, otherwise shows default placeholder.
+   */
   emailPlaceholder = computed(() => this.errors().email || 'youremail@email.com');
+
+  /**
+   * Computed property returning the placeholder text for the message field.
+   * Shows error message if present, otherwise shows default placeholder.
+   */
   messagePlaceholder = computed(() => this.errors().message || 'Hello Phil, I am interested in...');
-  
+
+  /**
+   * Computed property indicating whether the name field has an error.
+   * Used to apply error styling in the template.
+   */
   nameErrorClass = computed(() => !!this.errors().name);
+
+  /**
+   * Computed property indicating whether the email field has an error.
+   * Used to apply error styling in the template.
+   */
   emailErrorClass = computed(() => !!this.errors().email);
+
+  /**
+   * Computed property indicating whether the message field has an error.
+   * Used to apply error styling in the template.
+   */
   messageErrorClass = computed(() => !!this.errors().message);
-  
+
+  /**
+   * Computed property indicating whether the privacy checkbox has an error.
+   * Used to show/hide the privacy error message.
+   */
   showPrivacyError = computed(() => !!this.errors().privacy);
+
+  /**
+   * Computed property returning the privacy policy error text.
+   */
   privacyErrorText = computed(() => this.errors().privacy);
 
+  /**
+   * Handles form submission with validation, spam prevention, and backend communication.
+   *
+   * Process flow:
+   * 1. Validates all form fields
+   * 2. If invalid, displays error messages and exits
+   * 3. If valid, sends data to PHP backend via HTTP POST
+   * 4. Handles success/error responses and updates UI accordingly
+   * 5. Resets form on success
+   *
+   * @returns void
+   *
+   * @remarks
+   * - The honeypot field ('website') is included in submission for backend validation
+   * - Success/error status automatically resets after 5 seconds
+   * - Form is disabled during submission via isSubmitting signal
+   * - All errors are cleared before submission attempt
+   */
   onSubmit() {
     if (!this.contactForm.valid) {
       this.showValidationErrors();
@@ -193,13 +332,33 @@ export class ContactForm {
       });
   }
   
+  /**
+   * Collects and displays validation error messages for all form fields.
+   *
+   * Checks each form field for validation errors and generates appropriate
+   * user-friendly error messages. Error messages are stored in the errors signal
+   * which triggers UI updates via computed properties.
+   *
+   * Error priority (for email field):
+   * 1. Required error
+   * 2. Email format error
+   * 3. Disposable email error
+   * 4. Suspicious pattern error
+   *
+   * @returns void
+   * @private
+   *
+   * @remarks
+   * This method is called when form submission is attempted with invalid fields.
+   * Only the first error for each field is displayed to avoid overwhelming the user.
+   */
   private showValidationErrors() {
     const newErrors = { name: '', email: '', message: '', privacy: '' };
-    
+
     if (this.contactForm.get('name')?.hasError('required')) {
       newErrors.name = 'Oops! It seems your name is missing';
     }
-    
+
     if (this.contactForm.get('email')?.hasError('required')) {
       newErrors.email = 'Hoppla! your email is required';
     } else if (this.contactForm.get('email')?.hasError('email')) {
@@ -209,23 +368,45 @@ export class ContactForm {
     } else if (this.contactForm.get('email')?.hasError('suspiciousEmail')) {
       newErrors.email = 'Email format appears suspicious';
     }
-    
+
     if (this.contactForm.get('message')?.hasError('required')) {
       newErrors.message = 'What do you need to develop?';
     }
-    
+
     if (this.contactForm.get('privacy')?.hasError('required')) {
       newErrors.privacy = 'Please accept the privacy policy.';
     }
-    
+
     this.errors.set(newErrors);
   }
   
+  /**
+   * Clears only the privacy policy error message.
+   *
+   * Used when the user checks the privacy checkbox to immediately remove
+   * the error message without clearing other field errors.
+   *
+   * @returns void
+   *
+   * @remarks
+   * This provides better UX by giving immediate feedback when the privacy
+   * checkbox is checked, without waiting for form submission.
+   */
   clearPrivacyError() {
     const currentErrors = this.errors();
     this.errors.set({ ...currentErrors, privacy: '' });
   }
 
+  /**
+   * Clears all validation error messages for all form fields.
+   *
+   * @returns void
+   * @private
+   *
+   * @remarks
+   * Called at the start of form submission and after successful submission
+   * to reset the error state.
+   */
   private clearAllErrors() {
     this.errors.set({ name: '', email: '', message: '', privacy: '' });
   }
