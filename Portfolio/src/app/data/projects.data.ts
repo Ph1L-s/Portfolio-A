@@ -1,5 +1,15 @@
 import { Projects } from '../interfaces/projects.interface';
 
+/**
+ * Featured portfolio projects data.
+ *
+ * Contains all projects to be displayed in the portfolio showcase section.
+ * Each project includes name, description, technologies, images, and optional links.
+ *
+ * @remarks
+ * This data is imported and used by the Projects component to render the project grid
+ * and project detail modals. Projects are displayed in the order they appear in this array.
+ */
 export const PROJECTS: Projects[] = [
   {
     nameKey: 'Join',
