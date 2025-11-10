@@ -1,0 +1,178 @@
+// ============================================
+// COLORS
+// ============================================
+
+// Brand Colors
+$color-primary: #3DCFB6;
+$color-primary-dark: #2a6b5f;
+$color-primary-darker: #08463b;
+$color-accent: #4ade80;
+
+// Background Colors
+$color-bg-dark: #1C1C1C;
+$color-bg-darker: #0a0a0a;
+$color-bg-medium: #2A4A3A;
+
+// Text Colors
+$color-text-light: #ffffff;
+$color-text-muted: rgba(255, 255, 255, 0.9);
+$color-text-dim: rgba(255, 255, 255, 0.8);
+$color-text-subtle: rgba(255, 255, 255, 0.6);
+$color-text-faint: rgba(255, 255, 255, 0.5);
+
+// State Colors
+$color-error: #ff6b6b;
+$color-success: $color-primary;
+
+// Alpha Variations (for backgrounds/borders)
+$primary-alpha-5: rgba(61, 207, 182, 0.05);
+$primary-alpha-10: rgba(61, 207, 182, 0.1);
+$primary-alpha-20: rgba(61, 207, 182, 0.2);
+$primary-alpha-30: rgba(61, 207, 182, 0.3);
+$primary-alpha-40: rgba(61, 207, 182, 0.4);
+$primary-alpha-65: rgba(61, 207, 182, 0.65);
+
+$black-alpha-22: rgba(0, 0, 0, 0.22);
+$black-alpha-38: rgba(0, 0, 0, 0.38);
+$black-alpha-45: rgba(0, 0, 0, 0.45);
+$black-alpha-60: rgba(0, 0, 0, 0.6);
+$black-alpha-90: rgba(0, 0, 0, 0.9);
+
+// ============================================
+// TYPOGRAPHY
+// ============================================
+
+// Font Families
+$font-primary: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-code: 'FiraCode', monospace;
+
+// Font Sizes (Desktop First)
+$font-size-hero: 6.5rem;
+$font-size-h1: 3rem;
+$font-size-h2: 2.5rem;
+$font-size-h3: 1.95rem;
+$font-size-h4: 1.5rem;
+$font-size-h5: 1.3rem;
+$font-size-h6: 1.2rem;
+$font-size-body-large: 1.1rem;
+$font-size-body: 1rem;
+$font-size-body-small: 0.9rem;
+$font-size-caption: 0.8rem;
+$font-size-tiny: 0.75rem;
+
+// Line Heights
+$line-height-tight: 1.1;
+$line-height-normal: 1.4;
+$line-height-relaxed: 1.6;
+$line-height-loose: 1.7;
+
+// Font Weights
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+
+// ============================================
+// SPACING
+// ============================================
+
+// Section Padding (Vertical)
+$section-padding-desktop: 6rem;
+$section-padding-tablet: 4rem;
+$section-padding-mobile: 3rem;
+
+// Container Padding (Horizontal)
+$container-padding-xxl: 8rem;
+$container-padding-xl: 6rem;
+$container-padding-lg: 4rem;
+$container-padding-md: 2rem;
+$container-padding-sm: 1.5rem;
+$container-padding-xs: 1rem;
+
+// Card/Component Padding
+$card-padding-lg: 3rem;
+$card-padding-md: 2rem;
+$card-padding-sm: 1.5rem;
+$card-padding-xs: 1rem;
+
+// Gaps
+$gap-xxl: 6rem;
+$gap-xl: 4rem;
+$gap-lg: 3rem;
+$gap-md: 2rem;
+$gap-sm: 1.5rem;
+$gap-xs: 1rem;
+$gap-xxs: 0.5rem;
+
+// ============================================
+// LAYOUT
+// ============================================
+
+// Max Widths
+$max-width-content: 2440px;
+$max-width-text: 1440px;
+$max-width-form: 800px;
+$max-width-form-narrow: 600px;
+
+// Breakpoints (matching existing styles.scss)
+$mobile-xs: 320px;
+$mobile-sm: 480px;
+$mobile: 576px;
+$tablet: 768px;
+$desktop-sm: 992px;
+$desktop: 1080px;
+$desktop-lg: 1440px;
+
+// ============================================
+// BORDER RADIUS
+// ============================================
+
+$radius-full: 50%;
+$radius-pill: 25px;
+$radius-lg: 20px;
+$radius-md: 15px;
+$radius-sm: 12px;
+$radius-xs: 8px;
+
+// ============================================
+// TRANSITIONS
+// ============================================
+
+$transition-fast: 0.2s;
+$transition-base: 0.3s;
+$transition-slow: 0.5s;
+$transition-slower: 0.8s;
+$transition-slowest: 1.5s;
+
+$easing-default: ease;
+$easing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+$easing-bounce: cubic-bezier(0.4, 0, 0.2, 1);
+
+// ============================================
+// Z-INDEX LAYERS
+// ============================================
+
+$z-base: 1;
+$z-content: 2;
+$z-elevated: 3;
+$z-header: 1000;
+$z-backdrop: 999;
+$z-modal: 1001;
+
+// ============================================
+// DIMENSIONS
+// ============================================
+
+// Icon Sizes
+$icon-xs: 16px;
+$icon-sm: 20px;
+$icon-md: 24px;
+$icon-lg: 32px;
+$icon-xl: 40px;
+
+// Dot Sizes
+$dot-sm: 4px;
+$dot-md: 6px;
+$dot-lg: 10px;

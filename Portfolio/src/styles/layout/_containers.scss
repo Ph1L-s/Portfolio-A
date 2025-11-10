@@ -1,0 +1,8 @@
+// ============================================
+// CONTAINER UTILITIES
+// ============================================
+
+// Global content container for consistent layout
+.content-container {
+  @include content-container;
+}

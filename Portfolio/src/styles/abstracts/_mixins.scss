@@ -1,0 +1,484 @@
+// ============================================
+// RESPONSIVE MIXINS
+// ============================================
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'mobile-xs' {
+    @media (max-width: $mobile-xs) { @content; }
+  }
+  @else if $breakpoint == 'mobile-sm' {
+    @media (max-width: $mobile-sm) { @content; }
+  }
+  @else if $breakpoint == 'mobile' {
+    @media (max-width: $mobile) { @content; }
+  }
+  @else if $breakpoint == 'tablet' {
+    @media (max-width: $tablet) { @content; }
+  }
+  @else if $breakpoint == 'desktop-sm' {
+    @media (max-width: $desktop-sm) { @content; }
+  }
+  @else if $breakpoint == 'desktop' {
+    @media (max-width: $desktop) { @content; }
+  }
+  @else if $breakpoint == 'desktop-lg' {
+    @media (max-width: $desktop-lg) { @content; }
+  }
+}
+
+// ============================================
+// LAYOUT MIXINS
+// ============================================
+
+// Content container with responsive padding
+@mixin content-container {
+  max-width: $max-width-content;
+  margin: 0 auto;
+  padding: 0 $container-padding-xxl;
+
+  @include respond-to('desktop-lg') {
+    padding: 0 $container-padding-xl;
+  }
+
+  @include respond-to('desktop') {
+    padding: 0 $container-padding-lg;
+  }
+
+  @include respond-to('tablet') {
+    padding: 0 $container-padding-md;
+  }
+
+  @include respond-to('mobile-sm') {
+    padding: 0 $container-padding-sm;
+  }
+
+  @include respond-to('mobile-xs') {
+    padding: 0 $container-padding-xs;
+  }
+}
+
+// Section padding (vertical)
+@mixin section-padding {
+  padding: $section-padding-desktop 0;
+
+  @include respond-to('tablet') {
+    padding: $section-padding-tablet 0;
+  }
+
+  @include respond-to('mobile-sm') {
+    padding: $section-padding-mobile 0;
+  }
+}
+
+// Flexbox center
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Flexbox column
+@mixin flex-column($gap: 0) {
+  display: flex;
+  flex-direction: column;
+  @if $gap > 0 {
+    gap: $gap;
+  }
+}
+
+// ============================================
+// TYPOGRAPHY MIXINS
+// ============================================
+
+@mixin font-primary {
+  font-family: $font-primary;
+}
+
+@mixin font-code {
+  font-family: $font-code;
+}
+
+@mixin heading-hero($responsive: true) {
+  font-family: $font-primary;
+  font-size: $font-size-hero;
+  font-weight: $font-weight-extrabold;
+  line-height: $line-height-tight;
+
+  @if $responsive {
+    @include respond-to('desktop') {
+      font-size: 5.5rem;
+    }
+
+    @include respond-to('tablet') {
+      font-size: 4rem;
+    }
+
+    @include respond-to('mobile-sm') {
+      font-size: 3rem;
+    }
+
+    @include respond-to('mobile-xs') {
+      font-size: 2.5rem;
+    }
+  }
+}
+
+@mixin heading-1($responsive: true) {
+  font-family: $font-code;
+  font-size: $font-size-h1;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+
+  @if $responsive {
+    @include respond-to('tablet') {
+      font-size: $font-size-h2;
+    }
+
+    @include respond-to('mobile-sm') {
+      font-size: 2rem;
+    }
+
+    @include respond-to('mobile-xs') {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+@mixin heading-2($responsive: true) {
+  font-family: $font-code;
+  font-size: $font-size-h2;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+
+  @if $responsive {
+    @include respond-to('tablet') {
+      font-size: 2rem;
+    }
+
+    @include respond-to('mobile-sm') {
+      font-size: 1.8rem;
+    }
+
+    @include respond-to('mobile-xs') {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+@mixin subtitle($responsive: true) {
+  font-family: $font-code;
+  font-size: $font-size-h3;
+  font-weight: $font-weight-light;
+  opacity: 0.9;
+
+  @if $responsive {
+    @include respond-to('tablet') {
+      font-size: $font-size-h4;
+    }
+
+    @include respond-to('mobile-sm') {
+      font-size: $font-size-h6;
+    }
+
+    @include respond-to('mobile-xs') {
+      font-size: $font-size-body;
+    }
+  }
+}
+
+@mixin body-text($size: 'normal') {
+  @if $size == 'large' {
+    font-size: $font-size-body-large;
+  } @else if $size == 'small' {
+    font-size: $font-size-body-small;
+  } @else {
+    font-size: $font-size-body;
+  }
+  line-height: $line-height-relaxed;
+  opacity: 0.9;
+}
+
+@mixin section-label {
+  color: $color-primary;
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  @include respond-to('mobile-sm') {
+    font-size: $font-size-body-small;
+  }
+}
+
+// ============================================
+// BUTTON MIXINS
+// ============================================
+
+@mixin button-base {
+  padding: 12px 24px;
+  border-radius: $radius-pill;
+  font-weight: $font-weight-regular;
+  cursor: pointer;
+  transition: all $transition-base $easing-default;
+  border: none;
+
+  @include respond-to('mobile-sm') {
+    padding: 10px 20px;
+    font-size: $font-size-body-small;
+  }
+
+  @include respond-to('mobile-xs') {
+    padding: 8px 16px;
+    font-size: $font-size-caption;
+  }
+}
+
+@mixin button-ghost {
+  @include button-base;
+  background: transparent;
+  border: 1px solid $color-text-muted;
+  color: $color-text-muted;
+
+  &:hover {
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background: $primary-alpha-10;
+  border: 2px solid $color-primary;
+  color: $color-primary;
+
+  &:hover {
+    background: $primary-alpha-20;
+    transform: translateY(-2px);
+  }
+}
+
+// Marquee button effect (hero/skills buttons)
+@mixin button-marquee {
+  @include button-ghost;
+  position: relative;
+  overflow: hidden;
+
+  .text-static {
+    position: relative;
+    z-index: $z-content;
+    display: block;
+    transition: transform $transition-slowest $easing-default;
+  }
+
+  .text-loop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(130%);
+    z-index: $z-base;
+    opacity: 0;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    border-color: $color-primary;
+    color: $color-primary;
+
+    .text-static {
+      transform: translateX(-170%);
+    }
+
+    .text-loop {
+      opacity: 1;
+      animation: smoothMarquee 3.5s linear infinite;
+    }
+  }
+
+  &:not(:hover) {
+    .text-static {
+      transform: translateX(0);
+    }
+
+    .text-loop {
+      opacity: 0;
+      animation: none;
+    }
+  }
+}
+
+// ============================================
+// CARD MIXINS
+// ============================================
+
+@mixin card-base($padding-size: 'md') {
+  background: $primary-alpha-5;
+  border: 1px solid $primary-alpha-20;
+  border-radius: $radius-lg;
+
+  @if $padding-size == 'lg' {
+    padding: $card-padding-lg;
+  } @else if $padding-size == 'sm' {
+    padding: $card-padding-sm;
+  } @else {
+    padding: $card-padding-md;
+  }
+}
+
+@mixin card-hover {
+  transition: all $transition-base $easing-default;
+
+  &:hover {
+    background: $primary-alpha-10;
+    transform: translateY(-4px);
+  }
+}
+
+// ============================================
+// EFFECT MIXINS
+// ============================================
+
+// Hover dot indicator
+@mixin hover-dot($position: 'after') {
+  &::#{$position} {
+    content: '';
+    width: $dot-md;
+    height: $dot-md;
+    background: $color-primary;
+    border-radius: $radius-full;
+    opacity: 0;
+    transition: opacity $transition-base $easing-default;
+  }
+
+  &:hover::#{$position} {
+    opacity: 1;
+  }
+}
+
+// Striped shadow pattern
+@mixin striped-shadow($angle: 45deg, $spacing: 20px) {
+  background: repeating-linear-gradient(
+    $angle,
+    $primary-alpha-65 0px,
+    $primary-alpha-65 1px,
+    transparent 1px,
+    transparent $spacing
+  );
+  border-radius: $radius-lg;
+}
+
+// Gradient background
+@mixin gradient-hero {
+  background: linear-gradient(
+    35deg,
+    $color-bg-dark 0%,
+    $color-bg-dark 35%,
+    $color-primary-darker 60%,
+    $color-primary-dark 100%
+  );
+}
+
+@mixin gradient-overlay-top {
+  background: linear-gradient(
+    to bottom,
+    $black-alpha-45 0%,
+    $black-alpha-38 50%,
+    $black-alpha-22 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+// Blur effects
+@mixin backdrop-blur($blur: 3px) {
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+}
+
+// Glow effect
+@mixin glow($color: $color-primary, $intensity: 0.4) {
+  box-shadow: 0 0 8px rgba($color, $intensity);
+}
+
+// ============================================
+// FORM MIXINS
+// ============================================
+
+@mixin input-base {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: $color-text-light;
+  font-size: $font-size-body;
+  font-family: inherit;
+  outline: none;
+  transition: all $transition-base $easing-default;
+
+  &::placeholder {
+    color: $color-text-subtle;
+  }
+
+  &:focus {
+    background: $primary-alpha-5;
+  }
+}
+
+@mixin form-underline {
+  height: 1px;
+  background: $color-primary;
+  transition: all $transition-base $easing-default;
+  opacity: 0.6;
+
+  &:focus-within {
+    opacity: 1;
+    @include glow;
+  }
+}
+
+// ============================================
+// UTILITY MIXINS
+// ============================================
+
+// Smooth transitions
+@mixin transition($property: all, $duration: $transition-base, $easing: $easing-default) {
+  transition: $property $duration $easing;
+}
+
+// Absolute positioning
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin absolute-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+// Truncate text
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Hide visually but keep accessible
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
