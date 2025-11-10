@@ -6,6 +6,21 @@ import { Projects } from '../../components/projects/projects';
 import { Reviews } from '../../components/reviews/reviews';
 import { ContactForm } from '../../components/contact-form/contact-form';
 
+/**
+ * Home page component - main portfolio page.
+ *
+ * Serves as the main landing page that composes all portfolio sections:
+ * - Hero section with introduction
+ * - About section with biography
+ * - Skills section with technology showcase
+ * - Projects section with featured work
+ * - Reviews section with client testimonials
+ * - Contact form for inquiries
+ *
+ * @remarks
+ * This is a container component that orchestrates all major sections of the
+ * portfolio into a single-page scrollable layout.
+ */
 @Component({
   selector: 'app-home',
   imports: [
