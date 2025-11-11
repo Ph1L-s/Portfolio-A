@@ -48,39 +48,20 @@
     <div class="bottom-info">
       <div class="marquee-wrapper">
         <div class="marquee-content">
-          <div class="info-item">
-            <span class="dot"></span>
-            <span class="text">Available for remote work</span>
-          </div>
-          <div class="info-item">
-            <span class="dot"></span>
-            <span class="text">Frontend Developer</span>
-          </div>
-          <div class="info-item">
-            <span class="dot"></span>
-            <span class="text">Based in Germany</span>
-          </div>
-          <div class="info-item">
-            <span class="dot"></span>
-            <span class="text">Open to new opportunities</span>
-          </div>
+          <!-- Original items -->
+          @for (item of infoItems; track item) {
+            <div class="info-item">
+              <span class="dot"></span>
+              <span class="text">{{ item }}</span>
+            </div>
+          }
           <!-- Duplicate for seamless loop -->
-          <div class="info-item">
-            <span class="dot"></span>
-            <span class="text">Available for remote work</span>
-          </div>
-          <div class="info-item">
-            <span class="dot"></span>
-            <span class="text">Frontend Developer</span>
-          </div>
-          <div class="info-item">
-            <span class="dot"></span>
-            <span class="text">Based in Germany</span>
-          </div>
-          <div class="info-item">
-            <span class="dot"></span>
-            <span class="text">Open to new opportunities</span>
-          </div>
+          @for (item of infoItems; track item) {
+            <div class="info-item">
+              <span class="dot"></span>
+              <span class="text">{{ item }}</span>
+            </div>
+          }
         </div>
       </div>
     </div>
