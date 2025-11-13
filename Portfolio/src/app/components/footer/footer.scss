@@ -1,11 +1,11 @@
-@import '../../../styles/abstracts/variables';
-@import '../../../styles/abstracts/mixins';
+@use 'abstracts/variables' as *;
+@use 'abstracts/mixins' as *;
 
 .footer {
-  @include flex-center;
-  @include content-container;
   background: $color-bg-dark;
   min-height: 200px;
+  @include flex-center;
+  @include content-container;
 }
 
 .footer-content {

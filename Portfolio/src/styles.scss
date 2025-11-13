@@ -1,14 +1,18 @@
 /* Global Styles and Imports */
 
-// Import abstracts (variables and mixins)
-@import 'styles/abstracts/variables';
-@import 'styles/abstracts/mixins';
+// Use abstracts (variables and mixins)
+@use 'styles/abstracts/variables' as *;
+@use 'styles/abstracts/mixins' as *;
 
-// Import base styles
-@import 'styles/base/typography';
+// Forward for component access
+@forward 'styles/abstracts/variables';
+@forward 'styles/abstracts/mixins';
 
-// Import layout utilities
-@import 'styles/layout/containers';
+// Use base styles
+@use 'styles/base/typography';
+
+// Use layout utilities
+@use 'styles/layout/containers';
 
 // ============================================
 // GLOBAL BASE STYLES
