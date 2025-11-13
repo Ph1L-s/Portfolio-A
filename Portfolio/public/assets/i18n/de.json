@@ -1,0 +1,118 @@
+{
+  "hero": {
+    "subtitle": "Frontend-Entwickler",
+    "h1": "Phillip Schulze",
+    "checkWork": "Meine Arbeiten",
+    "contact": "Kontaktiere mich"
+  },
+  "navbar": {
+    "about": "Über mich",
+    "skills": "Fähigkeiten",
+    "projects": "Projekte",
+    "contact": "Kontakt"
+  },
+  "banner": {
+    "openToWork": "Offen für neue Projekte",
+    "basedIn": "Ansässig in Deutschland",
+    "remote": "Verfügbar für Remote-Arbeit",
+    "frontend": "Frontend-Entwickler"
+  },
+  "about": {
+    "headline": "Wer ich bin",
+    "title": "Über mich",
+    "intro": "Hallo, ich bin Phillip! Mit einigen Informationen über dich selbst und deine Erfahrung kannst du beschreiben, wer du bist und was deine Inspirationsquelle für die Verbesserung deiner Programmierfähigkeiten ist.",
+    "location": "Wo bist du ansässig? Bist du offen für Remote-Arbeit oder einen möglichen Umzug?",
+    "mindset": "Zeige, dass du aufgeschlossen bist. Bist du begeistert davon, neue Technologien zu lernen und deine Fähigkeiten kontinuierlich zu verbessern?",
+    "approach": "Eine kurze Beschreibung deines Problemlösungsansatzes. Lernst du aus jeder Herausforderung, während du nach der effizientesten oder elegantesten Lösung suchst? Du kannst einige Schlagworte einbeziehen wie: analytisches Denken, Kreativität, Ausdauer und Zusammenarbeit."
+  },
+  "skills": {
+    "technologies": "Technologien",
+    "skillset": "Fähigkeiten",
+    "intro": "Eine kurze Einführung in deine Fähigkeiten. Hebe deine Erfahrung mit verschiedenen Frontend-Technologien hervor und betone deine Offenheit, neue Technologien zu lernen und dich anzupassen. Zeige, wie wichtig es für dich ist, mit den schnellen Veränderungen in der Webentwicklung Schritt zu halten.",
+    "anotherSkill": "Du brauchst eine weitere Fähigkeit?",
+    "contactMe": "Kontaktiere mich gerne. Ich freue mich darauf, mein Wissen weiter auszubauen.",
+    "letsTalk": "Lass uns sprechen"
+  },
+  "contact": {
+    "contactMe": "Kontaktiere mich",
+    "letsWorkTogether": "Lass uns zusammenarbeiten",
+    "gotProblem": "Hast du ein Problem zu lösen?",
+    "encourageText": "Kontaktiere mich über dieses Formular. Ich bin daran interessiert, von dir zu hören, deine Ideen kennenzulernen und mit meiner Arbeit zu deinen Projekten beizutragen.",
+    "needFrontend": "Brauchst du einen Frontend-Entwickler?",
+    "letsTalk": "Lass uns sprechen!",
+    "labelName": "Wie heißt du?",
+    "placeholderName": "Dein Name hier",
+    "placeholderNameError": "*bitte gib deinen Namen ein",
+    "labelEmail": "Wie lautet deine E-Mail?",
+    "placeholderEmail": "deinemail@email.com",
+    "placeholderEmailError": "*bitte gib eine gültige E-Mail ein",
+    "labelMessage": "Wie kann ich dir helfen?",
+    "placeholderMessage": "Hallo, ich interessiere mich für...",
+    "placeholderMessageError": "*bitte gib eine Nachricht ein",
+    "privacyText1": "Ich habe die",
+    "privacyText2": "Datenschutzerklärung",
+    "privacyText3": "gelesen und stimme der Verarbeitung meiner Daten wie beschrieben zu.",
+    "privacyError": "Du musst der Datenschutzerklärung zustimmen",
+    "messageError": "Bitte gib eine Nachricht mit min. 4 Buchstaben ein",
+    "emailError": "Bitte gib eine gültige E-Mail ein",
+    "nameError": "Bitte gib deinen Namen ein",
+    "sayHello": "Sag Hallo",
+    "messageSent": "Deine Nachricht wurde erfolgreich verschickt"
+  },
+  "reviews": {
+    "headline": "Was meine Kollegen über mich sagen"
+  },
+  "projects": {
+    "headline": "Portfolio",
+    "featured": "Ausgewählte Projekte",
+    "description": "Entdecke hier eine Auswahl meiner Arbeiten - Interagiere mit Projekten, um meine Fähigkeiten live zu sehen.",
+    "about": "Worum geht es in diesem Projekt?",
+    "nextProject": "Nächstes Projekt",
+    "github": "GitHub",
+    "liveTest": "Live-Test"
+  },
+  "footer": {
+    "fullstack": "Frontend-Entwickler",
+    "location": "Deutschland",
+    "legal": "Impressum",
+    "privacy": "Datenschutz",
+    "email": "phillips96.business@gmail.com"
+  },
+  "legal": {
+    "title": "Impressum",
+    "imprint": "Impressum",
+    "name": "Phillip Schulze",
+    "exploring_board": "Erkundung des Boards",
+    "email": "phillips96.business@gmail.com",
+    "acceptance_terms_title": "Akzeptanz der Bedingungen",
+    "acceptance_terms_text": "Durch den Zugriff auf und die Nutzung dieses Portfolios erkennen Sie die folgenden Bedingungen sowie alle Richtlinien, Vorgaben oder Änderungen an, die Ihnen von Zeit zu Zeit präsentiert werden. Ich kann die Bedingungen von Zeit zu Zeit ohne Ankündigung ändern.",
+    "scope_ownership_title": "Umfang und Eigentum des Produkts",
+    "scope_ownership_text1": "Dieses Portfolio wurde als Teil eines Webentwicklungsprojekts entwickelt. Es hat einen Bildungszweck und dient als professionelle Präsentation. Daher kann ich keine konstante Verfügbarkeit, Zuverlässigkeit, Genauigkeit oder andere Qualitätsaspekte dieses Produkts garantieren.",
+    "proprietary_rights_title": "Eigentumsrechte",
+    "proprietary_rights_text": "Ich behalte alle Eigentumsrechte an diesem Portfolio, einschließlich aller damit verbundenen urheberrechtlich geschützten Materialien, Marken und sonstigen Eigentumsinformationen.",
+    "use_product_title": "Nutzung des Produkts",
+    "use_product_text": "Dieses Portfolio darf nur für rechtmäßige Zwecke gemäß allen geltenden Gesetzen und Vorschriften verwendet werden. Jede Nutzung dieses Portfolios für illegale Aktivitäten oder um eine andere Person zu belästigen, zu schädigen, zu bedrohen oder einzuschüchtern, ist streng verboten.",
+    "disclaimer_title": "Haftungsausschluss und Begrenzung der Haftung",
+    "disclaimer_text": "Dieses Portfolio wird 'wie besehen' ohne jegliche Garantie bereitgestellt, sei sie ausdrücklich oder stillschweigend, einschließlich, aber nicht beschränkt auf stillschweigende Garantien der Marktgängigkeit, Eignung für einen bestimmten Zweck und Nichtverletzung von Rechten. Ich hafte nicht für direkte, indirekte, beiläufige, spezielle, Folgeschäden oder beispielhafte Schäden, die sich aus der Nutzung dieses Portfolios ergeben.",
+    "indemnity_title": "Schadloshaltung",
+    "indemnity_text": "Sie erklären sich damit einverstanden, mich und meine Partner von allen Ansprüchen, Forderungen, Verlusten, Schäden, Kosten oder Haftungen freizustellen, die sich aus Ihrer Nutzung dieses Portfolios ergeben.",
+    "contact_text": "Bei Fragen oder Mitteilungen kontaktieren Sie mich bitte unter phillips96.business@gmail.com.",
+    "date_text": "Datum: November 2024"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "intro": "Personenbezogene Daten (nachfolgend zumeist nur 'Daten' genannt) werden von mir nur im Rahmen der Erforderlichkeit sowie zum Zwecke der Bereitstellung einer funktionsfähigen und nutzerfreundlichen Website, inklusive ihrer Inhalte und der dort angebotenen Leistungen, verarbeitet.",
+    "responsible_title": "Verantwortlicher",
+    "responsible_text": "Der Verantwortliche im Sinne der Datenschutz-Grundverordnung für diese Website ist:",
+    "rights_title": "Ihre Rechte",
+    "rights_text": "Sie haben folgende Rechte bezüglich Ihrer personenbezogenen Daten:",
+    "right_access": "Recht auf Auskunft über Ihre personenbezogenen Daten",
+    "right_rectification": "Recht auf Berichtigung oder Löschung Ihrer personenbezogenen Daten",
+    "right_restriction": "Recht auf Einschränkung der Verarbeitung",
+    "right_objection": "Recht auf Widerspruch gegen die Verarbeitung",
+    "right_portability": "Recht auf Datenübertragbarkeit",
+    "collection_title": "Informationssammlung und Nutzung",
+    "collection_text": "Wenn Sie mich über das Kontaktformular kontaktieren, erhebe ich die von Ihnen angegebenen Daten (Name, E-Mail-Adresse, Nachrichteninhalt) zum Zwecke der Bearbeitung Ihrer Anfrage. Diese Daten werden gespeichert, bis Ihre Anfrage vollständig bearbeitet wurde, und dann gelöscht, sofern keine gesetzlichen Aufbewahrungspflichten bestehen.",
+    "contact_text": "Bei Fragen zum Datenschutz kontaktieren Sie mich bitte unter phillips96.business@gmail.com."
+  }
+}
