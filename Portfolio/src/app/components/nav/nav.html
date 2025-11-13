@@ -21,10 +21,10 @@
       </div>
       
       <ul class="nav-links">
-        <li><a href="#about" (click)="closeMenu()">About me</a></li>
-        <li><a href="#skills" (click)="closeMenu()">Skills</a></li>
-        <li><a href="#projects" (click)="closeMenu()">Projects</a></li>
-        <li><a routerLink="/contact" (click)="closeMenu()">Contact</a></li>
+        <li><a href="#about" (click)="closeMenu()">{{ 'navbar.about' | translate }}</a></li>
+        <li><a href="#skills" (click)="closeMenu()">{{ 'navbar.skills' | translate }}</a></li>
+        <li><a href="#projects" (click)="closeMenu()">{{ 'navbar.projects' | translate }}</a></li>
+        <li><a routerLink="/contact" (click)="closeMenu()">{{ 'navbar.contact' | translate }}</a></li>
       </ul>
     </div>
     
