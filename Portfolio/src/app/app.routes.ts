@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home';
-import { Contact } from './contact/contact';
-import { LegalNoticeComponent } from './pages/legal-notice/legal-notice';
+import { HomeComponent } from '@pages/home/home';
+import { Contact } from '@app/contact/contact';
+import { LegalNoticeComponent } from '@pages/legal-notice/legal-notice';
+import { Privacy } from '@pages/privacy/privacy';
 
 /**
  * Application routing configuration.
@@ -29,9 +30,14 @@ export const routes: Routes = [
   { path: 'contact', component: Contact },
 
   /**
-   * Legal notice page route - displays legal information and privacy policy
+   * Legal notice page route - displays legal information and imprint
    */
   { path: 'legal', component: LegalNoticeComponent },
+
+  /**
+   * Privacy policy page route - displays data protection information
+   */
+  { path: 'privacy', component: Privacy },
 
   /**
    * Wildcard route - catches all unmatched routes and redirects to home
