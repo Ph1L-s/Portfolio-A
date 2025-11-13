@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Projects as ProjectInterface } from '../../interfaces/projects.interface';
-import { PROJECTS } from '../../data/projects.data';
+import { Projects as ProjectInterface } from '@interfaces/projects.interface';
+import { PROJECTS } from '@data/projects.data';
 
 /**
  * Projects showcase component with modal view and navigation.

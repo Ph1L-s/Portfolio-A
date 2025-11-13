@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Nav } from '../nav/nav';
+import { Nav } from '@components/nav/nav';
 
 /**
  * Header component containing the site logo and navigation.

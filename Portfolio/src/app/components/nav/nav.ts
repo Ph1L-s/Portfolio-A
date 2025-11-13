@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 /**
  * Navigation component with language selection and mobile menu functionality.
@@ -17,16 +18,21 @@ import { CommonModule } from '@angular/common';
  */
 @Component({
   selector: 'app-nav',
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, TranslateModule],
   templateUrl: './nav.html',
   styleUrl: './nav.scss'
 })
 export class Nav {
   /**
+   * Translation service for language switching functionality.
+   */
+  private translate = inject(TranslateService);
+
+  /**
    * Currently selected language code.
    * Defaults to 'EN' (English).
    */
-  selectedLanguage = 'EN';
+  selectedLanguage: 'EN' | 'DE' = 'EN';
 
   /**
    * Flag indicating whether the mobile menu is open.
@@ -35,17 +41,18 @@ export class Nav {
   isMenuOpen = false;
 
   /**
-   * Sets the selected language for the application.
+   * Sets the selected language for the application and switches translations.
    *
-   * @param lang - Language code to select (e.g., 'EN', 'DE')
+   * @param lang - Language code to select ('EN' or 'DE')
    * @returns void
    *
    * @remarks
-   * Currently stores the selection but language switching logic
-   * would need to be implemented (e.g., via i18n service).
+   * Updates the active language and uses TranslateService to load
+   * the corresponding translation file (en.json or de.json).
    */
-  selectLanguage(lang: string) {
+  selectLanguage(lang: 'EN' | 'DE') {
     this.selectedLanguage = lang;
+    this.translate.use(lang.toLowerCase());
   }
 
   /**

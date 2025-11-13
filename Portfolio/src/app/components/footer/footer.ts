@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Footer component displayed at the bottom of all pages.
@@ -16,7 +17,7 @@ import { RouterLink } from '@angular/router';
  */
 @Component({
   selector: 'app-footer',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslateModule],
   templateUrl: './footer.html',
   styleUrl: './footer.scss'
 })
