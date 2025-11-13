@@ -1,4 +1,4 @@
-import { Projects } from '../interfaces/projects.interface';
+import { Projects } from '@interfaces/projects.interface';
 
 /**
  * Featured portfolio projects data.
