@@ -99,18 +99,6 @@
     
     button {
       padding: 12px 24px;
-      
-      @media (max-width: 480px) {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-        width: 200px;
-      }
-      
-      @media (max-width: 320px) {
-        padding: 8px 16px;
-        font-size: 0.8rem;
-        width: 180px;
-      }
       border: 1px solid rgba(255, 255, 255, 0.9);
       background: transparent;
       color: rgba(255, 255, 255, 0.9);
@@ -120,6 +108,18 @@
       position: relative;
       overflow: hidden;
       transition: all 0.3s ease;
+
+      @media (max-width: 480px) {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        width: 200px;
+      }
+
+      @media (max-width: 320px) {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        width: 180px;
+      }
       
       .text-static {
         position: relative;
