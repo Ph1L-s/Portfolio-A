@@ -2,35 +2,35 @@
   <div class="container">
     <div class="contact-content">
       <div class="contact-info">
-        <h2 class="section-title">Let's work together</h2>
-        <p class="contact-subtitle">Got a problem to solve?</p>
-        
+        <h2 class="section-title">{{ 'contact.letsWorkTogether' | translate }}</h2>
+        <p class="contact-subtitle">{{ 'contact.gotProblem' | translate }}</p>
+
         <p class="contact-description">
-          I am interested in getting to know new nice and active minds and enjoy making their projects through good code and creativity.
+          {{ 'contact.encourageText' | translate }}
         </p>
-        
+
         <div class="contact-form">
           <div class="form-group">
-            <label>What's your name?</label>
-            <input type="text" placeholder="Your name" />
+            <label>{{ 'contact.labelName' | translate }}</label>
+            <input type="text" [placeholder]="'contact.placeholderName' | translate" />
           </div>
-          
+
           <div class="form-group">
-            <label>What's your email?</label>
-            <input type="email" placeholder="youremail@example.com" />
+            <label>{{ 'contact.labelEmail' | translate }}</label>
+            <input type="email" [placeholder]="'contact.placeholderEmail' | translate" />
           </div>
-          
+
           <div class="form-group">
-            <label>How can I help you?</label>
-            <textarea placeholder="Hello Phillip, I am interested in..."></textarea>
+            <label>{{ 'contact.labelMessage' | translate }}</label>
+            <textarea [placeholder]="'contact.placeholderMessage' | translate"></textarea>
           </div>
-          
+
           <div class="privacy-notice">
             <input type="checkbox" id="privacy" />
-            <label for="privacy">I've read the privacy policy and agree to the processing of my data as outlined.</label>
+            <label for="privacy">{{ 'contact.privacyText1' | translate }} {{ 'contact.privacyText2' | translate }} {{ 'contact.privacyText3' | translate }}</label>
           </div>
-          
-          <button class="send-btn">Say hello :)</button>
+
+          <button class="send-btn">{{ 'contact.sayHello' | translate }}</button>
         </div>
       </div>
     </div>
