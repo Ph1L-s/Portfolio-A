@@ -2,11 +2,11 @@
   <div class="content-container">
     <div class="contact-container">
     <div class="contact-left">
-      <span class="section-label">Contact me</span>
-      <h2>Let's work together</h2>
-      <p class="contact-description">Got a problem to solve?</p>
-      <p class="contact-text">Encourage people to contact you and describe what role you are interested in. Show that you will add value to their projects through your work.</p>
-      <p class="contact-cta">Need a Frontend developer? <span class="highlight">Let's talk!</span></p>
+      <span class="section-label">{{ 'contact.contactMe' | translate }}</span>
+      <h2>{{ 'contact.letsWorkTogether' | translate }}</h2>
+      <p class="contact-description">{{ 'contact.gotProblem' | translate }}</p>
+      <p class="contact-text">{{ 'contact.encourageText' | translate }}</p>
+      <p class="contact-cta">{{ 'contact.needFrontend' | translate }} <span class="highlight">{{ 'contact.letsTalk' | translate }}</span></p>
     </div>
     
     <div class="contact-right">
@@ -17,7 +17,7 @@
         <div class="form-section">
           <div class="field-container">
             <div class="underline"></div>
-            <label for="name">What's your name?</label>
+            <label for="name">{{ 'contact.labelName' | translate }}</label>
             @if (nameErrorClass()) {
               <input type="text" id="name" formControlName="name" [placeholder]="namePlaceholder()" class="error-placeholder">
             } @else {
@@ -25,9 +25,9 @@
             }
             <div class="underline"></div>
           </div>
-          
+
           <div class="field-container">
-            <label for="email">What's your email?</label>
+            <label for="email">{{ 'contact.labelEmail' | translate }}</label>
             @if (emailErrorClass()) {
               <input type="email" id="email" formControlName="email" [placeholder]="emailPlaceholder()" class="error-placeholder">
             } @else {
@@ -37,7 +37,7 @@
           </div>
           
           <div class="field-container">
-            <label for="message">How can I help you?</label>
+            <label for="message">{{ 'contact.labelMessage' | translate }}</label>
             @if (messageErrorClass()) {
               <textarea id="message" formControlName="message" [placeholder]="messagePlaceholder()" class="error-placeholder"></textarea>
             } @else {
@@ -58,31 +58,31 @@
             }
           </div>
           <div class="privacy-content">
-            <span class="privacy-text">I've read the <a href="#" class="privacy-link">privacy policy</a> and agree to the processing of my data as outlined.</span>
+            <span class="privacy-text">{{ 'contact.privacyText1' | translate }} <a routerLink="/privacy" class="privacy-link">{{ 'contact.privacyText2' | translate }}</a> {{ 'contact.privacyText3' | translate }}</span>
           </div>
         </div>
         
         <button type="submit" class="send-message-btn" [disabled]="isSubmitting()">
           @if (isSubmitting()) {
-            Sending...
+            {{ 'contact.sending' | translate }}
           } @else if (submitStatus() === 'success') {
-            Message Sent! ✓
+            {{ 'contact.messageSent' | translate }}
           } @else if (submitStatus() === 'error') {
-            Try Again
+            {{ 'contact.tryAgain' | translate }}
           } @else {
-            Say Hello :)
+            {{ 'contact.sayHello' | translate }}
           }
         </button>
-        
+
         @if (submitStatus() === 'success') {
           <div class="success-message">
-            Thank you! Your message has been sent successfully. I'll get back to you soon!
+            {{ 'contact.successMessage' | translate }}
           </div>
         }
         
         @if (submitStatus() === 'error') {
           <div class="error-message">
-            Oops! Something went wrong. Please check your connection and try again.
+            {{ 'contact.errorMessage' | translate }}
           </div>
         }
       </form>

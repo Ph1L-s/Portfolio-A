@@ -1,6 +1,8 @@
 import { Component, signal, computed, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 /**
  * Contact form component with comprehensive spam protection and validation.
@@ -18,13 +20,14 @@ import { HttpClient } from '@angular/common/http';
  */
 @Component({
   selector: 'app-contact-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink, TranslateModule],
   templateUrl: './contact-form.html',
   styleUrl: './contact-form.scss'
 })
 export class ContactForm {
   private fb = new FormBuilder();
   private http = inject(HttpClient);
+  private translate = inject(TranslateService);
 
   /**
    * Blacklist of 200+ disposable email domains to prevent spam submissions.
@@ -356,25 +359,25 @@ export class ContactForm {
     const newErrors = { name: '', email: '', message: '', privacy: '' };
 
     if (this.contactForm.get('name')?.hasError('required')) {
-      newErrors.name = 'Oops! It seems your name is missing';
+      newErrors.name = this.translate.instant('contact.nameMissing');
     }
 
     if (this.contactForm.get('email')?.hasError('required')) {
-      newErrors.email = 'Hoppla! your email is required';
+      newErrors.email = this.translate.instant('contact.emailRequired');
     } else if (this.contactForm.get('email')?.hasError('email')) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = this.translate.instant('contact.invalidEmail');
     } else if (this.contactForm.get('email')?.hasError('trashEmail')) {
-      newErrors.email = 'Disposable email addresses are not allowed';
+      newErrors.email = this.translate.instant('contact.disposableEmailError');
     } else if (this.contactForm.get('email')?.hasError('suspiciousEmail')) {
-      newErrors.email = 'Email format appears suspicious';
+      newErrors.email = this.translate.instant('contact.suspiciousEmailError');
     }
 
     if (this.contactForm.get('message')?.hasError('required')) {
-      newErrors.message = 'What do you need to develop?';
+      newErrors.message = this.translate.instant('contact.messageRequired');
     }
 
     if (this.contactForm.get('privacy')?.hasError('required')) {
-      newErrors.privacy = 'Please accept the privacy policy.';
+      newErrors.privacy = this.translate.instant('contact.privacyError');
     }
 
     this.errors.set(newErrors);
