@@ -57,10 +57,37 @@
     "emailError": "Bitte gib eine gültige E-Mail ein",
     "nameError": "Bitte gib deinen Namen ein",
     "sayHello": "Sag Hallo",
-    "messageSent": "Deine Nachricht wurde erfolgreich verschickt"
+    "messageSent": "Deine Nachricht wurde erfolgreich verschickt",
+    "sending": "Wird gesendet...",
+    "tryAgain": "Erneut versuchen",
+    "successMessage": "Vielen Dank! Deine Nachricht wurde erfolgreich versendet. Ich werde mich so schnell wie möglich bei dir melden.",
+    "errorMessage": "Hoppla! Beim Senden deiner Nachricht ist etwas schiefgelaufen. Bitte versuche es später erneut.",
+    "disposableEmailError": "Wegwerf-E-Mail-Adressen sind nicht erlaubt",
+    "suspiciousEmailError": "E-Mail-Format erscheint verdächtig",
+    "nameMissing": "Hoppla! Es scheint, dass dein Name fehlt",
+    "emailRequired": "Deine E-Mail-Adresse wird benötigt",
+    "invalidEmail": "Bitte gib eine gültige E-Mail-Adresse ein",
+    "messageRequired": "Was möchtest du entwickeln lassen?"
   },
   "reviews": {
-    "headline": "Was meine Kollegen über mich sagen"
+    "headline": "Was meine Kollegen über mich sagen",
+    "testimonials": [
+      {
+        "text": "Phillip war ein engagiertes und zuverlässiges Mitglied unseres Join-Projekts. Er zeigte großes Interesse an allen Teilen der Anwendung und teilte häufig hilfreiche Ideen mit dem Team. Er arbeitete selbstständig, erstellte gut strukturierte Lösungen und bereitete komplexe Setups vor, die die Entwicklung für alle erleichterten.",
+        "author": "Calvin Hanisch",
+        "role": "Team-Partner"
+      },
+      {
+        "text": "Phillip trug umfassend sowohl zur Backend- als auch zur Frontend-Entwicklung bei. Er entwarf die Datenbankstruktur für mehrere Komponenten und optimierte wichtige Dienste wie die Kontakt- und Aufgabenmodule. Im Frontend verbesserte er die Leistung und das Styling verschiedener UI-Elemente, einschließlich Buttons, Toasts und Eingabefelder. Seine starke technische Expertise, Zuverlässigkeit und sein Fokus auf Qualität machten ihn zu einem äußerst wertvollen Teammitglied.",
+        "author": "Madina Askar Zada",
+        "role": "Team-Partner"
+      },
+      {
+        "text": "Phillip überzeugte mit seinem fundierten Wissen in der Programmierung und leistete einen wesentlichen Beitrag zum Erfolg unseres Projekts. Während der Zusammenarbeit zeigte er sich als engagierter und hilfsbereiter Teamplayer, der stets zum Erreichen unserer gemeinsamen Ziele beitrug. Selbst in stressigen Phasen bewahrte Phillip Ruhe und Übersicht, wodurch er das Projekt fokussiert vorantrieb und entscheidend mitgestaltete.",
+        "author": "",
+        "role": "Team-Partner"
+      }
+    ]
   },
   "projects": {
     "headline": "Portfolio",

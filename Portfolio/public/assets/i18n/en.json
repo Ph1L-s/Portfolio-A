@@ -57,10 +57,37 @@
     "emailError": "Please enter a valid email",
     "nameError": "Please enter your name",
     "sayHello": "Say Hello",
-    "messageSent": "Your message was successfully sent"
+    "messageSent": "Your message was successfully sent",
+    "sending": "Sending...",
+    "tryAgain": "Try Again",
+    "successMessage": "Thank you! Your message has been sent successfully. I will get back to you as soon as possible.",
+    "errorMessage": "Oops! Something went wrong while sending your message. Please try again later.",
+    "disposableEmailError": "Disposable email addresses are not allowed",
+    "suspiciousEmailError": "Email format appears suspicious",
+    "nameMissing": "Oops! It seems your name is missing",
+    "emailRequired": "Your email is required",
+    "invalidEmail": "Please enter a valid email address",
+    "messageRequired": "What do you need to develop?"
   },
   "reviews": {
-    "headline": "What my colleagues say about me"
+    "headline": "What my colleagues say about me",
+    "testimonials": [
+      {
+        "text": "Phillip was a dedicated and reliable member of our Join project. He showed great interest in all parts of the application and often shared helpful ideas with the team. He worked independently, created well-structured solutions, and prepared complex setups that made development easier for everyone.",
+        "author": "Calvin Hanisch",
+        "role": "Team Partner"
+      },
+      {
+        "text": "Phillip contributed extensively to both the backend and frontend development. He designed the database structure for multiple components and optimized key services such as the contact and task modules. On the frontend, he improved performance and styling for various UI elements, including buttons, toasts, and input fields. His strong technical expertise, reliability, and focus on quality made him a highly valuable teammate.",
+        "author": "Madina Askar Zada",
+        "role": "Team Partner"
+      },
+      {
+        "text": "Phillip impressed with his deep knowledge of programming and made a significant contribution to the success of our project. Throughout our collaboration, he proved to be a committed and helpful team player who always contributed to achieving our common goals. Even in stressful phases, Phillip remained calm and organized, allowing him to drive the project forward in a focused manner and play a decisive role in shaping it.",
+        "author": "",
+        "role": "Team Partner"
+      }
+    ]
   },
   "projects": {
     "headline": "Portfolio",
