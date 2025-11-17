@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { Projects as ProjectInterface } from '@interfaces/projects.interface';
 import { PROJECTS } from '@data/projects.data';
 
@@ -14,7 +15,7 @@ import { PROJECTS } from '@data/projects.data';
  */
 @Component({
   selector: 'app-projects',
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './projects.html',
   styleUrl: './projects.scss'
 })

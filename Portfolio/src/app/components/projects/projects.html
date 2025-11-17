@@ -1,10 +1,10 @@
 <section id="projects" class="projects-section">
   <div class="container">
     <div class="projects-header">
-      <span class="section-label">Portfolio</span>
-      <h2 class="section-title">Featured Projects</h2>
+      <span class="section-label">{{ 'projects.headline' | translate }}</span>
+      <h2 class="section-title">{{ 'projects.featured' | translate }}</h2>
       <p class="projects-description">
-        Explore a selection of my work here - Infused with projects as love my craft a builder.
+        {{ 'projects.description' | translate }}
       </p>
     </div>
 
@@ -52,7 +52,7 @@
       <div class="lightbox-left">
         <h4>{{ (selectedIndex || 0) + 1 < 10 ? '0' + ((selectedIndex || 0) + 1) : (selectedIndex || 0) + 1 }}</h4>
         <h2>{{ selectedProject.nameKey }}</h2>
-        <h3>What is this project about?</h3>
+        <h3>{{ 'projects.about' | translate }}</h3>
         <p>{{ selectedProject.descriptionKey }}</p>
 
         <div class="tech-icons">
@@ -67,12 +67,12 @@
         <div class="project-links">
           @if (selectedProject.github) {
             <a [href]="selectedProject.github" target="_blank">
-              GitHub
+              {{ 'projects.github' | translate }}
             </a>
           }
           @if (selectedProject.liveTest) {
             <a [href]="selectedProject.liveTest" target="_blank">
-              Live Test
+              {{ 'projects.liveTest' | translate }}
             </a>
           }
         </div>
@@ -83,7 +83,7 @@
           <img [src]="selectedProject.image" [alt]="selectedProject.nameKey" />
         </div>
         <button class="next-btn" (click)="goToNextProject()">
-          Next Project
+          {{ 'projects.nextProject' | translate }}
         </button>
       </div>
     </div>
