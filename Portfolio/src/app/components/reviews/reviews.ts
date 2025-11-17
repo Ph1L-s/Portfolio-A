@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 /**
  * Testimonials carousel component with infinite scrolling functionality.
@@ -14,11 +16,13 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'app-reviews',
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './reviews.html',
   styleUrl: './reviews.scss'
 })
-export class Reviews {
+export class Reviews implements OnInit, OnDestroy {
+  private translate = inject(TranslateService);
+  private langChangeSubscription?: Subscription;
   /**
    * Current active testimonial index in the testimonials array.
    * Starts at the middle array (originalTestimonials.length) for infinite scroll.
@@ -28,21 +32,9 @@ export class Reviews {
   /**
    * Original testimonials data containing client feedback.
    * This is the source array that gets tripled for infinite scrolling.
+   * Loaded dynamically from translation files.
    */
-  originalTestimonials = [
-    {
-      text: "Working with Phillip in a group project that involved a lot of technical challenges was fantastic. He stayed calm, cool, and focused, and made our team a success. He's super collaborative and positive, and I'd happily work with him again.",
-      author: "A. Fischer - Team Partner"
-    },
-    {
-      text: "Our project benefited enormously from Phillip's efficient way of working.",
-      author: "T.Schulz - Frontend Developer"
-    },
-    {
-      text: "Phillip has proven to be a reliable group partner, his technical skills and proactive approach were crucial to the success of our project.",
-      author: "H.Janisch - Team Partner"
-    }
-  ];
+  originalTestimonials: Array<{ text: string; author: string; role: string }> = [];
 
   /**
    * Tripled testimonials array for infinite scrolling.
@@ -57,20 +49,44 @@ export class Reviews {
   isTransitioning = false;
 
   /**
-   * Initializes the carousel by tripling the testimonials array and setting the starting position.
+   * Initializes the component and sets up language change subscription.
+   */
+  ngOnInit() {
+    this.loadTestimonials();
+
+    // Subscribe to language changes to reload testimonials
+    this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
+      this.loadTestimonials();
+    });
+  }
+
+  /**
+   * Cleanup subscription on component destroy.
+   */
+  ngOnDestroy() {
+    this.langChangeSubscription?.unsubscribe();
+  }
+
+  /**
+   * Loads testimonials from the current translation and initializes the carousel.
    *
    * @remarks
    * The carousel starts at the middle copy (index = originalTestimonials.length) to allow
    * both forward and backward navigation from the initial state.
    */
-  constructor() {
-    // Triple array for smooth infinite scrolling
-    this.testimonials = [
-      ...this.originalTestimonials,
-      ...this.originalTestimonials,
-      ...this.originalTestimonials
-    ];
-    this.currentIndex = this.originalTestimonials.length;
+  private loadTestimonials() {
+    this.translate.get('reviews.testimonials').subscribe((testimonials: any[]) => {
+      if (testimonials && Array.isArray(testimonials)) {
+        this.originalTestimonials = testimonials;
+        // Triple array for smooth infinite scrolling
+        this.testimonials = [
+          ...this.originalTestimonials,
+          ...this.originalTestimonials,
+          ...this.originalTestimonials
+        ];
+        this.currentIndex = this.originalTestimonials.length;
+      }
+    });
   }
 
   /**

@@ -1,7 +1,7 @@
 <section class="reviews-section">
   <div class="container">
     <div class="reviews-header">
-      <h2 class="section-title">What my colleagues say about me</h2>
+      <h2 class="section-title">{{ 'reviews.headline' | translate }}</h2>
     </div>
     
     <div class="testimonial-carousel">
@@ -19,7 +19,11 @@
             <p class="testimonial-text">{{testimonial.text}}</p>
             <div class="testimonial-author">
               <div class="line"></div>
-              <span class="author-name">{{testimonial.author}}</span>
+              @if (testimonial.author) {
+                <span class="author-name">{{testimonial.author}} - {{testimonial.role}}</span>
+              } @else {
+                <span class="author-name">{{testimonial.role}}</span>
+              }
             </div>
           </div>
         }
@@ -32,7 +36,7 @@
       </button>
       
       <div class="testimonial-indicators">
-        @for (testimonial of originalTestimonials; track testimonial.author; let i = $index) {
+        @for (testimonial of originalTestimonials; track testimonial.text; let i = $index) {
           <span class="indicator" [class.active]="i === currentIndex % originalTestimonials.length"></span>
         }
       </div>
