@@ -1,21 +1,21 @@
 <section id="skills" class="skills-section">
   <div class="background-dot"></div>
   <div class="content-container">
-    <span class="section-label">Technologies</span>
+    <span class="section-label">{{ 'skills.technologies' | translate }}</span>
     <div class="skills-content">
       <div class="skills-card">
         <div class="skills-info">
-          <h2 class="section-title">Skill Set</h2>
+          <h2 class="section-title">{{ 'skills.skillset' | translate }}</h2>
           <p class="skills-description">
-            A short introduction of your skills. Highlight your experience, technical knowledge and what skills you use, especially your passion for them. What are your specialties and strengths?
+            {{ 'skills.intro' | translate }}
           </p>
-          <h3 class="skills-subtitle">You need <span class="highlight">another skill?</span></h3>
+          <h3 class="skills-subtitle">{{ 'skills.anotherSkill' | translate }}</h3>
           <p class="skills-description">
-            Feel free to contact me. I look forward to expanding on my previous knowledge.
+            {{ 'skills.contactMe' | translate }}
           </p>
           <button class="skills-btn" (click)="scrollToContact()">
-            <span class="text-static">Let's talk</span>
-            <span class="text-loop">Let's talk</span>
+            <span class="text-static">{{ 'skills.letsTalk' | translate }}</span>
+            <span class="text-loop">{{ 'skills.letsTalk' | translate }}</span>
           </button>
         </div>
       </div>
