@@ -18,7 +18,7 @@ export const PROJECTS: Projects[] = [
       { tech: 'Angular', image: 'designs/images/languages/angular.svg' },
       { tech: 'TypeScript', image: 'designs/images/languages/type_script.svg' },
       { tech: 'HTML', image: 'designs/images/languages/html.svg' },
-      { tech: 'CSS', image: 'designs/images/languages/css.svg' },
+      { tech: 'CSS', image: 'designs/images/languages/stylesheet.svg' },
       { tech: 'Firebase', image: 'designs/images/languages/firebase.svg' }
     ],
     image: 'designs/images/featured_projects/join.svg',
@@ -30,7 +30,7 @@ export const PROJECTS: Projects[] = [
     descriptionKey: 'Jump, run and throw game based on object-oriented approach. Help Pepe to find coins and tabasco salsa to fight against the crazy hen.',
     tech: [
       { tech: 'HTML', image: 'designs/images/languages/html.svg' },
-      { tech: 'CSS', image: 'designs/images/languages/css.svg' },
+      { tech: 'CSS', image: 'designs/images/languages/stylesheet.svg' },
       { tech: 'JavaScript', image: 'designs/images/languages/java_script.svg' }
     ],
     image: 'designs/images/featured_projects/pollo.svg',
