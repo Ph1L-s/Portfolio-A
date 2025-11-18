@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -11,10 +11,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
  * - Mobile hamburger menu toggle
  * - Navigation links with routing
  * - Body scroll control when menu is open
+ * - LocalStorage persistence for language selection
  *
  * @remarks
  * The component manages body overflow to prevent background scrolling
  * when the mobile menu is open, improving mobile UX.
+ * Language preference is persisted in browser's LocalStorage.
  */
 @Component({
   selector: 'app-nav',
@@ -22,11 +24,16 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   templateUrl: './nav.html',
   styleUrl: './nav.scss'
 })
-export class Nav {
+export class Nav implements OnInit {
   /**
    * Translation service for language switching functionality.
    */
   private translate = inject(TranslateService);
+
+  /**
+   * LocalStorage key for storing the selected language.
+   */
+  private readonly LANGUAGE_STORAGE_KEY = 'selectedLanguage';
 
   /**
    * Currently selected language code.
@@ -41,18 +48,38 @@ export class Nav {
   isMenuOpen = false;
 
   /**
+   * Initializes the component and loads the saved language preference.
+   *
+   * @remarks
+   * Checks LocalStorage for a previously saved language preference.
+   * If found, sets the language to the saved value.
+   * Otherwise, defaults to 'EN' (English).
+   */
+  ngOnInit() {
+    const savedLanguage = localStorage.getItem(this.LANGUAGE_STORAGE_KEY) as 'EN' | 'DE' | null;
+    if (savedLanguage && (savedLanguage === 'EN' || savedLanguage === 'DE')) {
+      this.selectedLanguage = savedLanguage;
+      this.translate.use(savedLanguage.toLowerCase());
+    } else {
+      this.translate.use('en');
+    }
+  }
+
+  /**
    * Sets the selected language for the application and switches translations.
    *
    * @param lang - Language code to select ('EN' or 'DE')
    * @returns void
    *
    * @remarks
-   * Updates the active language and uses TranslateService to load
-   * the corresponding translation file (en.json or de.json).
+   * Updates the active language, uses TranslateService to load
+   * the corresponding translation file (en.json or de.json),
+   * and persists the selection to LocalStorage.
    */
   selectLanguage(lang: 'EN' | 'DE') {
     this.selectedLanguage = lang;
     this.translate.use(lang.toLowerCase());
+    localStorage.setItem(this.LANGUAGE_STORAGE_KEY, lang);
   }
 
   /**
