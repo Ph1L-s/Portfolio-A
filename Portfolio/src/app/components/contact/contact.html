@@ -11,18 +11,18 @@
 
         <div class="contact-form">
           <div class="form-group">
-            <label>{{ 'contact.labelName' | translate }}</label>
-            <input type="text" [placeholder]="'contact.placeholderName' | translate" />
+            <label for="contact-name">{{ 'contact.labelName' | translate }}</label>
+            <input type="text" id="contact-name" [placeholder]="'contact.placeholderName' | translate" />
           </div>
 
           <div class="form-group">
-            <label>{{ 'contact.labelEmail' | translate }}</label>
-            <input type="email" [placeholder]="'contact.placeholderEmail' | translate" />
+            <label for="contact-email">{{ 'contact.labelEmail' | translate }}</label>
+            <input type="email" id="contact-email" [placeholder]="'contact.placeholderEmail' | translate" />
           </div>
 
           <div class="form-group">
-            <label>{{ 'contact.labelMessage' | translate }}</label>
-            <textarea [placeholder]="'contact.placeholderMessage' | translate"></textarea>
+            <label for="contact-message">{{ 'contact.labelMessage' | translate }}</label>
+            <textarea id="contact-message" [placeholder]="'contact.placeholderMessage' | translate"></textarea>
           </div>
 
           <div class="privacy-notice">
