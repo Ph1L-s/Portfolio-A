@@ -22,8 +22,8 @@ export const PROJECTS: Projects[] = [
       { tech: 'Firebase', image: 'designs/images/languages/firebase.svg' }
     ],
     image: 'designs/images/featured_projects/join.svg',
-    github: 'https://github.com/Ph1L-s',
-    liveTest: 'https://join-demo.com'
+    github: 'https://github.com/Ph1L-s/Join-Project',
+    liveTest: 'https://www.04-25-aw-join-1.developerakademie.net/angular-projects/join/login'
   },
   {
     nameKey: 'El Pollo Loco',
@@ -34,8 +34,8 @@ export const PROJECTS: Projects[] = [
       { tech: 'JavaScript', image: 'designs/images/languages/java_script.svg' }
     ],
     image: 'designs/images/featured_projects/pollo.svg',
-    github: 'https://github.com/Ph1L-s',
-    liveTest: 'https://pollo-loco-demo.com'
+    github: 'https://github.com/Ph1L-s/Pollo-Loco',
+    liveTest: 'https://phillip-schulze.developerakademie.net/module%2012/EPL/index.html'
   },
   {
     nameKey: 'DA Bubble',
