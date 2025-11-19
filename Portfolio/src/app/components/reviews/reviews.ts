@@ -164,12 +164,15 @@ export class Reviews implements OnInit, OnDestroy {
    * // Returns: "translateX(calc(50% - 150%))"
    *
    * @remarks
-   * The formula centers the carousel and then shifts left by (currentIndex * 50%)
-   * to display the appropriate testimonial in the center of the viewport.
+   * Uses pixel-based calculation for accurate centering with fixed-width cards.
+   * Centers the active card and positions prev/next cards with equal spacing.
    */
   getTransform(): string {
-    const centerOffset = 50;
-    return `translateX(calc(${centerOffset}% - ${this.currentIndex * 50}%))`;
+    const cardWidth = 520;
+    const gap = 32;
+    const totalCardWidth = cardWidth + gap;
+    const offset = this.currentIndex * totalCardWidth;
+    return `translateX(calc(50% - ${offset}px - ${cardWidth / 2}px))`;
   }
 
   /**
