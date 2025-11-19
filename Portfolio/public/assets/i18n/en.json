@@ -74,12 +74,12 @@
     "testimonials": [
       {
         "text": "Phillip was a dedicated and reliable member of our Join project. He showed great interest in all parts of the application and often shared helpful ideas with the team. He worked independently, created well-structured solutions, and prepared complex setups that made development easier for everyone.",
-        "author": "Calvin Hanisch",
+        "author": "",
         "role": "Team Partner"
       },
       {
         "text": "Phillip contributed extensively to both the backend and frontend development. He designed the database structure for multiple components and optimized key services such as the contact and task modules. On the frontend, he improved performance and styling for various UI elements, including buttons, toasts, and input fields. His strong technical expertise, reliability, and focus on quality made him a highly valuable teammate.",
-        "author": "Madina Askar Zada",
+        "author": "",
         "role": "Team Partner"
       },
       {
