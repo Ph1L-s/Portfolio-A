@@ -82,6 +82,7 @@
   margin: 0 auto 3rem;
   overflow: hidden;
   position: relative;
+  padding-top: 2.5rem;
   
   @media (max-width: 480px) {
     max-width: calc(100vw - 3rem);
@@ -136,7 +137,8 @@
   border-radius: 20px;
   padding: 2rem 3rem;
   width: 520px;
-  height: 240px;
+  min-height: 240px;
+  height: auto;
   flex: 0 0 auto;
   position: relative;
   transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -163,12 +165,12 @@
   
   .quote-svg {
     position: absolute;
-    top: -0.5rem;
+    top: -2rem;
     left: -1rem;
     width: 75px;
     height: auto;
     opacity: 0.8;
-    z-index: 5;
+    z-index: 100;
   }
   
   .testimonial-text {
@@ -243,18 +245,21 @@
   
   .testimonial-card {
     width: 400px;
-    height: 220px;
+    min-height: 220px;
+    height: auto;
     padding: 1.5rem 2rem;
-    
+
     @media (max-width: 480px) {
       width: calc(100vw - 4rem);
       max-width: 350px;
+      min-height: auto;
     }
-    
+
     @media (max-width: 320px) {
       width: calc(100vw - 3rem);
       max-width: 280px;
       padding: 1rem 1.5rem;
+      min-height: auto;
     }
     margin: 0 -0.5rem;
     
