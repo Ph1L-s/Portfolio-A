@@ -190,12 +190,21 @@
         justify-content: flex-start;
         text-align: left;
       }
-      
+
+      @media (max-width: 414px) {
+        flex-wrap: wrap;
+        gap: 0.25rem 0.5rem;
+
+        .tech-name::after {
+          content: "";
+        }
+      }
+
       @media (max-width: 320px) {
         padding: 0.8rem;
         font-size: 0.8rem;
       }
-      
+
       .tech-name{&::after{content:" | ";margin:0 .25rem;color:#3DCFB6}&:last-child::after{content:""}}
     }
     
