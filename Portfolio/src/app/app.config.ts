@@ -1,11 +1,12 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection, isDevMode } from '@angular/core';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideServiceWorker } from '@angular/service-worker';
 
 /**
  * Application configuration for the Angular portfolio.
@@ -36,9 +37,11 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
 
     /**
-     * Configures routing with application route definitions
+     * Configures routing with application route definitions.
+     * Uses PreloadAllModules strategy to preload lazy-loaded routes
+     * after the initial load for improved navigation performance.
      */
-    provideRouter(routes),
+    provideRouter(routes, withPreloading(PreloadAllModules)),
 
     /**
      * Enables client-side hydration with event replay.
@@ -61,6 +64,9 @@ export const appConfig: ApplicationConfig = {
         prefix: './assets/i18n/',
         suffix: '.json'
       })
-    })
+    }), provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          })
   ]
 };
