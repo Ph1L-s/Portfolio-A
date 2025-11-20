@@ -33,25 +33,122 @@
   }
 
   .logo {
-    @include flex-center;
-    gap: $gap-xxs;
+    cursor: pointer;
     margin-bottom: $gap-xxs;
+    color: $color-text-light;
+    font-size: $font-size-h5;
+    font-weight: $font-weight-bold;
+    font-family: $font-primary;
+    line-height: 1;
 
-    .logo-icon {
-      @include flex-center;
-      width: 30px;
-      height: 30px;
-      background: $color-primary;
-      color: $color-bg-dark;
-      border-radius: $radius-xs;
-      font-size: $font-size-h6;
-      font-weight: $font-weight-bold;
+    // ========================================
+    // NAMES CONTAINER - Positioning Context
+    // ========================================
+    .names-container {
+      position: relative;
+      display: flex;
+      align-items: center;
     }
 
-    .logo-text {
+    // ========================================
+    // NAME CONTAINERS
+    // ========================================
+    .name-first,
+    .name-last {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    // First name: Static positioning
+    .name-first {
+      position: relative;
+      z-index: 1;
+    }
+
+    // Last name: Absolute positioning for smooth vertical animation
+    .name-last {
+      position: absolute;
+      left: calc(1ch + var(--logo-horizontal-gap, 0.5rem));
+      top: 0;
+      transform: translateY(0);
+
+      transition:
+        transform var(--logo-linebreak-duration, 600ms)
+                  var(--logo-easing-linebreak, cubic-bezier(0.4, 0, 0.2, 1))
+                  var(--logo-linebreak-delay, 400ms),
+        left var(--logo-linebreak-duration, 600ms)
+             var(--logo-easing-linebreak, cubic-bezier(0.4, 0, 0.2, 1))
+             var(--logo-linebreak-delay, 400ms);
+    }
+
+    // ========================================
+    // EXPANDED STATE
+    // ========================================
+    &.expanded {
+      .name-last {
+        left: 0;
+        transform: translateY(calc(100% + var(--logo-vertical-gap, 0.05rem)));
+
+        transition:
+          transform var(--logo-linereturn-duration, 700ms)
+                    var(--logo-easing-linebreak, cubic-bezier(0.4, 0, 0.2, 1))
+                    var(--logo-linereturn-delay, 1000ms),
+          left var(--logo-linereturn-duration, 700ms)
+               var(--logo-easing-linebreak, cubic-bezier(0.4, 0, 0.2, 1))
+               var(--logo-linereturn-delay, 1000ms);
+      }
+
+      .name-first,
+      .name-last {
+        .expand-text {
+          max-width: 300px;
+          opacity: 1;
+          transform: translateX(0);
+          color: var(--logo-expand-text-color, $color-accent);
+        }
+      }
+
+      // Change character colors (green → light gray)
+      .char {
+        color: $color-text-light;
+      }
+    }
+
+    // ========================================
+    // CHARACTERS (P/S)
+    // ========================================
+    .char {
+      font-weight: var(--logo-outline-weight, 600);
+      color: var(--logo-outline-default, $color-accent);
+      transition: color var(--logo-color-duration, 500ms)
+                        var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1));
+    }
+
+    // ========================================
+    // EXPANDABLE TEXT (illip, chulze)
+    // ========================================
+    .expand-text {
+      display: inline-block;
+      max-width: 0;
+      opacity: 0;
       color: $color-text-light;
-      font-size: $font-size-h5;
-      font-weight: $font-weight-semibold;
+      font-weight: var(--logo-expand-weight, $font-weight-semibold);
+      white-space: nowrap;
+      overflow: hidden;
+      transform: translateX(-10px);
+
+      transition:
+        max-width var(--logo-expand-duration, 800ms)
+                  var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1)),
+        opacity var(--logo-expand-duration, 800ms)
+                var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1)),
+        transform var(--logo-expand-duration, 800ms)
+                  var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1)),
+        color var(--logo-color-duration, 500ms)
+              var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1))
+              var(--logo-color-delay, 300ms);
     }
   }
 }

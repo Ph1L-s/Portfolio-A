@@ -1,3 +1,5 @@
+@use 'abstracts/variables' as *;
+
 header {
   position: absolute;
   top: 0;
@@ -46,40 +48,139 @@ header {
   }
 
   .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    cursor: pointer;
     color: white;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    
+    font-family: $font-primary;
+    line-height: 1;
+
+    @media (max-width: 768px) {
+      font-size: 1.2rem;
+    }
+
     @media (max-width: 480px) {
       font-size: 1rem;
     }
-    
-    .logo-icon {
-      background: #4ade80;
-      color: #0a0a0a;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
+
+    // ========================================
+    // NAMES CONTAINER - Positioning Context
+    // ========================================
+    .names-container {
+      position: relative;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 1rem;
-      
-      @media (max-width: 480px) {
-        width: 28px;
-        height: 28px;
-        font-size: 0.9rem;
+    }
+
+    // ========================================
+    // NAME CONTAINERS
+    // ========================================
+    .name-first,
+    .name-last {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    // First name: Static positioning
+    .name-first {
+      position: relative;
+      z-index: 1;
+    }
+
+    // Last name: Absolute positioning for smooth vertical animation
+    .name-last {
+      position: absolute;
+      left: calc(1ch + var(--logo-horizontal-gap, 0.5rem));
+      top: 0;
+      transform: translateY(0);
+
+      // Transition for collapse → expanded
+      transition:
+        transform var(--logo-linebreak-duration, 600ms)
+                  var(--logo-easing-linebreak, cubic-bezier(0.4, 0, 0.2, 1))
+                  var(--logo-linebreak-delay, 400ms),
+        left var(--logo-linebreak-duration, 600ms)
+             var(--logo-easing-linebreak, cubic-bezier(0.4, 0, 0.2, 1))
+             var(--logo-linebreak-delay, 400ms);
+    }
+
+    // ========================================
+    // EXPANDED STATE
+    // ========================================
+    &.expanded {
+      .name-last {
+        // Move S below P
+        left: 0;
+        transform: translateY(calc(100% + var(--logo-vertical-gap, 0.05rem)));
+
+        // Transition for expanded → collapse (with delay!)
+        transition:
+          transform var(--logo-linereturn-duration, 700ms)
+                    var(--logo-easing-linebreak, cubic-bezier(0.4, 0, 0.2, 1))
+                    var(--logo-linereturn-delay, 1000ms),
+          left var(--logo-linereturn-duration, 700ms)
+               var(--logo-easing-linebreak, cubic-bezier(0.4, 0, 0.2, 1))
+               var(--logo-linereturn-delay, 1000ms);
+      }
+
+      // Expand the text
+      .name-first,
+      .name-last {
+        .expand-text {
+          max-width: 300px;
+          opacity: 1;
+          transform: translateX(0);
+          color: var(--logo-expand-text-color, $color-accent);
+        }
+      }
+
+      // Change character colors (green → white)
+      .char {
+        color: white;
       }
     }
-    
-    .logo-text {
-      font-weight: 600;
-      
-      @media (max-width: 320px) {
+
+    // ========================================
+    // CHARACTERS (P/S)
+    // ========================================
+    .char {
+      font-weight: var(--logo-outline-weight, 600);
+      color: var(--logo-outline-default, $color-accent);
+      transition: color var(--logo-color-duration, 500ms)
+                        var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1));
+    }
+
+    // ========================================
+    // EXPANDABLE TEXT (illip, chulze)
+    // ========================================
+    .expand-text {
+      display: inline-block;
+      max-width: 0;
+      opacity: 0;
+      color: white;
+      font-weight: var(--logo-expand-weight, 600);
+      white-space: nowrap;
+      overflow: hidden;
+      transform: translateX(-10px);
+
+      // Expansion transition
+      transition:
+        max-width var(--logo-expand-duration, 800ms)
+                  var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1)),
+        opacity var(--logo-expand-duration, 800ms)
+                var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1)),
+        transform var(--logo-expand-duration, 800ms)
+                  var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1)),
+        color var(--logo-color-duration, 500ms)
+              var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1))
+              var(--logo-color-delay, 300ms);
+    }
+
+    // Mobile: hide last name on smallest screens
+    @media (max-width: 320px) {
+      .name-last {
         display: none;
       }
     }

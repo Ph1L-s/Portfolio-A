@@ -1,9 +1,17 @@
 <footer class="footer">
   <div class="footer-content">
     <div class="footer-left">
-      <div class="logo">
-        <span class="logo-icon">P</span>
-        <span class="logo-text">Phillip</span>
+      <div class="logo" [class.expanded]="isExpanded">
+        <div class="names-container">
+          <div class="name-first">
+            <span class="char">P</span>
+            <span class="expand-text">illip</span>
+          </div>
+          <div class="name-last">
+            <span class="char">S</span>
+            <span class="expand-text">chulze</span>
+          </div>
+        </div>
       </div>
       <p>{{ 'footer.fullstack' | translate }}</p>
       <p>{{ 'footer.location' | translate }}</p>
