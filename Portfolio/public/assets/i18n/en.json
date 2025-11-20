@@ -96,7 +96,16 @@
     "about": "What is this project about?",
     "nextProject": "Next project",
     "github": "GitHub",
-    "liveTest": "Live test"
+    "liveTest": "Live test",
+    "join": {
+      "description": "Task manager inspired by the Kanban System. Create and organize tasks using drag and drop functions, assign users and categories."
+    },
+    "polloLoco": {
+      "description": "Jump, run and throw game based on object-oriented approach. Help Pepe to find coins and tabasco salsa to fight against the crazy hen."
+    },
+    "daBubble": {
+      "description": "Slack-inspired chat application with real-time messaging, channels, and direct messages. Built with Angular and Firebase."
+    }
   },
   "footer": {
     "fullstack": "Frontend Developer",

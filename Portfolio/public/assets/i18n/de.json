@@ -96,7 +96,16 @@
     "about": "Worum geht es in diesem Projekt?",
     "nextProject": "Nächstes Projekt",
     "github": "GitHub",
-    "liveTest": "Live-Test"
+    "liveTest": "Live-Test",
+    "join": {
+      "description": "Aufgabenmanager inspiriert vom Kanban-System. Erstelle und organisiere Aufgaben mit Drag-and-Drop-Funktionen, weise Benutzer und Kategorien zu."
+    },
+    "polloLoco": {
+      "description": "Spring-, Lauf- und Wurfspiel basierend auf objektorientiertem Ansatz. Hilf Pepe, Münzen und Tabasco-Salsa zu finden, um gegen die verrückte Henne zu kämpfen."
+    },
+    "daBubble": {
+      "description": "Slack-inspirierte Chat-Anwendung mit Echtzeit-Messaging, Kanälen und Direktnachrichten. Entwickelt mit Angular und Firebase."
+    }
   },
   "footer": {
     "fullstack": "Frontend-Entwickler",

@@ -13,7 +13,7 @@ import { Projects } from '@interfaces/projects.interface';
 export const PROJECTS: Projects[] = [
   {
     nameKey: 'Join',
-    descriptionKey: 'Task manager inspired by the Kanban System. Create and organize tasks using drag and drop functions, assign users and categories.',
+    descriptionKey: 'projects.join.description',
     tech: [
       { tech: 'Angular', image: '/designs/Images/languages/angular.svg' },
       { tech: 'TypeScript', image: '/designs/Images/languages/type_script.svg' },
@@ -27,7 +27,7 @@ export const PROJECTS: Projects[] = [
   },
   {
     nameKey: 'El Pollo Loco',
-    descriptionKey: 'Jump, run and throw game based on object-oriented approach. Help Pepe to find coins and tabasco salsa to fight against the crazy hen.',
+    descriptionKey: 'projects.polloLoco.description',
     tech: [
       { tech: 'HTML', image: '/designs/Images/languages/html.svg' },
       { tech: 'CSS', image: '/designs/Images/languages/stylesheet.svg' },
@@ -39,7 +39,7 @@ export const PROJECTS: Projects[] = [
   },
   {
     nameKey: 'DA Bubble',
-    descriptionKey: 'Slack-inspired chat application with real-time messaging, channels, and direct messages. Built with Angular and Firebase.',
+    descriptionKey: 'projects.daBubble.description',
     tech: [
       { tech: 'Angular', image: '/designs/Images/languages/angular.svg' },
       { tech: 'Firebase', image: '/designs/Images/languages/firebase.svg' },
