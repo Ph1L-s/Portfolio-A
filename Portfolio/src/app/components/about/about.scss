@@ -67,8 +67,9 @@
     object-position: center;
     position: relative;
     z-index: 2;
+    transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
   }
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -88,9 +89,19 @@
     opacity: 1;
     transition: opacity 0.5s ease;
   }
-  
+
+  &:hover .profile-photo {
+    transform: translate(-25px, 35px) scale(0.96);
+  }
+
   &:hover::before {
     opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    &:hover .profile-photo {
+      transform: none;
+    }
   }
 }
 
@@ -126,18 +137,18 @@
   border-radius: 20px;
   padding: 3rem;
   margin-top: 0;
-  height: 600px;
+  min-height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
+
   @media (max-width: 1080px) {
-    height: 500px;
+    min-height: 500px;
     padding: 2.5rem;
   }
-  
+
   @media (max-width: 768px) {
-    height: auto;
+    min-height: auto;
     padding: 2rem;
   }
   
