@@ -47,15 +47,42 @@
   <div class="bottom-info-container">
     <div class="bottom-info">
       <div class="marquee-wrapper">
-        <div class="marquee-content">
-          <!-- Original items -->
+        <!-- Normal Speed Marquee -->
+        <div class="marquee-content marquee-content-normal">
           @for (item of infoItems; track item) {
             <div class="info-item">
               <span class="dot"></span>
               <span class="text">{{ item }}</span>
             </div>
           }
-          <!-- Duplicate for seamless loop -->
+          @for (item of infoItems; track item) {
+            <div class="info-item">
+              <span class="dot"></span>
+              <span class="text">{{ item }}</span>
+            </div>
+          }
+          @for (item of infoItems; track item) {
+            <div class="info-item">
+              <span class="dot"></span>
+              <span class="text">{{ item }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- Slow Speed Marquee (for hover) -->
+        <div class="marquee-content marquee-content-slow">
+          @for (item of infoItems; track item) {
+            <div class="info-item">
+              <span class="dot"></span>
+              <span class="text">{{ item }}</span>
+            </div>
+          }
+          @for (item of infoItems; track item) {
+            <div class="info-item">
+              <span class="dot"></span>
+              <span class="text">{{ item }}</span>
+            </div>
+          }
           @for (item of infoItems; track item) {
             <div class="info-item">
               <span class="dot"></span>
