@@ -1,6 +1,5 @@
-import { Component, signal, AfterViewInit, PLATFORM_ID, inject } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
 import { Header } from '@components/header/header';
 import { Footer } from '@components/footer/footer';
 
@@ -10,26 +9,8 @@ import { Footer } from '@components/footer/footer';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App implements AfterViewInit {
-  private platformId = inject(PLATFORM_ID);
+export class App {
   protected readonly title = signal('Portfolio');
-
-  /**
-   * Initializes AOS (Animate On Scroll) library after view is ready.
-   * Provides smooth scroll animations for elements as they appear.
-   * Only runs in browser (not during SSR).
-   */
-  ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      import('aos').then((AOS) => {
-        AOS.default.init({
-          duration: 800,
-          once: true,
-          offset: 100
-        });
-      });
-    }
-  }
 
   /**
    * Handles route activation events to scroll to top of page.
