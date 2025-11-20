@@ -279,9 +279,9 @@
 }
 
 .lightbox-content {
-  background: linear-gradient(45deg, 
-    #1C1C1C 0%, 
-    #2A4A3A 40%, 
+  background: linear-gradient(45deg,
+    #1C1C1C 0%,
+    #2A4A3A 40%,
     #1C1C1C 100%);
   border: 1px solid #3DCFB6;
   border-radius: 20px;
@@ -294,6 +294,46 @@
   gap: 2rem;
   padding: 3rem;
   position: relative;
+
+  // Custom scrollbar styling - subtle and non-intrusive
+  scrollbar-width: thin;  // Firefox: thin scrollbar
+  scrollbar-color: transparent transparent;  // Firefox: hidden by default
+
+  // Webkit browsers (Chrome, Safari, Edge)
+  &::-webkit-scrollbar {
+    width: 8px;  // Slim scrollbar width
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;  // Invisible track
+    margin: 20px 0;  // Respect border-radius at top/bottom
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;  // Hidden by default
+    border-radius: 10px;
+    transition: background 0.3s ease;
+  }
+
+  // Show subtle scrollbar on hover
+  &:hover::-webkit-scrollbar-thumb {
+    background: rgba(61, 207, 182, 0.3);  // Subtle teal matching brand color
+  }
+
+  // More visible when hovering directly on scrollbar
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(61, 207, 182, 0.5);
+  }
+
+  // Most visible when actively dragging
+  &::-webkit-scrollbar-thumb:active {
+    background: rgba(61, 207, 182, 0.7);
+  }
+
+  // Firefox: show scrollbar on hover
+  &:hover {
+    scrollbar-color: rgba(61, 207, 182, 0.3) transparent;
+  }
 }
 
 .close-btn {
