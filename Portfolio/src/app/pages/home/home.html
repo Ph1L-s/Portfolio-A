@@ -1,6 +1,90 @@
+<!-- Hero Section - EAGER (above-the-fold) -->
 <app-hero></app-hero>
-<app-about></app-about>
-<app-skills></app-skills>
-<app-projects></app-projects>
-<app-reviews></app-reviews>
-<app-contact-form></app-contact-form>
+
+<!-- About Section - DEFER on idle -->
+@defer (on idle) {
+  <app-about></app-about>
+} @placeholder {
+  <section class="about-section about-skeleton">
+    <div class="content-container">
+      <div class="about-content">
+        <div class="about-image"></div>
+        <div class="about-info">
+          <span class="skeleton-label"></span>
+          <div class="about-card skeleton-card">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-text"></div>
+            <div class="skeleton-text"></div>
+            <div class="skeleton-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+}
+
+<!-- Skills Section - DEFER on viewport -->
+@defer (on viewport) {
+  <app-skills></app-skills>
+} @placeholder (minimum 200ms) {
+  <section class="skills-section skills-skeleton">
+    <div class="content-container">
+      <span class="skeleton-label"></span>
+      <div class="skills-content">
+        <div class="skills-card skeleton-card"></div>
+        <div class="tech-grid">
+          @for (_ of [1,2,3,4,5,6,7,8,9,10,11]; track $index) {
+            <div class="tech-item-skeleton"></div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+}
+
+<!-- Projects Section - DEFER on viewport -->
+@defer (on viewport) {
+  <app-projects></app-projects>
+} @placeholder (minimum 300ms) {
+  <section class="projects-section projects-skeleton">
+    <div class="container">
+      <div class="projects-header">
+        <span class="skeleton-label"></span>
+        <div class="skeleton-title"></div>
+        <div class="skeleton-text"></div>
+      </div>
+      <div class="skeleton-projects-grid"></div>
+    </div>
+  </section>
+}
+
+<!-- Reviews Section - DEFER on viewport -->
+@defer (on viewport) {
+  <app-reviews></app-reviews>
+} @placeholder (minimum 200ms) {
+  <section class="reviews-section reviews-skeleton">
+    <div class="container">
+      <span class="skeleton-label"></span>
+      <div class="carousel-skeleton"></div>
+    </div>
+  </section>
+}
+
+<!-- Contact Form Section - DEFER on viewport with prefetch on idle -->
+@defer (on viewport; prefetch on idle) {
+  <app-contact-form></app-contact-form>
+} @placeholder (minimum 300ms) {
+  <section class="contact-section contact-skeleton">
+    <div class="content-container">
+      <div class="contact-content">
+        <div class="skeleton-title"></div>
+        <div class="skeleton-form">
+          <div class="skeleton-input"></div>
+          <div class="skeleton-input"></div>
+          <div class="skeleton-textarea"></div>
+          <div class="skeleton-button"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+}
