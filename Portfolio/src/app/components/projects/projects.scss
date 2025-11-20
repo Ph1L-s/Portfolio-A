@@ -276,6 +276,8 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  touch-action: none;
+  overscroll-behavior: none;
 }
 
 .lightbox-content {
@@ -294,6 +296,9 @@
   gap: 2rem;
   padding: 3rem;
   position: relative;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 
   // Custom scrollbar styling - subtle and non-intrusive
   scrollbar-width: thin;  // Firefox: thin scrollbar
