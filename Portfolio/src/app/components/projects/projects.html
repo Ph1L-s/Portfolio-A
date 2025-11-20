@@ -35,7 +35,7 @@
                [class.active]="hoveredIndex === $index"
                [style.top]="getImageTop($index)">
             <div class="image-shadow"></div>
-            <img [src]="project.image" [alt]="project.nameKey" />
+            <img [src]="project.image" [alt]="project.nameKey" loading="lazy" />
           </div>
         }
       </div>
@@ -58,7 +58,7 @@
         <div class="tech-icons">
           @for (tech of selectedProject.tech; track $index) {
             <div class="tech-item">
-              <img [src]="tech.image" [alt]="tech.tech" />
+              <img [src]="tech.image" [alt]="tech.tech" loading="lazy" />
               <p>{{ tech.tech }}</p>
             </div>
           }
@@ -80,7 +80,7 @@
 
       <div class="lightbox-right">
         <div class="project-image">
-          <img [src]="selectedProject.image" [alt]="selectedProject.nameKey" />
+          <img [src]="selectedProject.image" [alt]="selectedProject.nameKey" loading="lazy" />
         </div>
         <button class="next-btn" (click)="goToNextProject()">
           {{ 'projects.nextProject' | translate }}

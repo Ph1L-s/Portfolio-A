@@ -9,12 +9,12 @@
            [class.transitioning]="isTransitioning" 
            [style.transform]="getTransform()">
         @for (testimonial of testimonials; track $index) {
-          <div class="testimonial-card" 
+          <div class="testimonial-card"
                [class.active]="$index === currentIndex"
                [class.prev]="$index === (currentIndex - 1 + testimonials.length) % testimonials.length"
                [class.next]="$index === (currentIndex + 1) % testimonials.length">
             @if ($index === currentIndex) {
-              <img src="designs/images/misc/quotes.svg" alt="Quotes" class="quote-svg">
+              <img src="/designs/Images/misc/quotes.svg" alt="Quotes" class="quote-svg" loading="lazy">
             }
             <p class="testimonial-text">{{testimonial.text}}</p>
             <div class="testimonial-author">
@@ -32,17 +32,17 @@
     
     <div class="navigation-wrapper">
       <button class="carousel-arrow carousel-arrow-left" (click)="previousSlide()">
-        <img src="designs/images/misc/arrow_back.svg" alt="Previous">
+        <img src="/designs/Images/misc/arrow_back.svg" alt="Previous" loading="lazy">
       </button>
-      
+
       <div class="testimonial-indicators">
         @for (testimonial of originalTestimonials; track testimonial.text; let i = $index) {
           <span class="indicator" [class.active]="i === currentIndex % originalTestimonials.length"></span>
         }
       </div>
-      
+
       <button class="carousel-arrow carousel-arrow-right" (click)="nextSlide()">
-        <img src="designs/images/misc/arrow_forward.svg" alt="Next">
+        <img src="/designs/Images/misc/arrow_forward.svg" alt="Next" loading="lazy">
       </button>
     </div>
   </div>
