@@ -1,6 +1,30 @@
 @use 'abstracts/variables' as *;
 @use 'abstracts/mixins' as *;
 
+/**
+ * Footer Component Styles
+ *
+ * Contains layout and animation styling for the footer component,
+ * including the expandable logo animation system that transitions "P S" to
+ * "Phillip Schulze" on hover. Matches header animation but with footer-specific
+ * colors and spacing.
+ *
+ * CSS Custom Properties (bound from TypeScript config):
+ * - Timing: --logo-expand-duration, --logo-collapse-duration, --logo-linebreak-duration,
+ *           --logo-linebreak-delay, --logo-linereturn-duration, --logo-linereturn-delay,
+ *           --logo-color-duration, --logo-color-delay
+ * - Easing: --logo-easing-expand, --logo-easing-collapse, --logo-easing-linebreak
+ * - Colors: --logo-outline-default, --logo-outline-expanded, --logo-fill-default,
+ *           --logo-fill-expanded, --logo-expand-text-color
+ * - Visual: --logo-stroke-width, --logo-outline-weight, --logo-fill-weight,
+ *           --logo-fill-scale, --logo-expand-weight, --logo-horizontal-gap, --logo-vertical-gap
+ *
+ * Differences from Header:
+ * - Colors: Uses light gray (#f5f5f5) instead of white for expanded state
+ * - Spacing: Slightly larger vertical gap (0.03rem vs 0.005rem)
+ * - Context: Dark background with social links and legal information
+ */
+
 .footer {
   background: $color-bg-dark;
   min-height: 200px;
@@ -32,6 +56,13 @@
     margin: 0;
   }
 
+  /**
+   * Logo Animation Container
+   *
+   * Main container for the expandable logo animation system in footer.
+   * Uses line-height: 1 to eliminate inherited spacing and ensure
+   * tight vertical alignment when stacked.
+   */
   .logo {
     cursor: pointer;
     margin-bottom: $gap-xxs;
@@ -41,18 +72,27 @@
     font-family: $font-primary;
     line-height: 1;
 
-    // ========================================
-    // NAMES CONTAINER - Positioning Context
-    // ========================================
+    /**
+     * Names Container
+     *
+     * Positioning context for name elements. Uses relative positioning
+     * to serve as anchor for absolutely positioned last name element.
+     * Flex layout aligns first and last name containers horizontally
+     * in collapsed state.
+     */
     .names-container {
       position: relative;
       display: flex;
       align-items: center;
     }
 
-    // ========================================
-    // NAME CONTAINERS
-    // ========================================
+    /**
+     * Name Element Containers
+     *
+     * Both .name-first (P) and .name-last (S) use flex layout with
+     * overflow hidden to enable smooth text expansion/collapse animations.
+     * Gap is set to 0 for precise spacing control via CSS variables.
+     */
     .name-first,
     .name-last {
       display: flex;
@@ -61,13 +101,39 @@
       overflow: hidden;
     }
 
-    // First name: Static positioning
+    /**
+     * First Name Container (P + illip)
+     *
+     * Static relative positioning with z-index to ensure it stays
+     * above the absolutely positioned last name during animations.
+     * Serves as the visual anchor point for the horizontal layout.
+     */
     .name-first {
       position: relative;
       z-index: 1;
     }
 
-    // Last name: Absolute positioning for smooth vertical animation
+    /**
+     * Last Name Container (S + chulze)
+     *
+     * Uses absolute positioning for smooth vertical animation without
+     * affecting layout of other elements.
+     *
+     * Position States:
+     * - Collapsed: left = (1ch + --logo-horizontal-gap), translateY(0)
+     *   Places S to the right of P with configurable gap
+     * - Expanded: left = 0, translateY(100% + --logo-vertical-gap)
+     *   Moves S below P, aligned to left edge with minimal vertical gap
+     *
+     * Transition Behavior:
+     * - Expand (collapsed → expanded): Starts after --logo-linebreak-delay
+     *   with --logo-linebreak-duration timing
+     * - Collapse (expanded → collapsed): Starts after --logo-linereturn-delay
+     *   with --logo-linereturn-duration timing
+     *
+     * Different delays create natural animation feel - S drops when ~2 letters
+     * are visible, returns when ~2 letters remain.
+     */
     .name-last {
       position: absolute;
       left: calc(1ch + var(--logo-horizontal-gap, 0.5rem));
@@ -83,10 +149,26 @@
              var(--logo-linebreak-delay, 400ms);
     }
 
-    // ========================================
-    // EXPANDED STATE
-    // ========================================
+    /**
+     * Expanded State Styles
+     *
+     * Applied when .expanded class is present on logo element (isExpanded = true).
+     * Triggers three parallel animations:
+     * 1. Text expansion (max-width, opacity, transform on .expand-text)
+     * 2. Vertical movement (transform, left on .name-last)
+     * 3. Color transitions (.char and .expand-text color changes)
+     */
     &.expanded {
+      /**
+       * Last Name Expanded Position
+       *
+       * Moves S below P with minimal vertical gap.
+       * Transform calculation: 100% (full height of S element) + vertical gap
+       *
+       * Note: Different transition timing than collapse state creates
+       * asymmetric animation that feels more natural. Delay is longer
+       * to allow text to collapse before S moves back up.
+       */
       .name-last {
         left: 0;
         transform: translateY(calc(100% + var(--logo-vertical-gap, 0.05rem)));
@@ -100,6 +182,14 @@
                var(--logo-linereturn-delay, 1000ms);
       }
 
+      /**
+       * Expanded Text Animation
+       *
+       * Shows hidden "illip" (after P) and "chulze" (after S) text.
+       * Text slides in from left (translateX) while fading in (opacity)
+       * and expanding (max-width). Color transitions with slight delay
+       * for coordinated effect with character color change.
+       */
       .name-first,
       .name-last {
         .expand-text {
@@ -110,15 +200,24 @@
         }
       }
 
-      // Change character colors (green → light gray)
+      /**
+       * Character Color Transition (Footer-Specific)
+       *
+       * Outline letters (P/S) transition from primary color (#3DCFB6)
+       * to light gray (#f5f5f5) instead of white, matching footer's
+       * lighter aesthetic on dark background.
+       */
       .char {
         color: $color-text-light;
       }
     }
 
-    // ========================================
-    // CHARACTERS (P/S)
-    // ========================================
+    /**
+     * Outline Letters (P and S)
+     *
+     * Styled with configurable font weight and color from CSS variables.
+     * Color transitions smoothly during expansion/collapse to light gray/primary.
+     */
     .char {
       font-weight: var(--logo-outline-weight, 600);
       color: var(--logo-outline-default, $color-accent);
@@ -126,9 +225,22 @@
                         var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1));
     }
 
-    // ========================================
-    // EXPANDABLE TEXT (illip, chulze)
-    // ========================================
+    /**
+     * Expandable Text (illip and chulze)
+     *
+     * Hidden text that slides in during expansion animation.
+     * Uses max-width animation (0 → 300px) combined with opacity and
+     * transform for smooth reveal effect.
+     *
+     * Animation States:
+     * - Collapsed: max-width: 0, opacity: 0, translateX(-10px)
+     *   Text is completely hidden and offset to the left
+     * - Expanded: max-width: 300px, opacity: 1, translateX(0)
+     *   Text is fully visible and in natural position
+     *
+     * Color transition includes delay (--logo-color-delay) to coordinate
+     * with character color change for cohesive visual effect.
+     */
     .expand-text {
       display: inline-block;
       max-width: 0;
@@ -153,6 +265,10 @@
   }
 }
 
+/**
+ * Footer Right Section
+ * Contains social and legal links with hover effects.
+ */
 .footer-right {
   @include flex-column($gap-xxs);
 
@@ -191,7 +307,10 @@
   margin: 0;
 }
 
-// Responsive
+/**
+ * Responsive Adjustments
+ * Adapts footer layout for tablet and mobile viewports.
+ */
 @include respond-to('tablet') {
   .footer {
     flex-direction: column;

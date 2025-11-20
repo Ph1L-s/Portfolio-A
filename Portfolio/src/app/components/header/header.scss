@@ -1,13 +1,35 @@
 @use 'abstracts/variables' as *;
 
+/**
+ * Header Component Styles
+ *
+ * Contains positioning, layout, and animation styling for the header component,
+ * including the expandable logo animation system that transitions "P S" to
+ * "Phillip Schulze" on hover.
+ *
+ * CSS Custom Properties (bound from TypeScript config):
+ * - Timing: --logo-expand-duration, --logo-collapse-duration, --logo-linebreak-duration,
+ *           --logo-linebreak-delay, --logo-linereturn-duration, --logo-linereturn-delay,
+ *           --logo-color-duration, --logo-color-delay
+ * - Easing: --logo-easing-expand, --logo-easing-collapse, --logo-easing-linebreak
+ * - Colors: --logo-outline-default, --logo-outline-expanded, --logo-fill-default,
+ *           --logo-fill-expanded, --logo-expand-text-color
+ * - Visual: --logo-stroke-width, --logo-outline-weight, --logo-fill-weight,
+ *           --logo-fill-scale, --logo-expand-weight, --logo-horizontal-gap, --logo-vertical-gap
+ */
+
 header {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  
-  // Gradient Overlay
+
+  /**
+   * Gradient Overlay
+   * Creates subtle darkening effect at top of page for better text readability
+   * over hero image background. Gradient fades from 45% opacity to transparent.
+   */
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.45) 0%,
@@ -15,9 +37,13 @@ header {
     rgba(0, 0, 0, 0.22) 75%,
     rgba(0, 0, 0, 0) 100%
   );
-  
+
   padding-bottom: 0.5rem;
 
+  /**
+   * Header Content Container
+   * Responsive container with adaptive padding for different screen sizes.
+   */
   .header-content {
     display: flex;
     justify-content: space-between;
@@ -25,28 +51,35 @@ header {
     padding: 1rem 8rem;
     max-width: 2440px;
     margin: 0 auto;
-    
+
     @media (max-width: 1440px) {
       padding: 1rem 6rem;
     }
-    
+
     @media (max-width: 1080px) {
       padding: 1rem 4rem;
     }
-    
+
     @media (max-width: 768px) {
       padding: 1rem 2rem;
     }
-    
+
     @media (max-width: 480px) {
       padding: 1rem 1.5rem;
     }
-    
+
     @media (max-width: 320px) {
       padding: 1rem 1rem;
     }
   }
 
+  /**
+   * Logo Animation Container
+   *
+   * Main container for the expandable logo animation system.
+   * Uses line-height: 1 to eliminate inherited spacing and ensure
+   * tight vertical alignment when stacked.
+   */
   .logo {
     cursor: pointer;
     color: white;
@@ -63,18 +96,27 @@ header {
       font-size: 1rem;
     }
 
-    // ========================================
-    // NAMES CONTAINER - Positioning Context
-    // ========================================
+    /**
+     * Names Container
+     *
+     * Positioning context for name elements. Uses relative positioning
+     * to serve as anchor for absolutely positioned last name element.
+     * Flex layout aligns first and last name containers horizontally
+     * in collapsed state.
+     */
     .names-container {
       position: relative;
       display: flex;
       align-items: center;
     }
 
-    // ========================================
-    // NAME CONTAINERS
-    // ========================================
+    /**
+     * Name Element Containers
+     *
+     * Both .name-first (P) and .name-last (S) use flex layout with
+     * overflow hidden to enable smooth text expansion/collapse animations.
+     * Gap is set to 0 for precise spacing control via CSS variables.
+     */
     .name-first,
     .name-last {
       display: flex;
@@ -83,20 +125,45 @@ header {
       overflow: hidden;
     }
 
-    // First name: Static positioning
+    /**
+     * First Name Container (P + illip)
+     *
+     * Static relative positioning with z-index to ensure it stays
+     * above the absolutely positioned last name during animations.
+     * Serves as the visual anchor point for the horizontal layout.
+     */
     .name-first {
       position: relative;
       z-index: 1;
     }
 
-    // Last name: Absolute positioning for smooth vertical animation
+    /**
+     * Last Name Container (S + chulze)
+     *
+     * Uses absolute positioning for smooth vertical animation without
+     * affecting layout of other elements.
+     *
+     * Position States:
+     * - Collapsed: left = (1ch + --logo-horizontal-gap), translateY(0)
+     *   Places S to the right of P with configurable gap
+     * - Expanded: left = 0, translateY(100% + --logo-vertical-gap)
+     *   Moves S below P, aligned to left edge with minimal vertical gap
+     *
+     * Transition Behavior:
+     * - Expand (collapsed → expanded): Starts after --logo-linebreak-delay
+     *   with --logo-linebreak-duration timing
+     * - Collapse (expanded → collapsed): Starts after --logo-linereturn-delay
+     *   with --logo-linereturn-duration timing
+     *
+     * Different delays create natural animation feel - S drops when ~2 letters
+     * are visible, returns when ~2 letters remain.
+     */
     .name-last {
       position: absolute;
       left: calc(1ch + var(--logo-horizontal-gap, 0.5rem));
       top: 0;
       transform: translateY(0);
 
-      // Transition for collapse → expanded
       transition:
         transform var(--logo-linebreak-duration, 600ms)
                   var(--logo-easing-linebreak, cubic-bezier(0.4, 0, 0.2, 1))
@@ -106,16 +173,30 @@ header {
              var(--logo-linebreak-delay, 400ms);
     }
 
-    // ========================================
-    // EXPANDED STATE
-    // ========================================
+    /**
+     * Expanded State Styles
+     *
+     * Applied when .expanded class is present on logo element (isExpanded = true).
+     * Triggers three parallel animations:
+     * 1. Text expansion (max-width, opacity, transform on .expand-text)
+     * 2. Vertical movement (transform, left on .name-last)
+     * 3. Color transitions (.char and .expand-text color changes)
+     */
     &.expanded {
+      /**
+       * Last Name Expanded Position
+       *
+       * Moves S below P with minimal vertical gap.
+       * Transform calculation: 100% (full height of S element) + vertical gap
+       *
+       * Note: Different transition timing than collapse state creates
+       * asymmetric animation that feels more natural. Delay is longer
+       * to allow text to collapse before S moves back up.
+       */
       .name-last {
-        // Move S below P
         left: 0;
         transform: translateY(calc(100% + var(--logo-vertical-gap, 0.05rem)));
 
-        // Transition for expanded → collapse (with delay!)
         transition:
           transform var(--logo-linereturn-duration, 700ms)
                     var(--logo-easing-linebreak, cubic-bezier(0.4, 0, 0.2, 1))
@@ -125,7 +206,14 @@ header {
                var(--logo-linereturn-delay, 1000ms);
       }
 
-      // Expand the text
+      /**
+       * Expanded Text Animation
+       *
+       * Shows hidden "illip" (after P) and "chulze" (after S) text.
+       * Text slides in from left (translateX) while fading in (opacity)
+       * and expanding (max-width). Color transitions with slight delay
+       * for coordinated effect with character color change.
+       */
       .name-first,
       .name-last {
         .expand-text {
@@ -136,15 +224,23 @@ header {
         }
       }
 
-      // Change character colors (green → white)
+      /**
+       * Character Color Transition
+       *
+       * Outline letters (P/S) transition from primary color (#3DCFB6)
+       * to white to create visual contrast with the expanded text.
+       */
       .char {
         color: white;
       }
     }
 
-    // ========================================
-    // CHARACTERS (P/S)
-    // ========================================
+    /**
+     * Outline Letters (P and S)
+     *
+     * Styled with configurable font weight and color from CSS variables.
+     * Color transitions smoothly during expansion/collapse to white/primary.
+     */
     .char {
       font-weight: var(--logo-outline-weight, 600);
       color: var(--logo-outline-default, $color-accent);
@@ -152,9 +248,22 @@ header {
                         var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1));
     }
 
-    // ========================================
-    // EXPANDABLE TEXT (illip, chulze)
-    // ========================================
+    /**
+     * Expandable Text (illip and chulze)
+     *
+     * Hidden text that slides in during expansion animation.
+     * Uses max-width animation (0 → 300px) combined with opacity and
+     * transform for smooth reveal effect.
+     *
+     * Animation States:
+     * - Collapsed: max-width: 0, opacity: 0, translateX(-10px)
+     *   Text is completely hidden and offset to the left
+     * - Expanded: max-width: 300px, opacity: 1, translateX(0)
+     *   Text is fully visible and in natural position
+     *
+     * Color transition includes delay (--logo-color-delay) to coordinate
+     * with character color change for cohesive visual effect.
+     */
     .expand-text {
       display: inline-block;
       max-width: 0;
@@ -165,7 +274,6 @@ header {
       overflow: hidden;
       transform: translateX(-10px);
 
-      // Expansion transition
       transition:
         max-width var(--logo-expand-duration, 800ms)
                   var(--logo-easing-expand, cubic-bezier(0.4, 0, 0.2, 1)),
@@ -178,7 +286,11 @@ header {
               var(--logo-color-delay, 300ms);
     }
 
-    // Mobile: hide last name on smallest screens
+    /**
+     * Mobile: Hide Last Name
+     * On smallest screens (≤320px), hide the last name entirely
+     * to save space and keep design simple. Only "P illip" is shown.
+     */
     @media (max-width: 320px) {
       .name-last {
         display: none;

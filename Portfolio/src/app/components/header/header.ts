@@ -5,54 +5,136 @@ import { Nav } from '@components/nav/nav';
  * Configuration interface for logo animation system.
  *
  * Provides complete control over timing, easing, visual styling,
- * and colors for the expandable logo animation.
+ * and colors for the expandable logo animation. The animation
+ * expands "P S" to "Phillip Schulze" with customizable phases.
+ *
+ * @example
+ * ```typescript
+ * const config: LogoAnimationConfig = {
+ *   timing: { expandDuration: 800, lineBreakDelay: 250, ... },
+ *   easing: { expand: 'cubic-bezier(0.4, 0, 0.2, 1)', ... },
+ *   visual: { outlineFontWeight: 600, verticalGap: 0.005, ... },
+ *   colors: { outlineDefault: '#3DCFB6', outlineExpanded: 'white', ... }
+ * };
+ * ```
  */
 export interface LogoAnimationConfig {
+  /**
+   * Timing configuration for animation phases.
+   *
+   * Controls durations and delays for expansion, collapse, and color transitions.
+   * All values are in milliseconds.
+   */
   timing: {
-    // Expansion phase timings
-    expandDuration: number;           // Duration for text expansion (ms)
-    lineBreakDuration: number;        // Duration for S moving down (ms)
-    lineBreakDelay: number;           // Delay before S starts moving (ms)
+    /** Duration of text expansion animation (expand phase). */
+    expandDuration: number;
 
-    // Collapse phase timings
-    collapseDuration: number;         // Duration for text collapse (ms)
-    lineReturnDuration: number;       // Duration for S moving back up (ms)
-    lineReturnDelay: number;          // Delay before S moves back (ms)
+    /** Duration of letter S vertical movement animation. */
+    lineBreakDuration: number;
 
-    // Color transition timings
-    colorTransitionDuration: number;  // Duration for color changes (ms)
-    colorTransitionDelay: number;     // Delay for expand text color change (ms)
+    /** Delay before S begins moving down during expansion. Typically occurs after ~2 letters are visible. */
+    lineBreakDelay: number;
+
+    /** Duration of text collapse animation (collapse phase). */
+    collapseDuration: number;
+
+    /** Duration of letter S vertical return animation. */
+    lineReturnDuration: number;
+
+    /** Delay before S returns up during collapse. Typically occurs when ~2 letters remain. */
+    lineReturnDelay: number;
+
+    /** Duration of color transition animations. */
+    colorTransitionDuration: number;
+
+    /** Delay before expand text color changes during expansion. */
+    colorTransitionDelay: number;
   };
 
+  /**
+   * Easing functions for different animation phases.
+   *
+   * Uses CSS cubic-bezier notation for smooth acceleration and deceleration.
+   * Standard smooth easing: `cubic-bezier(0.4, 0, 0.2, 1)`
+   */
   easing: {
-    expand: string;                   // Easing function for expansion
-    collapse: string;                 // Easing function for collapse
-    lineBreak: string;                // Easing function for line break movement
+    /** Easing function for text expansion animation. */
+    expand: string;
+
+    /** Easing function for text collapse animation. */
+    collapse: string;
+
+    /** Easing function for vertical line break movement (S moving up/down). */
+    lineBreak: string;
   };
 
+  /**
+   * Visual styling properties for the logo elements.
+   *
+   * Controls typography weights, scaling, and spacing between elements.
+   */
   visual: {
-    // Stroke and outline styles
-    strokeWidth: number;              // Outline stroke width (px)
-    outlineFontWeight: number;        // Font weight for outline letters (P/S)
+    /**
+     * Outline stroke width in pixels.
+     * @deprecated Kept for backwards compatibility but not actively used.
+     */
+    strokeWidth: number;
 
-    // Fill text styles
-    fillFontWeight: number;           // Font weight for small fill letters
-    fillScale: number;                // Scale factor for fill text (0-1)
+    /** Font weight for outline letters (P and S). Typically 600 (semibold). */
+    outlineFontWeight: number;
 
-    // Expanded text styles
-    expandTextFontWeight: number;     // Font weight for "illip" and "chulze"
+    /**
+     * Font weight for fill text inside letters.
+     * @deprecated Kept for backwards compatibility but not actively used.
+     */
+    fillFontWeight: number;
 
-    // Layout
-    horizontalGap: number;            // Gap between P and S when horizontal (rem)
-    verticalGap: number;              // Gap between lines when vertical (rem)
+    /**
+     * Scale factor for fill text relative to outline.
+     * @deprecated Kept for backwards compatibility but not actively used.
+     */
+    fillScale: number;
+
+    /** Font weight for expanded text (illip and chulze). Typically 600 (semibold). */
+    expandTextFontWeight: number;
+
+    /** Horizontal spacing between P and S in collapsed state (in rem units). */
+    horizontalGap: number;
+
+    /**
+     * Vertical spacing between P and S in expanded state (in rem units).
+     * Ultra-tight spacing (e.g., 0.005rem) creates visually aligned stacked text.
+     */
+    verticalGap: number;
   };
 
+  /**
+   * Color configuration for logo states and transitions.
+   *
+   * Controls colors for outline letters and expanded text in both
+   * collapsed and expanded states.
+   */
   colors: {
-    outlineDefault: string;           // Outline color when collapsed
-    outlineExpanded: string;          // Outline color when expanded
-    fillDefault: string;              // Fill color when collapsed
-    fillExpanded: string;             // Fill color when expanded
-    expandTextColor: string;          // Color for expanded text
+    /** Color of outline letters (P/S) in collapsed state. */
+    outlineDefault: string;
+
+    /** Color of outline letters (P/S) in expanded state. */
+    outlineExpanded: string;
+
+    /**
+     * Fill color in collapsed state.
+     * @deprecated Kept for backwards compatibility but not actively used.
+     */
+    fillDefault: string;
+
+    /**
+     * Fill color in expanded state.
+     * @deprecated Kept for backwards compatibility but not actively used.
+     */
+    fillExpanded: string;
+
+    /** Color for expanded text (illip and chulze). */
+    expandTextColor: string;
   };
 }
 
@@ -60,8 +142,24 @@ export interface LogoAnimationConfig {
  * Header component with configurable logo animation.
  *
  * Features a smooth, TypeScript-controlled animation system for the
- * portfolio logo. The logo expands from "P S" to "Phillip Schulze"
- * on hover with customizable timing, easing, and visual properties.
+ * portfolio logo that expands from "P S" to "Phillip Schulze" on hover.
+ * The animation is desktop-only (>768px viewport width) and uses CSS
+ * custom properties bound from the TypeScript configuration.
+ *
+ * **Animation Flow:**
+ * 1. Mouse hover triggers `isExpanded = true` (desktop only)
+ * 2. CSS transitions activate via `.expanded` class binding
+ * 3. Text expansion and S vertical movement occur in parallel with staggered timing
+ * 4. Colors transition with slight delay for coordinated visual effect
+ * 5. Mouse leave triggers collapse with different timing curves for natural feel
+ *
+ * **CSS Custom Properties:**
+ * All configuration values are bound to CSS custom properties via Angular host bindings,
+ * allowing full animation customization without CSS changes. Variables include timing
+ * durations, easing functions, colors, font weights, and spacing values.
+ *
+ * @component
+ * @standalone
  */
 @Component({
   selector: 'app-header',
@@ -104,72 +202,90 @@ export interface LogoAnimationConfig {
 export class Header {
   /**
    * Tracks whether the logo is in expanded state.
-   * Bound to the template for class toggling.
+   *
+   * Bound to the template for toggling the `.expanded` class on the logo element.
+   * When `true`, CSS transitions activate to show the full "Phillip Schulze" text.
    */
   isExpanded = false;
 
   /**
-   * Logo animation configuration.
+   * Logo animation configuration object.
    *
-   * Default values provide smooth, professional animation:
-   * - Expansion: 800ms for text, S moves down after 400ms delay
-   * - Collapse: 1000ms for text, S returns after 1000ms delay
+   * Defines all timing, easing, visual, and color properties for the logo animation.
+   * All values are bound to CSS custom properties via host binding, allowing
+   * full animation customization without modifying styles.
+   *
+   * **Default Configuration:**
+   * - **Expansion:** 800ms text animation with S moving down after 250ms (~2 letters visible)
+   * - **Collapse:** 1000ms text animation with S returning after 750ms (~2 letters remain)
+   * - **Colors:** Smooth 500ms transition with 300ms delay for expanded text color change
+   * - **Spacing:** Ultra-tight 0.005rem vertical gap for visually aligned stacked text
    */
   config: LogoAnimationConfig = {
     timing: {
-      // EXPAND PHASE
-      expandDuration: 800,              // Text expands: 0ms → 800ms
-      lineBreakDuration: 600,           // S moves down: 250ms → 850ms
-      lineBreakDelay: 250,              // After ~2 letters visible (was 400ms)
-
-      // COLLAPSE PHASE
-      collapseDuration: 1000,           // Text collapses: 0ms → 1000ms
-      lineReturnDuration: 700,          // S moves up: 750ms → 1450ms
-      lineReturnDelay: 750,             // When ~2 letters remain (was 1000ms)
-
-      // COLOR TRANSITIONS
-      colorTransitionDuration: 500,     // Smooth color change
-      colorTransitionDelay: 300         // Slight delay for expand text color
+      expandDuration: 800,
+      lineBreakDuration: 600,
+      lineBreakDelay: 250,
+      collapseDuration: 1000,
+      lineReturnDuration: 700,
+      lineReturnDelay: 750,
+      colorTransitionDuration: 500,
+      colorTransitionDelay: 300
     },
 
     easing: {
-      expand: 'cubic-bezier(0.4, 0, 0.2, 1)',      // Smooth acceleration
-      collapse: 'cubic-bezier(0.4, 0, 0.2, 1)',    // Smooth deceleration
-      lineBreak: 'cubic-bezier(0.4, 0, 0.2, 1)'    // Smooth vertical movement
+      expand: 'cubic-bezier(0.4, 0, 0.2, 1)',
+      collapse: 'cubic-bezier(0.4, 0, 0.2, 1)',
+      lineBreak: 'cubic-bezier(0.4, 0, 0.2, 1)'
     },
 
     visual: {
-      strokeWidth: 1.5,                 // Not used (kept for compatibility)
-      outlineFontWeight: 600,           // Font weight for P/S
-      fillFontWeight: 600,              // Not used (kept for compatibility)
-      fillScale: 0.85,                  // Not used (kept for compatibility)
-      expandTextFontWeight: 600,        // Font weight for illip/chulze
-      horizontalGap: 0.3,               // Space between P and S horizontally
-      verticalGap: 0.005                 // Ultra tight spacing 
+      strokeWidth: 1.5,
+      outlineFontWeight: 600,
+      fillFontWeight: 600,
+      fillScale: 0.85,
+      expandTextFontWeight: 600,
+      horizontalGap: 0.3,
+      verticalGap: 0.005
     },
 
     colors: {
-      outlineDefault: '#3DCFB6',        // $color-primary (same as copyright)
+      outlineDefault: '#3DCFB6',
       outlineExpanded: 'white',
-      fillDefault: '#3DCFB6',           // $color-primary
+      fillDefault: '#3DCFB6',
       fillExpanded: 'white',
-      expandTextColor: '#3DCFB6'        // $color-primary
+      expandTextColor: '#3DCFB6'
     }
   };
 
   /**
-   * Handle mouse enter - expand logo (desktop only).
+   * Handles mouse enter event on the header component.
+   *
+   * Triggers logo expansion only on desktop viewports (width > 768px).
+   * Mobile devices are excluded to avoid unwanted animations on touch interactions
+   * and to maintain a cleaner, simpler logo presentation on small screens.
+   *
+   * Sets `isExpanded` to `true`, which triggers the CSS animation via class binding.
+   *
+   * @listens mouseenter
    */
   @HostListener('mouseenter')
   onMouseEnter(): void {
-    // Only enable animation on desktop (>768px)
     if (typeof window !== 'undefined' && window.innerWidth > 768) {
       this.isExpanded = true;
     }
   }
 
   /**
-   * Handle mouse leave - collapse logo.
+   * Handles mouse leave event on the header component.
+   *
+   * Resets logo to collapsed state on all viewport sizes.
+   * The collapse animation runs with different timing than expansion
+   * (longer duration, different delays) for a more natural feel.
+   *
+   * Sets `isExpanded` to `false`, triggering the reverse CSS animation.
+   *
+   * @listens mouseleave
    */
   @HostListener('mouseleave')
   onMouseLeave(): void {
