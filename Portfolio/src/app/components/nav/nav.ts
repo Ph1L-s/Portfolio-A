@@ -117,4 +117,25 @@ export class Nav implements OnInit {
     this.isMenuOpen = false;
     document.body.style.overflow = '';
   }
+
+  /**
+   * Scrolls smoothly to a section identified by its ID.
+   *
+   * @param event - The click event from the anchor link
+   * @param sectionId - The ID of the target section (without #)
+   * @returns void
+   *
+   * @remarks
+   * Prevents default anchor link behavior and uses smooth scrolling.
+   * Automatically closes the mobile menu after initiating scroll.
+   */
+  scrollToSection(event: Event, sectionId: string) {
+    event.preventDefault();
+    this.closeMenu();
+
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 }
