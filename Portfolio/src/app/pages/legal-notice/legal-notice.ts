@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * Legal notice page component.
@@ -16,7 +17,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-legal-notice',
   standalone: true,
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './legal-notice.html',
   styleUrl: './legal-notice.scss'
 })
