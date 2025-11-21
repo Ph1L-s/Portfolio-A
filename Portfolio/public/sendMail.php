@@ -1,4 +1,27 @@
 <?php
+/**
+ * Portfolio Contact Form - Email Handler with PHPMailer SMTP
+ *
+ * Features:
+ * - Gmail SMTP for reliable email delivery
+ * - Disposable email blacklist
+ * - Rate limiting
+ * - Honeypot spam protection
+ * - MX record validation
+ */
+
+// Load PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require_once __DIR__ . '/phpmailer/PHPMailer.php';
+require_once __DIR__ . '/phpmailer/SMTP.php';
+require_once __DIR__ . '/phpmailer/Exception.php';
+
+// Load SMTP configuration
+$smtpConfig = require __DIR__ . '/smtp-config.php';
+
 // Trashmail/Disposable email domain blacklist
 $blacklistedDomains = [
     '10minutemail.com', '20minutemail.com', '2prong.com', '3d-game.com', '4warding.com',
@@ -72,27 +95,26 @@ $blacklistedDomains = [
     'zippymail.info', 'zoaxe.com', 'zoemail.org'
 ];
 
-// Rate limiting storage (in production, use Redis or database)
+// Rate limiting storage
 session_start();
 
 function checkRateLimit() {
     $maxEmails = 3;
     $timeWindow = 600; // 10 minutes
     $currentTime = time();
-    
+
     if (!isset($_SESSION['email_attempts'])) {
         $_SESSION['email_attempts'] = [];
     }
-    
-    // Remove old attempts outside time window
+
     $_SESSION['email_attempts'] = array_filter($_SESSION['email_attempts'], function($timestamp) use ($currentTime, $timeWindow) {
         return ($currentTime - $timestamp) < $timeWindow;
     });
-    
+
     if (count($_SESSION['email_attempts']) >= $maxEmails) {
         return false;
     }
-    
+
     return true;
 }
 
@@ -112,26 +134,25 @@ function hasValidMXRecord($email) {
 }
 
 function isValidEmailPattern($email) {
-    // Check for suspicious patterns
     $patterns = [
-        '/^[0-9]+@/',  // Starts with numbers only
-        '/^[a-z]{1,2}[0-9]{6,}@/',  // Few letters followed by many numbers
-        '/[0-9]{8,}/',  // Contains 8+ consecutive numbers
-        '/^test[0-9]*@/',  // Starts with "test"
-        '/^temp[0-9]*@/',  // Starts with "temp"
+        '/^[0-9]+@/',
+        '/^[a-z]{1,2}[0-9]{6,}@/',
+        '/[0-9]{8,}/',
+        '/^test[0-9]*@/',
+        '/^temp[0-9]*@/',
     ];
-    
+
     foreach ($patterns as $pattern) {
         if (preg_match($pattern, strtolower($email))) {
             return false;
         }
     }
-    
+
     return true;
 }
 
 switch ($_SERVER['REQUEST_METHOD']) {
-    case "OPTIONS": // Preflight request for CORS
+    case "OPTIONS":
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: POST");
         header("Access-Control-Allow-Headers: content-type");
@@ -140,23 +161,20 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case "POST":
         header("Access-Control-Allow-Origin: *");
 
-        // Rate limiting check
         if (!checkRateLimit()) {
             http_response_code(429);
             echo "Rate limit exceeded. Please wait before sending another message.";
             exit;
         }
 
-        // Get raw JSON input
         $json = file_get_contents("php://input");
         $params = json_decode($json);
 
-        // Sanitize & validate inputs
         $email       = filter_var($params->email ?? '', FILTER_VALIDATE_EMAIL);
         $name        = trim(strip_tags($params->name ?? ''));
         $userMessage = trim(strip_tags($params->message ?? ''));
         $agree       = $params->agree ?? false;
-        $honeypot    = trim($params->website ?? ''); // Honeypot field
+        $honeypot    = trim($params->website ?? '');
 
         if (!$email || !$name || !$userMessage || !$agree) {
             http_response_code(400);
@@ -164,14 +182,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
             exit;
         }
 
-        // Honeypot check (if filled, it's likely a bot)
         if (!empty($honeypot)) {
             http_response_code(400);
             echo "Spam detected";
             exit;
         }
 
-        // Advanced email validation
         if (isTrashEmailDomain($email)) {
             http_response_code(400);
             echo "Disposable email addresses are not allowed";
@@ -190,59 +206,60 @@ switch ($_SERVER['REQUEST_METHOD']) {
             exit;
         }
 
-        // Record this attempt for rate limiting
         recordEmailAttempt();
 
-        // Recipient & subject - YOUR EMAIL ADDRESS
-        $recipient = "phillips96.business@gmail.com";  
-        $subject   = "Portfolio Contact Form - {$name}";
+        // Create PHPMailer instance
+        $mail = new PHPMailer(true);
 
-        // Plain text version (safe fallback)
-        $plainText = "New contact form submission from your portfolio:\n\n";
-        $plainText .= "From: {$name} <{$email}>\n";
-        $plainText .= "Message:\n{$userMessage}\n\n";
-        $plainText .= "Sent from: Portfolio Contact Form";
+        try {
+            // SMTP Configuration
+            $mail->isSMTP();
+            $mail->Host       = $smtpConfig['host'];
+            $mail->SMTPAuth   = true;
+            $mail->Username   = $smtpConfig['username'];
+            $mail->Password   = $smtpConfig['password'];
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = $smtpConfig['port'];
+            $mail->CharSet    = 'UTF-8';
 
-        // HTML version (formatted)
-        $htmlText  = "
-        <html>
-          <body style='font-family: Arial, sans-serif; line-height: 1.6;'>
-            <h2 style='color: #3DCFB6;'>New Portfolio Contact Form Submission</h2>
-            <p><strong>From:</strong> {$name}</p>
-            <p><strong>Email:</strong> <a href='mailto:{$email}'>{$email}</a></p>
-            <p><strong>Message:</strong></p>
-            <div style='background: #f5f5f5; padding: 15px; border-left: 4px solid #3DCFB6; margin: 10px 0;'>
-              " . nl2br(htmlspecialchars($userMessage)) . "
-            </div>
-            <p style='color: #666; font-size: 0.9em;'>Sent from: Portfolio Contact Form</p>
-          </body>
-        </html>";
+            // Recipients
+            $mail->setFrom($smtpConfig['from_email'], $smtpConfig['from_name']);
+            $mail->addAddress($smtpConfig['username']); // Send to yourself
+            $mail->addReplyTo($email, $name);
 
-        // Boundary for multipart message
-        $boundary = md5(uniqid(time()));
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = "Portfolio Contact Form - {$name}";
 
-        // Headers
-        $headers   = [];
-        $headers[] = "MIME-Version: 1.0";
-        $headers[] = "From: Portfolio Contact <noreply@" . $_SERVER['HTTP_HOST'] . ">"; 
-        $headers[] = "Reply-To: {$email}";
-        $headers[] = "Content-Type: multipart/alternative; boundary=\"{$boundary}\"";
+            // HTML Body
+            $mail->Body = "
+            <html>
+              <body style='font-family: Arial, sans-serif; line-height: 1.6;'>
+                <h2 style='color: #3DCFB6;'>New Portfolio Contact Form Submission</h2>
+                <p><strong>From:</strong> {$name}</p>
+                <p><strong>Email:</strong> <a href='mailto:{$email}'>{$email}</a></p>
+                <p><strong>Message:</strong></p>
+                <div style='background: #f5f5f5; padding: 15px; border-left: 4px solid #3DCFB6; margin: 10px 0;'>
+                  " . nl2br(htmlspecialchars($userMessage)) . "
+                </div>
+                <p style='color: #666; font-size: 0.9em;'>Sent from: Portfolio Contact Form</p>
+              </body>
+            </html>";
 
-        // Body with both plain text + HTML
-        $body  = "--{$boundary}\r\n";
-        $body .= "Content-Type: text/plain; charset=utf-8\r\n\r\n";
-        $body .= $plainText . "\r\n";
-        $body .= "--{$boundary}\r\n";
-        $body .= "Content-Type: text/html; charset=utf-8\r\n\r\n";
-        $body .= $htmlText . "\r\n";
-        $body .= "--{$boundary}--";
+            // Plain text fallback
+            $mail->AltBody = "New contact form submission from your portfolio:\n\n"
+                           . "From: {$name} <{$email}>\n"
+                           . "Message:\n{$userMessage}\n\n"
+                           . "Sent from: Portfolio Contact Form";
 
-        // Send the email
-        if (mail($recipient, $subject, $body, implode("\r\n", $headers))) {
+            $mail->send();
             echo "Message sent successfully!";
-        } else {
+
+        } catch (Exception $e) {
             http_response_code(500);
             echo "Error sending message. Please try again.";
+            // For debugging (remove in production):
+            // echo "Mailer Error: " . $mail->ErrorInfo;
         }
         break;
 
