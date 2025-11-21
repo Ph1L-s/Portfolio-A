@@ -427,7 +427,7 @@
     align-items: center;
     gap: 0.5rem;
     
-    &::after{content:'';width:16px;height:16px;background-image:url('/designs/images/featured_projects/arrow_outward.svg');background-size:contain;background-repeat:no-repeat;transition:all .3s ease;filter:brightness(0) saturate(100%) invert(70%) sepia(54%) saturate(4174%) hue-rotate(152deg) brightness(91%) contrast(91%);flex-shrink:0}
+    &::after{content:'';width:16px;height:16px;background-image:url('/designs/Images/featured_projects/arrow_outward.svg');background-size:contain;background-repeat:no-repeat;transition:all .3s ease;filter:brightness(0) saturate(100%) invert(70%) sepia(54%) saturate(4174%) hue-rotate(152deg) brightness(91%) contrast(91%);flex-shrink:0}
     
     &:hover {
       border-color: #3DCFB6;
@@ -466,7 +466,7 @@
     justify-content: flex-end;
     width: auto;
     
-    &::after{content:'';width:20px;height:20px;background-image:url('/designs/images/featured_projects/arrows.svg');background-size:contain;background-repeat:no-repeat;filter:brightness(0) saturate(100%) invert(70%) sepia(54%) saturate(4174%) hue-rotate(152deg) brightness(91%) contrast(91%);transition:all .3s ease;flex-shrink:0}
+    &::after{content:'';width:20px;height:20px;background-image:url('/designs/Images/featured_projects/arrows.svg');background-size:contain;background-repeat:no-repeat;filter:brightness(0) saturate(100%) invert(70%) sepia(54%) saturate(4174%) hue-rotate(152deg) brightness(91%) contrast(91%);transition:all .3s ease;flex-shrink:0}
     
     &:hover {
       color: white;
