@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -29,6 +29,11 @@ export class Nav implements OnInit {
    * Translation service for language switching functionality.
    */
   private translate = inject(TranslateService);
+
+  /**
+   * Router service for navigation between pages.
+   */
+  private router = inject(Router);
 
   /**
    * LocalStorage key for storing the selected language.
@@ -128,14 +133,26 @@ export class Nav implements OnInit {
    * @remarks
    * Prevents default anchor link behavior and uses smooth scrolling.
    * Automatically closes the mobile menu after initiating scroll.
+   * If not on home page, navigates to home first, then scrolls to section.
    */
   scrollToSection(event: Event, sectionId: string) {
     event.preventDefault();
     this.closeMenu();
 
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (this.router.url !== '/') {
+      this.router.navigate(['/']).then(() => {
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+      });
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   }
 }

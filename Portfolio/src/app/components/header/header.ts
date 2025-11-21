@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { Nav } from '@components/nav/nav';
 
 /**
@@ -163,7 +164,7 @@ export interface LogoAnimationConfig {
  */
 @Component({
   selector: 'app-header',
-  imports: [Nav],
+  imports: [Nav, RouterModule],
   templateUrl: './header.html',
   styleUrl: './header.scss',
   host: {
