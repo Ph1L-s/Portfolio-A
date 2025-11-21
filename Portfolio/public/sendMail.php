@@ -218,13 +218,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $mail->SMTPAuth   = true;
             $mail->Username   = $smtpConfig['username'];
             $mail->Password   = $smtpConfig['password'];
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPSecure = $smtpConfig['encryption'] === 'ssl' ? PHPMailer::ENCRYPTION_SMTPS : PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = $smtpConfig['port'];
             $mail->CharSet    = 'UTF-8';
 
             // Recipients
             $mail->setFrom($smtpConfig['from_email'], $smtpConfig['from_name']);
-            $mail->addAddress($smtpConfig['username']); // Send to yourself
+            $mail->addAddress($smtpConfig['recipient']); // Send to your Gmail
             $mail->addReplyTo($email, $name);
 
             // Content
