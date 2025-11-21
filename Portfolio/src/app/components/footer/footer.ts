@@ -297,4 +297,19 @@ export class Footer {
   onMouseLeave(): void {
     this.isExpanded = false;
   }
+
+  /**
+   * Scrolls smoothly to the top of the page (hero section).
+   *
+   * Triggered when clicking on the footer logo (PS / Phillip Schulze).
+   * Uses native browser smooth scrolling for a pleasant user experience.
+   *
+   * @returns void
+   */
+  scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
 }
