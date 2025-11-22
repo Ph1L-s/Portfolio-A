@@ -257,9 +257,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         } catch (Exception $e) {
             http_response_code(500);
-            echo "Error sending message. Please try again.";
-            // For debugging (remove in production):
-            // echo "Mailer Error: " . $mail->ErrorInfo;
+            echo "Error: " . $mail->ErrorInfo;
         }
         break;
 
