@@ -23,7 +23,7 @@ export const PROJECTS: Projects[] = [
     ],
     image: '/designs/Images/featured_projects/join.svg',
     github: 'https://github.com/Ph1L-s/Join-Project',
-    liveTest: 'https://www.04-25-aw-join-1.developerakademie.net/angular-projects/join/login'
+    liveTest: 'https://phils-web.site/join/index.html'
   },
   {
     nameKey: 'El Pollo Loco',
@@ -35,7 +35,7 @@ export const PROJECTS: Projects[] = [
     ],
     image: '/designs/Images/featured_projects/pollo.svg',
     github: 'https://github.com/Ph1L-s/Pollo-Loco',
-    liveTest: 'https://phillip-schulze.developerakademie.net/module%2012/EPL/index.html'
+    liveTest: 'https://phils-web.site/epl/index.html'
   },
   {
     nameKey: 'DA Bubble',
@@ -47,6 +47,6 @@ export const PROJECTS: Projects[] = [
     ],
     image: '/designs/Images/featured_projects/da_bubble.svg',
     github: 'https://github.com/Ph1L-s',
-    liveTest: 'https://da-bubble-demo.com'
+    liveTest: 'https://phils-web.site/dabubble/'
   }
 ];
