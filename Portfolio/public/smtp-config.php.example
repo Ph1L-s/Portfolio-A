@@ -1,0 +1,20 @@
+<?php
+/**
+ * SMTP Configuration for PHPMailer (Hostinger)
+ *
+ * SETUP:
+ * 1. Copy this file: cp smtp-config.php.example smtp-config.php
+ * 2. Fill in your credentials below
+ * 3. Never commit smtp-config.php to git!
+ */
+
+return [
+    'host'       => 'smtp.hostinger.com',
+    'port'       => 465,
+    'username'   => 'your-email@your-domain.com',
+    'password'   => 'your-password-here',
+    'encryption' => 'ssl',
+    'from_email' => 'your-email@your-domain.com',  // Must match username!
+    'from_name'  => 'Portfolio Contact',
+    'recipient'  => 'where-to-receive@email.com'
+];
