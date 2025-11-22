@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, HostListener, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from '@components/header/header';
 import { Footer } from '@components/footer/footer';
@@ -9,11 +9,50 @@ import { Footer } from '@components/footer/footer';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
+export class App implements OnDestroy {
   protected readonly title = signal('Portfolio');
+  private lastScrollTop = 0;
+  private scrollTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
     this.printConsoleArt();
+  }
+
+  /**
+   * Detects scroll direction and applies CSS class to html element.
+   * Creates a wave effect on the scrollbar based on scroll direction.
+   */
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const html = document.documentElement;
+
+    // Clear previous timeout to debounce
+    if (this.scrollTimeout) {
+      clearTimeout(this.scrollTimeout);
+    }
+
+    // Determine scroll direction
+    if (scrollTop > this.lastScrollTop) {
+      html.classList.remove('scrolling-up');
+      html.classList.add('scrolling-down');
+    } else if (scrollTop < this.lastScrollTop) {
+      html.classList.remove('scrolling-down');
+      html.classList.add('scrolling-up');
+    }
+
+    this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+
+    // Remove classes after scrolling stops (smooth fade out)
+    this.scrollTimeout = setTimeout(() => {
+      html.classList.remove('scrolling-up', 'scrolling-down');
+    }, 150);
+  }
+
+  ngOnDestroy(): void {
+    if (this.scrollTimeout) {
+      clearTimeout(this.scrollTimeout);
+    }
   }
 
   /**

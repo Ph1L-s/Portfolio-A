@@ -34,3 +34,84 @@ body {
   line-height: $line-height-relaxed;
   overflow-x: hidden;
 }
+
+// ============================================
+// CUSTOM SCROLLBAR - Wave Effect
+// ============================================
+
+// Firefox
+html {
+  scrollbar-width: thin;
+  scrollbar-color: $color-primary-dark $color-bg-dark;
+}
+
+// Webkit browsers (Chrome, Safari, Edge)
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(8, 70, 59, 0.6) 0%,
+    rgba(42, 107, 95, 0.8) 50%,
+    rgba(8, 70, 59, 0.6) 100%
+  );
+  border-radius: 10px;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: linear-gradient(
+      180deg,
+      $color-primary-dark 0%,
+      $color-primary 50%,
+      $color-primary-dark 100%
+    );
+  }
+
+  &:active {
+    background: $color-primary;
+  }
+}
+
+// Dynamic wave effect based on scroll direction
+html.scrolling-down ::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    $color-primary-darker 0%,
+    $color-primary-dark 40%,
+    $color-primary 100%
+  );
+}
+
+html.scrolling-up ::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    $color-primary 0%,
+    $color-primary-dark 60%,
+    $color-primary-darker 100%
+  );
+}
+
+// Subtle glow effect on track when scrolling
+html.scrolling-down ::-webkit-scrollbar-track {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 60%,
+    rgba(42, 107, 95, 0.15) 100%
+  );
+}
+
+html.scrolling-up ::-webkit-scrollbar-track {
+  background: linear-gradient(
+    180deg,
+    rgba(42, 107, 95, 0.15) 0%,
+    transparent 40%,
+    transparent 100%
+  );
+}
