@@ -49,7 +49,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 8rem;
-    max-width: 2440px;
+    max-width: $max-width-content;
     margin: 0 auto;
 
     @media (max-width: 1440px) {
