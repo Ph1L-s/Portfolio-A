@@ -192,17 +192,17 @@
     justify-content: flex-end;
     align-items: center;
     margin-top: 1.5rem;
-    
+
     .line {
       flex-grow: 1;
       height: 1px;
       background-color: #3DCFB6;
       margin-right: 1rem;
     }
-    
+
     .author-name {
       color: #3DCFB6;
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 600;
       white-space: nowrap;
     }
@@ -279,7 +279,7 @@
     }
     
     .testimonial-author .author-name {
-      font-size: 0.8rem;
+      font-size: 1rem;
     }
   }
   
