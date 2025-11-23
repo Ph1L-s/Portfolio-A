@@ -62,12 +62,14 @@
           </div>
         </div>
         
-        <button type="submit" class="send-message-btn" [disabled]="isSubmitting()">
+        <button type="submit" class="send-message-btn" [disabled]="isSubmitting() || submitStatus() === 'rate_limited'">
           @if (isSubmitting()) {
             {{ 'contact.sending' | translate }}
           } @else if (submitStatus() === 'success') {
             {{ 'contact.messageSent' | translate }}
           } @else if (submitStatus() === 'error') {
+            {{ 'contact.tryAgain' | translate }}
+          } @else if (submitStatus() === 'rate_limited') {
             {{ 'contact.tryAgain' | translate }}
           } @else {
             {{ 'contact.sayHello' | translate }}
@@ -77,9 +79,20 @@
         @if (submitStatus() === 'success') {
           <div class="success-message">
             {{ 'contact.successMessage' | translate }}
+            @if (showRateLimitWarning()) {
+              <div class="rate-limit-warning">
+                {{ 'contact.rateLimitWarning' | translate:{ remaining: remainingEmails(), minutes: 15 } }}
+              </div>
+            }
           </div>
         }
-        
+
+        @if (submitStatus() === 'rate_limited') {
+          <div class="error-message rate-limit-error">
+            {{ 'contact.rateLimitExceeded' | translate:{ minutes: cooldownMinutes() } }}
+          </div>
+        }
+
         @if (submitStatus() === 'error') {
           <div class="error-message">
             {{ 'contact.errorMessage' | translate }}

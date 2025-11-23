@@ -224,11 +224,19 @@ export class ContactForm implements OnInit, OnDestroy {
    * - 'idle': No recent submission or status has been reset
    * - 'success': Form submitted successfully
    * - 'error': Form submission failed
+   * - 'rate_limited': Rate limit exceeded
    *
    * @remarks
    * Status automatically resets to 'idle' after 5 seconds.
    */
-  submitStatus = signal<'idle' | 'success' | 'error'>('idle');
+  submitStatus = signal<'idle' | 'success' | 'error' | 'rate_limited'>('idle');
+
+  /**
+   * Rate limit status signals
+   */
+  remainingEmails = signal(5);
+  showRateLimitWarning = signal(false);
+  cooldownMinutes = signal(0);
 
   /**
    * Configuration for the HTTP POST request to the PHP backend.
@@ -392,21 +400,56 @@ export class ContactForm implements OnInit, OnDestroy {
 
     this.http.post(this.post.endPoint, this.post.body(formData), this.post.options)
       .subscribe({
-        next: (response) => {
-          console.info('Mail sent successfully:', response);
-          this.submitStatus.set('success');
-          this.contactForm.reset();
-          this.clearAllErrors();
-          this.clearSession(); // Clear session storage after successful submission
+        next: (responseText) => {
+          try {
+            const response = JSON.parse(responseText as string);
+            console.info('Mail sent successfully:', response);
+            this.submitStatus.set('success');
+            this.contactForm.reset();
+            this.clearAllErrors();
+            this.clearSession();
+
+            // Update rate limit status from response
+            if (response.remaining !== undefined) {
+              this.remainingEmails.set(response.remaining);
+            }
+            if (response.showWarning) {
+              this.showRateLimitWarning.set(true);
+            }
+          } catch (e) {
+            // Fallback for non-JSON response
+            this.submitStatus.set('success');
+            this.contactForm.reset();
+            this.clearAllErrors();
+            this.clearSession();
+          }
         },
         error: (error) => {
           console.error('Error sending mail:', error);
-          this.submitStatus.set('error');
+
+          // Handle rate limit error (HTTP 429)
+          if (error.status === 429) {
+            try {
+              const response = JSON.parse(error.error);
+              this.submitStatus.set('rate_limited');
+              this.cooldownMinutes.set(Math.ceil(response.cooldown / 60));
+              this.remainingEmails.set(0);
+            } catch (e) {
+              this.submitStatus.set('rate_limited');
+              this.cooldownMinutes.set(15);
+            }
+          } else {
+            this.submitStatus.set('error');
+          }
         },
         complete: () => {
           this.isSubmitting.set(false);
-          // Reset status after 5 seconds
-          setTimeout(() => this.submitStatus.set('idle'), 5000);
+          // Reset status after 5 seconds (except rate_limited which stays longer)
+          const timeout = this.submitStatus() === 'rate_limited' ? 10000 : 5000;
+          setTimeout(() => {
+            this.submitStatus.set('idle');
+            this.showRateLimitWarning.set(false);
+          }, timeout);
         }
       });
   }

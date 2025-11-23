@@ -67,7 +67,10 @@
     "nameMissing": "Hoppla! Es scheint, dass dein Name fehlt",
     "emailRequired": "Deine E-Mail-Adresse wird benötigt",
     "invalidEmail": "Bitte gib eine gültige E-Mail-Adresse ein",
-    "messageRequired": "Was möchtest du entwickeln lassen?"
+    "messageRequired": "Was möchtest du entwickeln lassen?",
+    "rateLimitExceeded": "Du hast das Nachrichtenlimit erreicht. Bitte warte {minutes} Minuten, bevor du eine weitere Nachricht sendest.",
+    "rateLimitWarning": "Du hast noch {remaining} Nachrichten in den nächsten {minutes} Minuten übrig.",
+    "emailsRemaining": "{remaining} von 5 Nachrichten übrig"
   },
   "reviews": {
     "headline": "Was meine Kollegen über mich sagen",

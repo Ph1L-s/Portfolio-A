@@ -67,7 +67,10 @@
     "nameMissing": "Oops! It seems your name is missing",
     "emailRequired": "Your email is required",
     "invalidEmail": "Please enter a valid email address",
-    "messageRequired": "What do you need to develop?"
+    "messageRequired": "What do you need to develop?",
+    "rateLimitExceeded": "You have reached the message limit. Please wait {minutes} minutes before sending another message.",
+    "rateLimitWarning": "You have {remaining} messages remaining in the next {minutes} minutes.",
+    "emailsRemaining": "{remaining} of 5 messages remaining"
   },
   "reviews": {
     "headline": "What my colleagues say about me",

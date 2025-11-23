@@ -95,31 +95,129 @@ $blacklistedDomains = [
     'zippymail.info', 'zoaxe.com', 'zoemail.org'
 ];
 
-// Rate limiting storage
-session_start();
+// Rate limiting configuration
+define('MAX_EMAILS', 5);           // 5 successful emails allowed
+define('TIME_WINDOW', 900);        // 15 minutes window from first email
+define('WARNING_THRESHOLD', 3);    // Show warning at 3 emails (60%)
+define('RATE_LIMIT_FILE', __DIR__ . '/rate_limits.json');
 
-function checkRateLimit() {
-    $maxEmails = 3;
-    $timeWindow = 600; // 10 minutes
-    $currentTime = time();
-
-    if (!isset($_SESSION['email_attempts'])) {
-        $_SESSION['email_attempts'] = [];
+/**
+ * Get client IP address (works behind proxies)
+ */
+function getClientIP() {
+    $headers = ['HTTP_CF_CONNECTING_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_REAL_IP', 'REMOTE_ADDR'];
+    foreach ($headers as $header) {
+        if (!empty($_SERVER[$header])) {
+            $ip = $_SERVER[$header];
+            // Handle comma-separated IPs (X-Forwarded-For)
+            if (strpos($ip, ',') !== false) {
+                $ip = trim(explode(',', $ip)[0]);
+            }
+            if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                return $ip;
+            }
+        }
     }
-
-    $_SESSION['email_attempts'] = array_filter($_SESSION['email_attempts'], function($timestamp) use ($currentTime, $timeWindow) {
-        return ($currentTime - $timestamp) < $timeWindow;
-    });
-
-    if (count($_SESSION['email_attempts']) >= $maxEmails) {
-        return false;
-    }
-
-    return true;
+    return 'unknown';
 }
 
-function recordEmailAttempt() {
-    $_SESSION['email_attempts'][] = time();
+/**
+ * Load rate limit data from JSON file
+ */
+function loadRateLimits() {
+    if (!file_exists(RATE_LIMIT_FILE)) {
+        return [];
+    }
+    $data = file_get_contents(RATE_LIMIT_FILE);
+    return json_decode($data, true) ?: [];
+}
+
+/**
+ * Save rate limit data to JSON file
+ */
+function saveRateLimits($data) {
+    file_put_contents(RATE_LIMIT_FILE, json_encode($data, JSON_PRETTY_PRINT), LOCK_EX);
+}
+
+/**
+ * Check if IP is rate limited (only counts successful sends)
+ * Time window starts from FIRST email sent
+ * Returns array with status info including warning state
+ */
+function checkRateLimit() {
+    $ip = getClientIP();
+    $currentTime = time();
+    $limits = loadRateLimits();
+
+    // Get current IP's data
+    $ipAttempts = $limits[$ip] ?? [];
+
+    // If there are attempts, check if window expired from FIRST email
+    if (!empty($ipAttempts)) {
+        $firstAttempt = min($ipAttempts);
+        $windowExpired = ($currentTime - $firstAttempt) >= TIME_WINDOW;
+
+        if ($windowExpired) {
+            // Window expired - clear all attempts for this IP
+            unset($limits[$ip]);
+            saveRateLimits($limits);
+            $ipAttempts = [];
+        }
+    }
+
+    // Clean up other IPs with expired windows
+    foreach ($limits as $storedIP => $timestamps) {
+        if ($storedIP === $ip) continue;
+        if (!empty($timestamps)) {
+            $firstTs = min($timestamps);
+            if (($currentTime - $firstTs) >= TIME_WINDOW) {
+                unset($limits[$storedIP]);
+            }
+        }
+    }
+    saveRateLimits($limits);
+
+    $count = count($ipAttempts);
+    $remaining = MAX_EMAILS - $count;
+
+    // Calculate cooldown time (from first email + TIME_WINDOW)
+    $cooldown = 0;
+    $resetTime = 0;
+    if (!empty($ipAttempts)) {
+        $firstAttempt = min($ipAttempts);
+        $resetTime = $firstAttempt + TIME_WINDOW;
+        if ($count >= MAX_EMAILS) {
+            $cooldown = $resetTime - $currentTime;
+            $cooldown = max(0, $cooldown);
+        }
+    }
+
+    // Determine warning state (at 60% = 3 of 5)
+    $showWarning = $count >= WARNING_THRESHOLD && $count < MAX_EMAILS;
+
+    return [
+        'allowed' => $count < MAX_EMAILS,
+        'remaining' => max(0, $remaining),
+        'cooldown' => $cooldown,
+        'count' => $count,
+        'showWarning' => $showWarning,
+        'resetTime' => $resetTime > 0 ? $resetTime : null
+    ];
+}
+
+/**
+ * Record successful email send for IP
+ */
+function recordSuccessfulSend() {
+    $ip = getClientIP();
+    $limits = loadRateLimits();
+
+    if (!isset($limits[$ip])) {
+        $limits[$ip] = [];
+    }
+
+    $limits[$ip][] = time();
+    saveRateLimits($limits);
 }
 
 function isTrashEmailDomain($email) {
@@ -160,10 +258,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
     case "POST":
         header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
 
-        if (!checkRateLimit()) {
+        $rateLimitStatus = checkRateLimit();
+
+        if (!$rateLimitStatus['allowed']) {
             http_response_code(429);
-            echo "Rate limit exceeded. Please wait before sending another message.";
+            echo json_encode([
+                'status' => 'rate_limited',
+                'remaining' => 0,
+                'cooldown' => $rateLimitStatus['cooldown'],
+                'message' => 'Rate limit exceeded'
+            ]);
             exit;
         }
 
@@ -178,35 +284,33 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         if (!$email || !$name || !$userMessage || !$agree) {
             http_response_code(400);
-            echo "Invalid input";
+            echo json_encode(['status' => 'error', 'message' => 'Invalid input']);
             exit;
         }
 
         if (!empty($honeypot)) {
             http_response_code(400);
-            echo "Spam detected";
+            echo json_encode(['status' => 'error', 'message' => 'Spam detected']);
             exit;
         }
 
         if (isTrashEmailDomain($email)) {
             http_response_code(400);
-            echo "Disposable email addresses are not allowed";
+            echo json_encode(['status' => 'error', 'message' => 'Disposable email addresses are not allowed']);
             exit;
         }
 
         if (!hasValidMXRecord($email)) {
             http_response_code(400);
-            echo "Invalid email domain";
+            echo json_encode(['status' => 'error', 'message' => 'Invalid email domain']);
             exit;
         }
 
         if (!isValidEmailPattern($email)) {
             http_response_code(400);
-            echo "Email format appears suspicious";
+            echo json_encode(['status' => 'error', 'message' => 'Email format appears suspicious']);
             exit;
         }
-
-        recordEmailAttempt();
 
         // Create PHPMailer instance
         $mail = new PHPMailer(true);
@@ -253,11 +357,27 @@ switch ($_SERVER['REQUEST_METHOD']) {
                            . "Sent from: Portfolio Contact Form";
 
             $mail->send();
-            echo "Message sent successfully!";
+
+            // Only record successful sends for rate limiting
+            recordSuccessfulSend();
+
+            // Get updated rate limit status for response
+            $newStatus = checkRateLimit();
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Message sent successfully!',
+                'remaining' => $newStatus['remaining'],
+                'showWarning' => $newStatus['showWarning'],
+                'resetTime' => $newStatus['resetTime']
+            ]);
 
         } catch (Exception $e) {
             http_response_code(500);
-            echo "Error: " . $mail->ErrorInfo;
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Failed to send message: ' . $mail->ErrorInfo
+            ]);
         }
         break;
 

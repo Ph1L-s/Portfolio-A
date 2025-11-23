@@ -292,6 +292,22 @@
   line-height: 1.4;
 }
 
+.rate-limit-warning {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(255, 193, 7, 0.15);
+  border: 1px solid #ffc107;
+  color: #ffc107;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.rate-limit-error {
+  background: rgba(255, 152, 0, 0.15);
+  border-color: #ff9800;
+  color: #ff9800;
+}
+
 @media (max-width: 768px) {
   .contact-form-section {
     padding: 4rem 0;
