@@ -1,8 +1,10 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 /**
  * Contact form component with comprehensive spam protection and validation.
@@ -24,10 +26,19 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
   templateUrl: './contact-form.html',
   styleUrl: './contact-form.scss'
 })
-export class ContactForm {
+export class ContactForm implements OnInit, OnDestroy {
   private fb = new FormBuilder();
   private http = inject(HttpClient);
   private translate = inject(TranslateService);
+
+  // Signal to track language changes for computed properties
+  private currentLang = signal(this.translate.currentLang || 'en');
+
+  // Subscription for form value changes (Session Storage)
+  private formValueSubscription?: Subscription;
+
+  // Session Storage key for form data persistence
+  private readonly STORAGE_KEY = 'contactFormData';
 
   /**
    * Blacklist of 200+ disposable email domains to prevent spam submissions.
@@ -232,23 +243,87 @@ export class ContactForm {
     }
   };
 
+  ngOnInit() {
+    // Update currentLang signal when language changes to trigger computed properties
+    this.translate.onLangChange.subscribe((event) => {
+      this.currentLang.set(event.lang);
+    });
+
+    // Restore form data from session storage
+    this.restoreFromSession();
+
+    // Auto-save form data to session storage on changes (with 500ms debounce)
+    this.formValueSubscription = this.contactForm.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe(() => this.saveToSession());
+  }
+
+  ngOnDestroy() {
+    // Clean up subscription to prevent memory leaks
+    this.formValueSubscription?.unsubscribe();
+  }
+
+  /**
+   * Saves form data (name, email, message) to session storage.
+   * Does not save privacy checkbox or honeypot field.
+   */
+  private saveToSession() {
+    const dataToSave = {
+      name: this.contactForm.get('name')?.value || '',
+      email: this.contactForm.get('email')?.value || '',
+      message: this.contactForm.get('message')?.value || ''
+    };
+    sessionStorage.setItem(this.STORAGE_KEY, JSON.stringify(dataToSave));
+  }
+
+  /**
+   * Restores form data from session storage if available.
+   */
+  private restoreFromSession() {
+    const savedData = sessionStorage.getItem(this.STORAGE_KEY);
+    if (savedData) {
+      try {
+        const parsed = JSON.parse(savedData);
+        this.contactForm.patchValue(parsed);
+      } catch (e) {
+        sessionStorage.removeItem(this.STORAGE_KEY);
+      }
+    }
+  }
+
+  /**
+   * Clears form data from session storage.
+   */
+  private clearSession() {
+    sessionStorage.removeItem(this.STORAGE_KEY);
+  }
+
   /**
    * Computed property returning the placeholder text for the name field.
-   * Shows error message if present, otherwise shows default placeholder.
+   * Shows error message if present, otherwise shows translated default placeholder.
    */
-  namePlaceholder = computed(() => this.errors().name || 'Your name goes here');
+  namePlaceholder = computed(() => {
+    this.currentLang(); // Trigger reactivity on language change
+    return this.errors().name || this.translate.instant('contact.placeholderName');
+  });
 
   /**
    * Computed property returning the placeholder text for the email field.
-   * Shows error message if present, otherwise shows default placeholder.
+   * Shows error message if present, otherwise shows translated default placeholder.
    */
-  emailPlaceholder = computed(() => this.errors().email || 'youremail@email.com');
+  emailPlaceholder = computed(() => {
+    this.currentLang(); // Trigger reactivity on language change
+    return this.errors().email || this.translate.instant('contact.placeholderEmail');
+  });
 
   /**
    * Computed property returning the placeholder text for the message field.
-   * Shows error message if present, otherwise shows default placeholder.
+   * Shows error message if present, otherwise shows translated default placeholder.
    */
-  messagePlaceholder = computed(() => this.errors().message || 'Hello Phil, I am interested in...');
+  messagePlaceholder = computed(() => {
+    this.currentLang(); // Trigger reactivity on language change
+    return this.errors().message || this.translate.instant('contact.placeholderMessage');
+  });
 
   /**
    * Computed property indicating whether the name field has an error.
@@ -322,6 +397,7 @@ export class ContactForm {
           this.submitStatus.set('success');
           this.contactForm.reset();
           this.clearAllErrors();
+          this.clearSession(); // Clear session storage after successful submission
         },
         error: (error) => {
           console.error('Error sending mail:', error);

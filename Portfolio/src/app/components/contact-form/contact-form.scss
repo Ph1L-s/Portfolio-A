@@ -96,14 +96,25 @@
         font-family: inherit;
         outline: none;
         padding: 0 0 1.5rem 0;
-        
+
         &::placeholder {
           color: rgba(255, 255, 255, 0.6);
         }
-        
+
         &:focus + .underline {
           opacity: 1;
           box-shadow: 0 0 8px rgba(61, 207, 182, 0.4);
+        }
+
+        // Fix for browser autofill styling
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+          -webkit-box-shadow: 0 0 0 1000px #1C1C1C inset !important;
+          -webkit-text-fill-color: white !important;
+          caret-color: white;
+          transition: background-color 5000s ease-in-out 0s;
         }
       }
       
