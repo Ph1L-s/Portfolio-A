@@ -32,4 +32,11 @@ export class Hero implements OnInit {
       this.translate.instant('banner.openToWork')
     ];
   }
+
+  scrollToSection(sectionId: string) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }
