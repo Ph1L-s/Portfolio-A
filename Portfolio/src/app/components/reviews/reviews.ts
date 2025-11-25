@@ -169,8 +169,21 @@ export class Reviews implements OnInit, OnDestroy {
    * Centers the active card and positions prev/next cards with equal spacing.
    */
   getTransform(): string {
-    const cardWidth = 520;
+    // Responsive card widths matching CSS breakpoints
+    let cardWidth = 520;
     const gap = 32;
+
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      if (width <= 480) {
+        return 'none'; // Mobile: no transform needed
+      } else if (width <= 768) {
+        cardWidth = 400;
+      } else if (width <= 1024) {
+        cardWidth = 480;
+      }
+    }
+
     const totalCardWidth = cardWidth + gap;
     const offset = this.currentIndex * totalCardWidth;
     return `translateX(calc(50% - ${offset}px - ${cardWidth / 2}px))`;
