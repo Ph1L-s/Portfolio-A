@@ -84,7 +84,8 @@ export class Reviews implements OnInit, OnDestroy {
           ...this.originalTestimonials,
           ...this.originalTestimonials
         ];
-        this.currentIndex = this.originalTestimonials.length;
+        // Start at middle item (index 1) of the middle array copy
+        this.currentIndex = this.originalTestimonials.length + Math.floor(this.originalTestimonials.length / 2);
       }
     });
   }
