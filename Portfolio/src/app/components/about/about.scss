@@ -10,12 +10,12 @@
   margin: 0 auto;
   
   @media (max-width: 768px) {
-    padding: 4rem 0;
+    padding: 3rem 0;
     min-height: auto;
   }
-  
+
   @media (max-width: 480px) {
-    padding: 3rem 0;
+    padding: 2rem 0;
   }
 }
 
@@ -31,7 +31,7 @@
   
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.5rem;
     text-align: center;
   }
 }
@@ -48,17 +48,17 @@
   }
   
   @media (max-width: 768px) {
-    height: 400px;
+    height: 350px;
     transform: translateY(0);
     order: -1;
   }
-  
+
   @media (max-width: 480px) {
-    height: 350px;
-  }
-  
-  @media (max-width: 320px) {
     height: 300px;
+  }
+
+  @media (max-width: 320px) {
+    height: 250px;
   }
   
   .profile-photo {
