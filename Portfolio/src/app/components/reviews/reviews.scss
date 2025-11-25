@@ -294,10 +294,36 @@
   .testimonial-card {
     width: calc(100vw - 3rem);
     max-width: 350px;
+    height: 460px;
+    min-height: 460px;
+    max-height: 460px;
     margin: 0;
+    overflow: visible;
+
+    .quote-svg {
+      top: -1.5rem;
+      left: 0;
+      width: 60px;
+    }
 
     &:not(.active) {
       display: none;
+    }
+
+    .testimonial-text {
+      max-height: 300px;
+      overflow-y: auto;
+      position: relative;
+      mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+
+      // Hide scrollbar but keep functionality
+      scrollbar-width: none; // Firefox
+      -ms-overflow-style: none; // IE/Edge
+
+      &::-webkit-scrollbar {
+        display: none; // Chrome/Safari
+      }
     }
   }
 
@@ -321,6 +347,13 @@
   .testimonial-card {
     width: calc(100vw - 2rem);
     max-width: 300px;
+    height: 440px;
+    min-height: 440px;
+    max-height: 440px;
+
+    .testimonial-text {
+      max-height: 280px;
+    }
   }
 
   .navigation-wrapper {
