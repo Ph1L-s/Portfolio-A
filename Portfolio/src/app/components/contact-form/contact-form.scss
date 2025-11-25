@@ -162,11 +162,19 @@
   gap: 1rem;
   margin-top: 2rem;
   margin-bottom: 3rem;
+
+  @media (max-width: 1200px) {
+    margin-bottom: 6rem;
+  }
   
   
   .checkbox-container {
     flex-shrink: 0;
     position: relative;
+
+    @media (max-width: 1200px) {
+      position: static;
+    }
     
     .custom-checkbox {
       position: relative;
@@ -220,6 +228,14 @@
       text-align: left;
       white-space: nowrap;
       z-index: 10;
+
+      @media (max-width: 1200px) {
+        top: calc(100% + 0.5rem);
+        bottom: auto;
+        left: 0;
+        white-space: normal;
+        width: 100%;
+      }
     }
   }
   
