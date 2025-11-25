@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, HostListener } from '@angular/core';
 import { Hero } from '@components/hero/hero';
 import { About } from '@components/about/about';
 import { Skills } from '@components/skills/skills';
@@ -41,6 +41,45 @@ import { ContactForm } from '@components/contact-form/contact-form';
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements AfterViewInit {
+  private sections: Element[] = [];
+  private currentSection = 0;
+  private isScrolling = false;
 
+  ngAfterViewInit(): void {
+    this.sections = Array.from(
+      document.querySelectorAll('app-hero, app-about, app-skills, app-projects, app-reviews, app-footer')
+    );
+  }
+
+  @HostListener('wheel', ['$event'])
+  onWheel(event: WheelEvent): void {
+    // No preventDefault - user keeps control
+
+    if (this.isScrolling || !this.sections.length) return;
+
+    // Measure scroll intensity
+    const intensity = Math.abs(event.deltaY);
+
+    // Strong scroll = no intervention, let user scroll freely
+    if (intensity > 150) return;
+
+    this.isScrolling = true;
+
+    // Skip more sections with medium intensity
+    const sectionsToSkip = intensity > 80 ? 2 : 1;
+
+    if (event.deltaY > 0) {
+      this.currentSection = Math.min(this.currentSection + sectionsToSkip, this.sections.length - 1);
+    } else {
+      this.currentSection = Math.max(this.currentSection - sectionsToSkip, 0);
+    }
+
+    this.sections[this.currentSection].scrollIntoView({ behavior: 'smooth' });
+
+    // Shorter debounce for responsiveness
+    setTimeout(() => {
+      this.isScrolling = false;
+    }, 400);
+  }
 }
