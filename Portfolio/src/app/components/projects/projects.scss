@@ -287,6 +287,7 @@
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
+  overflow-x: hidden;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
@@ -504,5 +505,91 @@
   .lightbox-content {
     grid-template-columns: 1fr;
     padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .lightbox-content {
+    padding: 1.5rem;
+    max-height: 85vh;
+  }
+
+  .lightbox-left {
+    h4 {
+      font-size: 4rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+
+  .project-links {
+    flex-direction: column;
+    gap: 0.75rem;
+
+    a {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.9rem;
+      justify-content: center;
+      width: 100%;
+    }
+  }
+
+  .tech-icons {
+    gap: 0.75rem;
+
+    .tech-item {
+      img {
+        width: 30px;
+        height: 30px;
+      }
+
+      p {
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .lightbox-right {
+    .next-btn {
+      font-size: 1rem;
+      margin-top: 1.5rem;
+    }
+  }
+
+  .close-btn {
+    font-size: 1.5rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .lightbox-content {
+    padding: 1rem;
+  }
+
+  .lightbox-left {
+    h4 {
+      font-size: 3rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+    }
+  }
+
+  .project-links a {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
   }
 }
