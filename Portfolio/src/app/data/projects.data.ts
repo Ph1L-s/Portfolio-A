@@ -15,13 +15,13 @@ export const PROJECTS: Projects[] = [
     nameKey: 'Join',
     descriptionKey: 'projects.join.description',
     tech: [
-      { tech: 'Angular', image: '/designs/Images/languages/angular.svg' },
-      { tech: 'TypeScript', image: '/designs/Images/languages/type_script.svg' },
-      { tech: 'HTML', image: '/designs/Images/languages/html.svg' },
-      { tech: 'CSS', image: '/designs/Images/languages/stylesheet.svg' },
-      { tech: 'Firebase', image: '/designs/Images/languages/firebase.svg' }
+      { tech: 'Angular', image: '/designs/images/languages/angular.svg' },
+      { tech: 'TypeScript', image: '/designs/images/languages/type_script.svg' },
+      { tech: 'HTML', image: '/designs/images/languages/html.svg' },
+      { tech: 'CSS', image: '/designs/images/languages/stylesheet.svg' },
+      { tech: 'Firebase', image: '/designs/images/languages/firebase.svg' }
     ],
-    image: '/designs/Images/featured_projects/join.svg',
+    image: '/designs/images/featured_projects/join.svg',
     github: 'https://github.com/Ph1L-s/Join-Project',
     liveTest: 'https://phils-web.site/join/index.html'
   },
@@ -29,11 +29,11 @@ export const PROJECTS: Projects[] = [
     nameKey: 'El Pollo Loco',
     descriptionKey: 'projects.polloLoco.description',
     tech: [
-      { tech: 'HTML', image: '/designs/Images/languages/html.svg' },
-      { tech: 'CSS', image: '/designs/Images/languages/stylesheet.svg' },
-      { tech: 'JavaScript', image: '/designs/Images/languages/java_script.svg' }
+      { tech: 'HTML', image: '/designs/images/languages/html.svg' },
+      { tech: 'CSS', image: '/designs/images/languages/stylesheet.svg' },
+      { tech: 'JavaScript', image: '/designs/images/languages/java_script.svg' }
     ],
-    image: '/designs/Images/featured_projects/pollo.svg',
+    image: '/designs/images/featured_projects/pollo.svg',
     github: 'https://github.com/Ph1L-s/Pollo-Loco',
     liveTest: 'https://phils-web.site/epl/index.html'
   },
@@ -41,11 +41,11 @@ export const PROJECTS: Projects[] = [
     nameKey: 'DA Bubble',
     descriptionKey: 'projects.daBubble.description',
     tech: [
-      { tech: 'Angular', image: '/designs/Images/languages/angular.svg' },
-      { tech: 'Firebase', image: '/designs/Images/languages/firebase.svg' },
-      { tech: 'TypeScript', image: '/designs/Images/languages/type_script.svg' }
+      { tech: 'Angular', image: '/designs/images/languages/angular.svg' },
+      { tech: 'Firebase', image: '/designs/images/languages/firebase.svg' },
+      { tech: 'TypeScript', image: '/designs/images/languages/type_script.svg' }
     ],
-    image: '/designs/Images/featured_projects/da_bubble.svg',
+    image: '/designs/images/featured_projects/da_bubble.svg',
     github: 'https://github.com/Ph1L-s',
     liveTest: 'https://phils-web.site/dabubble/'
   }

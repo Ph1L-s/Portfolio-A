@@ -14,7 +14,7 @@
                [class.prev]="$index === (currentIndex - 1 + testimonials.length) % testimonials.length"
                [class.next]="$index === (currentIndex + 1) % testimonials.length">
             @if ($index === currentIndex) {
-              <img src="/designs/Images/misc/quotes.svg" alt="Quotes" class="quote-svg" loading="lazy">
+              <img src="/designs/images/misc/quotes.svg" alt="Quotes" class="quote-svg" loading="lazy">
             }
             <p class="testimonial-text">{{testimonial.text}}</p>
             <div class="testimonial-author">
@@ -32,7 +32,7 @@
     
     <div class="navigation-wrapper">
       <button class="carousel-arrow carousel-arrow-left" (click)="previousSlide()">
-        <img src="/designs/Images/misc/arrow_back.svg" alt="Previous" loading="lazy">
+        <img src="/designs/images/misc/arrow_back.svg" alt="Previous" loading="lazy">
       </button>
 
       <div class="testimonial-indicators">
@@ -42,7 +42,7 @@
       </div>
 
       <button class="carousel-arrow carousel-arrow-right" (click)="nextSlide()">
-        <img src="/designs/Images/misc/arrow_forward.svg" alt="Next" loading="lazy">
+        <img src="/designs/images/misc/arrow_forward.svg" alt="Next" loading="lazy">
       </button>
     </div>
   </div>
