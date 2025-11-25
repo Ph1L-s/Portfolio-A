@@ -1,7 +1,8 @@
-import { Component, signal, HostListener, OnDestroy } from '@angular/core';
+import { Component, signal, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from '@components/header/header';
 import { Footer } from '@components/footer/footer';
+import AOS from 'aos';
 
 @Component({
   selector: 'app-root',
@@ -9,13 +10,21 @@ import { Footer } from '@components/footer/footer';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App implements OnDestroy {
+export class App implements OnInit, OnDestroy {
   protected readonly title = signal('Portfolio');
   private lastScrollTop = 0;
   private scrollTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
     this.printConsoleArt();
+  }
+
+  ngOnInit(): void {
+    AOS.init({
+      duration: 800,
+      easing: 'ease-out',
+      once: true
+    });
   }
 
   /**

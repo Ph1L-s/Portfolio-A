@@ -1,10 +1,10 @@
 <section class="reviews-section">
   <div class="container">
-    <div class="reviews-header">
+    <div class="reviews-header" data-aos="fade-up">
       <h2 class="section-title">{{ 'reviews.headline' | translate }}</h2>
     </div>
-    
-    <div class="testimonial-carousel">
+
+    <div class="testimonial-carousel" data-aos="fade-up" data-aos-delay="200">
       <div class="testimonial-track" 
            [class.transitioning]="isTransitioning" 
            [style.transform]="getTransform()">
@@ -30,7 +30,7 @@
       </div>
     </div>
     
-    <div class="navigation-wrapper">
+    <div class="navigation-wrapper" data-aos="fade-up" data-aos-delay="300">
       <button class="carousel-arrow carousel-arrow-left" (click)="previousSlide()">
         <img src="/designs/images/misc/arrow_back.svg" alt="Previous" loading="lazy">
       </button>

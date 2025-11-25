@@ -1,6 +1,6 @@
 <section id="projects" class="projects-section">
   <div class="container">
-    <div class="projects-header">
+    <div class="projects-header" data-aos="fade-up">
       <span class="section-label">{{ 'projects.headline' | translate }}</span>
       <h2 class="section-title">{{ 'projects.featured' | translate }}</h2>
       <p class="projects-description">
@@ -10,10 +10,10 @@
 
     <div class="projects-wrapper">
       <!-- Table -->
-      <table class="projects-table">
+      <table class="projects-table" data-aos="fade-right">
         <tbody>
           @for (project of projects; track $index) {
-            <tr (mouseenter)="hoveredIndex = $index" 
+            <tr (mouseenter)="hoveredIndex = $index"
                 (mouseleave)="hoveredIndex = -1"
                 (click)="openProject(project, $index)"
                 class="project-row">
@@ -29,7 +29,7 @@
       </table>
 
       <!-- Images -->
-      <div class="images-container">
+      <div class="images-container" data-aos="fade-left">
         @for (project of projects; track $index) {
           <div class="image-wrapper"
                [class.active]="hoveredIndex === $index"

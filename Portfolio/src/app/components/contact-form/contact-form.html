@@ -1,15 +1,15 @@
 <section id="contact" class="contact-form-section">
   <div class="content-container">
     <div class="contact-container">
-    <div class="contact-left">
+    <div class="contact-left" data-aos="fade-right">
       <span class="section-label">{{ 'contact.contactMe' | translate }}</span>
       <h2>{{ 'contact.letsWorkTogether' | translate }}</h2>
       <p class="contact-description">{{ 'contact.gotProblem' | translate }}</p>
       <p class="contact-text">{{ 'contact.encourageText' | translate }}</p>
       <p class="contact-cta">{{ 'contact.needFrontend' | translate }} <span class="highlight">{{ 'contact.letsTalk' | translate }}</span></p>
     </div>
-    
-    <div class="contact-right">
+
+    <div class="contact-right" data-aos="fade-left">
       <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
         <!-- Honeypot field (hidden from users, but visible to bots) -->
         <input type="text" formControlName="website" style="position: absolute; left: -9999px; visibility: hidden;" tabindex="-1" autocomplete="off">

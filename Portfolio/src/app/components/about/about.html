@@ -1,11 +1,11 @@
 <section id="about" class="about-section">
   <div class="content-container">
     <div class="about-content">
-      <div class="about-image" (mouseenter)="onImageHover($event)">
+      <div class="about-image" data-aos="fade-right" (mouseenter)="onImageHover($event)">
         <img src="/designs/images/placeholder/Photo.png" alt="Phillip Schulze" class="profile-photo" loading="lazy" />
       </div>
 
-      <div class="about-info">
+      <div class="about-info" data-aos="fade-left">
         <span class="section-label">{{ 'about.headline' | translate }}</span>
         <div class="about-card">
           <h2 class="section-title">{{ 'about.title' | translate }}</h2>
@@ -14,15 +14,15 @@
           </p>
 
           <div class="about-features">
-            <div class="feature">
+            <div class="feature" data-aos="fade-up" data-aos-delay="100">
               <img src="/designs/images/aboutme/location_icon.svg" alt="Location" class="feature-icon" loading="lazy" />
               <span>{{ 'about.location' | translate }}</span>
             </div>
-            <div class="feature">
+            <div class="feature" data-aos="fade-up" data-aos-delay="200">
               <img src="/designs/images/aboutme/head_icon.svg" alt="Mind" class="feature-icon" loading="lazy" />
               <span>{{ 'about.mindset' | translate }}</span>
             </div>
-            <div class="feature">
+            <div class="feature" data-aos="fade-up" data-aos-delay="300">
               <img src="/designs/images/aboutme/verify_icon.svg" alt="Approach" class="feature-icon" loading="lazy" />
               <span>{{ 'about.approach' | translate }}</span>
             </div>
