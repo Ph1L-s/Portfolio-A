@@ -3,41 +3,61 @@
     <div class="reviews-header">
       <h2 class="section-title">{{ 'reviews.headline' | translate }}</h2>
     </div>
-    
-    <div class="testimonial-carousel">
-      <div class="testimonial-track" 
-           [class.transitioning]="isTransitioning" 
-           [style.transform]="getTransform()">
-        @for (testimonial of testimonials; track $index) {
-          <div class="testimonial-card"
-               [class.active]="$index === currentIndex"
-               [class.prev]="$index === (currentIndex - 1 + testimonials.length) % testimonials.length"
-               [class.next]="$index === (currentIndex + 1) % testimonials.length">
-            @if ($index === currentIndex) {
-              <img src="/designs/images/misc/quotes.svg" alt="Quotes" class="quote-svg" loading="lazy">
-            }
-            <p class="testimonial-text">{{testimonial.text}}</p>
+
+    @if (testimonials.length > 0) {
+      <div class="testimonial-carousel">
+        <div class="carousel-viewport">
+          <!-- Prev Card -->
+          <div class="testimonial-card prev">
+            <p class="testimonial-text">{{prevTestimonial.text}}</p>
             <div class="testimonial-author">
               <div class="line"></div>
-              @if (testimonial.author) {
-                <span class="author-name">{{testimonial.author}} - {{testimonial.role}}</span>
+              @if (prevTestimonial.author) {
+                <span class="author-name">{{prevTestimonial.author}} - {{prevTestimonial.role}}</span>
               } @else {
-                <span class="author-name">{{testimonial.role}}</span>
+                <span class="author-name">{{prevTestimonial.role}}</span>
               }
             </div>
           </div>
-        }
+
+          <!-- Active Card (center) -->
+          <div class="testimonial-card active">
+            <img src="/designs/images/misc/quotes.svg" alt="Quotes" class="quote-svg" loading="lazy">
+            <p class="testimonial-text">{{currentTestimonial.text}}</p>
+            <div class="testimonial-author">
+              <div class="line"></div>
+              @if (currentTestimonial.author) {
+                <span class="author-name">{{currentTestimonial.author}} - {{currentTestimonial.role}}</span>
+              } @else {
+                <span class="author-name">{{currentTestimonial.role}}</span>
+              }
+            </div>
+          </div>
+
+          <!-- Next Card -->
+          <div class="testimonial-card next">
+            <p class="testimonial-text">{{nextTestimonial.text}}</p>
+            <div class="testimonial-author">
+              <div class="line"></div>
+              @if (nextTestimonial.author) {
+                <span class="author-name">{{nextTestimonial.author}} - {{nextTestimonial.role}}</span>
+              } @else {
+                <span class="author-name">{{nextTestimonial.role}}</span>
+              }
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    
+    }
+
     <div class="navigation-wrapper">
       <button class="carousel-arrow carousel-arrow-left" (click)="previousSlide()">
         <img src="/designs/images/misc/arrow_back.svg" alt="Previous" loading="lazy">
       </button>
 
       <div class="testimonial-indicators">
-        @for (testimonial of originalTestimonials; track testimonial.text; let i = $index) {
-          <span class="indicator" [class.active]="i === currentIndex % originalTestimonials.length"></span>
+        @for (testimonial of testimonials; track $index) {
+          <span class="indicator" [class.active]="$index === currentIndex"></span>
         }
       </div>
 

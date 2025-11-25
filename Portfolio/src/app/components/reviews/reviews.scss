@@ -1,12 +1,5 @@
 @use 'abstracts/variables' as *;
 
-// CSS Variables for easy adjustments
-:root {
-  --testimonial-gap: 2rem;
-  --arrow-spacing: 1.5rem;
-  --navigation-height: 50px;
-}
-
 .reviews-section {
   background: #1C1C1C;
   padding: 6rem 0;
@@ -64,13 +57,6 @@
   margin: 0 auto 3rem;
   overflow: hidden;
   position: relative;
-  padding-top: 2.5rem;
-
-  @media (max-width: 480px) {
-    overflow: visible;
-    display: flex;
-    justify-content: center;
-  }
 
   // Gradient fade edges
   &::before,
@@ -99,23 +85,16 @@
   }
 }
 
-.testimonial-track {
+// Carousel Viewport - FLEXBOX CENTERING
+.carousel-viewport {
   display: flex;
+  justify-content: center;
   align-items: stretch;
-  justify-content: flex-start;
-  gap: var(--testimonial-gap);
-  transition: transform 0.5s ease;
-
-  &.transitioning {
-    transition: transform 0.5s ease;
-  }
+  gap: 2rem;
+  padding-top: 2.5rem;
 
   @media (max-width: 480px) {
-    flex-direction: column;
-    gap: 1rem;
-    transform: none !important;
-    justify-content: center;
-    align-items: center;
+    gap: 0;
   }
 }
 
@@ -129,10 +108,9 @@
   height: auto;
   flex: 0 0 auto;
   position: relative;
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.5s ease;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
 
   &.active {
     opacity: 1;
@@ -145,10 +123,6 @@
     opacity: 0.5;
     z-index: 1;
     transform: scale(0.95);
-  }
-
-  .testimonial-text, .testimonial-author {
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .quote-svg {
@@ -206,7 +180,6 @@
     width: 400px;
     min-height: 220px;
     padding: 1.5rem 2rem;
-    margin: 0 -0.5rem;
   }
 }
 
@@ -215,11 +188,15 @@
     width: calc(100vw - 3rem);
     max-width: 350px;
     min-height: auto;
-    margin: 0;
 
-    &:not(.active) {
+    &.prev,
+    &.next {
       display: none;
     }
+  }
+
+  .testimonial-carousel {
+    overflow: visible;
   }
 }
 
@@ -238,7 +215,7 @@
   align-items: center;
   gap: 3rem;
   margin: 3rem auto 0;
-  height: var(--navigation-height);
+  height: 50px;
 }
 
 .carousel-arrow {
