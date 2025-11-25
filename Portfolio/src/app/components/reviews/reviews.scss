@@ -47,14 +47,27 @@
 }
 
 .navigation-wrapper {
+  position: relative;
+  max-width: 1200px;
+  margin: 3rem auto 0;
+  height: 50px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 2rem;
-  margin-top: 3rem;
+  align-items: center;
+
+  @media (max-width: 480px) {
+    max-width: calc(100vw - 3rem);
+  }
+
+  @media (max-width: 320px) {
+    max-width: calc(100vw - 2rem);
+  }
 }
 
 .carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -64,20 +77,44 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  
+
   &:hover {
-    transform: scale(1.1);
+    transform: translateY(-50%) scale(1.1);
   }
-  
+
   img {
     width: 20px;
     height: 20px;
     opacity: 0.8;
     transition: opacity 0.3s ease;
   }
-  
+
   &:hover img {
     opacity: 1;
+  }
+}
+
+.carousel-arrow-left {
+  left: calc(50% - 95px);
+
+  @media (max-width: 1024px) {
+    left: calc(50% - 85px);
+  }
+
+  @media (max-width: 768px) {
+    left: calc(50% - 75px);
+  }
+}
+
+.carousel-arrow-right {
+  right: calc(50% - 95px);
+
+  @media (max-width: 1024px) {
+    right: calc(50% - 85px);
+  }
+
+  @media (max-width: 768px) {
+    right: calc(50% - 75px);
   }
 }
 
@@ -210,17 +247,21 @@
 }
 
 .testimonial-indicators {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
   gap: 0.8rem;
-  
+
   .indicator {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.4);
     transition: all 0.3s ease;
-    
+
     &.active {
       background: #3DCFB6;
     }
@@ -242,11 +283,25 @@
   .reviews-header .section-title {
     font-size: 2rem;
   }
-  
+
+  .navigation-wrapper {
+    height: 40px;
+  }
+
+  .carousel-arrow {
+    width: 40px;
+    height: 40px;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
   .carousel-wrapper {
     gap: 1.5rem;
   }
-  
+
   .testimonial-card {
     width: 400px;
     min-height: 220px;
@@ -324,6 +379,20 @@
     }
   }
 
+  .navigation-wrapper {
+    height: 30px;
+  }
+
+  .carousel-arrow {
+    width: 30px;
+    height: 30px;
+
+    img {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
   .carousel-wrapper {
     flex-direction: column;
     gap: 2rem;
@@ -335,5 +404,21 @@
 
   .testimonial-carousel {
     order: 1;
+  }
+}
+
+@media (max-width: 320px) {
+  .navigation-wrapper {
+    height: 25px;
+  }
+
+  .carousel-arrow {
+    width: 25px;
+    height: 25px;
+
+    img {
+      width: 10px;
+      height: 10px;
+    }
   }
 }
