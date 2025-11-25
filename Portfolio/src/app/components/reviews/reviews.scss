@@ -25,11 +25,11 @@
   margin: 0 auto;
   padding: 0 2rem;
   text-align: center;
-  
+
   @media (max-width: 480px) {
     padding: 0 1.5rem;
   }
-  
+
   @media (max-width: 320px) {
     padding: 0 1rem;
     max-width: calc(100vw - 2rem);
@@ -38,7 +38,7 @@
 
 .reviews-header {
   margin-bottom: 4rem;
-  
+
   .section-title {
     font-size: 2.5rem;
     font-weight: 700;
@@ -91,16 +91,16 @@
   overflow: hidden;
   position: relative;
   padding-top: 2.5rem;
-  
+
   @media (max-width: 480px) {
     max-width: calc(100vw - 3rem);
   }
-  
+
   @media (max-width: 320px) {
     max-width: calc(100vw - 2rem);
     margin: 0 auto 2rem;
   }
-  
+
   &::before,
   &::after {
     content: '';
@@ -133,7 +133,7 @@
   justify-content: flex-start;
   gap: 2rem;
   transition: transform 0.5s ease;
-  
+
   &.transitioning {
     transition: transform 0.5s ease;
   }
@@ -153,24 +153,24 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  
+
   &.active {
     opacity: 1;
     z-index: 3;
     transform: scale(1);
   }
-  
+
   &.prev,
   &.next {
     opacity: 0.5;
     z-index: 1;
     transform: scale(0.95);
   }
-  
+
   .testimonial-text, .testimonial-author {
     transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
-  
+
   .quote-svg {
     position: absolute;
     top: -2rem;
@@ -180,7 +180,7 @@
     opacity: 0.8;
     z-index: 100;
   }
-  
+
   .testimonial-text {
     font-size: 1rem;
     line-height: 1.6;
@@ -190,7 +190,7 @@
     opacity: 0.9;
     flex: 1;
   }
-  
+
   .testimonial-author {
     display: flex;
     justify-content: flex-end;
@@ -241,7 +241,7 @@
   .carousel-wrapper {
     gap: 2rem;
   }
-  
+
   .testimonial-card {
     width: 480px;
     padding: 2rem 2.5rem;
@@ -314,8 +314,8 @@
       max-height: 300px;
       overflow-y: auto;
       position: relative;
-      mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 94%, transparent 101%);
+      -webkit-mask-image: linear-gradient(to bottom, black 94%, transparent 101%);
 
       // Hide scrollbar but keep functionality
       scrollbar-width: none; // Firefox
