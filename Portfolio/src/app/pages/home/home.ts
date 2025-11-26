@@ -34,6 +34,8 @@ export class HomeComponent implements AfterViewInit {
   private currentSection = 0;
   private sections: HTMLElement[] = [];
   private isMobile = false;
+  private wheelThrottleTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly WHEEL_THROTTLE = 100;
 
   ngAfterViewInit(): void {
     this.sections = Array.from(
@@ -51,7 +53,12 @@ export class HomeComponent implements AfterViewInit {
   onWheel(event: WheelEvent): void {
     if (this.isMobile) return;
     event.preventDefault();
-    if (!this.sections.length) return;
+    if (!this.sections.length || this.wheelThrottleTimer) return;
+
+    // Throttle wheel events for smoother performance
+    this.wheelThrottleTimer = setTimeout(() => {
+      this.wheelThrottleTimer = null;
+    }, this.WHEEL_THROTTLE);
 
     // Sync currentSection with actual scroll position
     this.detectCurrentSection();

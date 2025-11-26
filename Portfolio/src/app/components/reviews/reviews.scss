@@ -12,6 +12,7 @@
   align-items: center;
   max-width: $max-width-content;
   margin: 0 auto;
+  contain: layout style paint;
 
   @media (max-width: 768px) {
     padding: $section-padding-tablet 0;
@@ -137,6 +138,7 @@
   justify-content: flex-start;
   gap: 2rem;
   transition: transform 0.5s ease;
+  will-change: transform;
 
   &.transitioning {
     transition: transform 0.5s ease;

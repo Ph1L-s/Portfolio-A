@@ -196,8 +196,8 @@ nav {
     background: linear-gradient(35deg,
         rgba(28, 28, 28, 0.9) 10%,
         rgba(61, 207, 182, 0.2) 100%);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-radius: 1rem;
     gap: 1.5rem;
     z-index: 1000;

@@ -13,6 +13,7 @@
   position: relative;
   max-width: $max-width-content;
   margin: 0 auto;
+  contain: layout style paint;
 
   @media (max-width: 768px) {
     padding: $section-padding-tablet 0;
@@ -22,7 +23,7 @@
   @media (max-width: 480px) {
     padding: $section-padding-mobile 0;
   }
-  
+
   .background-dot {
     position: absolute;
     width: 80%;
@@ -31,9 +32,10 @@
     border-radius: 50%;
     top: 1%;
     left: -550px;
-    filter: blur(80px);
+    filter: blur(50px);
     z-index: 0;
     pointer-events: none;
+    will-change: transform;
   }
 }
 
