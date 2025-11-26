@@ -10,23 +10,12 @@ import { ContactForm } from '@components/contact-form/contact-form';
  * Home page component - main portfolio page.
  *
  * Serves as the main landing page that composes all portfolio sections:
- * - Hero section with introduction (eager loaded)
- * - About section with biography (lazy loaded on idle)
- * - Skills section with technology showcase (lazy loaded on viewport)
- * - Projects section with featured work (lazy loaded on viewport)
- * - Reviews section with client testimonials (lazy loaded on viewport)
- * - Contact form for inquiries (lazy loaded on viewport)
- *
- * @remarks
- * This is a container component that orchestrates all major sections of the
- * portfolio into a single-page scrollable layout.
- *
- * Uses Angular's @defer blocks for optimal performance:
- * - Hero loads immediately (above-the-fold content)
- * - About loads when browser is idle
- * - Other sections load when entering viewport with prefetch
- * - Angular automatically handles lazy loading via @defer blocks
- * - Reduces initial bundle size by ~60-70%
+ * - Hero section with introduction
+ * - About section with biography
+ * - Skills section with technology showcase
+ * - Projects section with featured work
+ * - Reviews section with client testimonials
+ * - Contact form for inquiries
  */
 @Component({
   selector: 'app-home',
@@ -42,44 +31,34 @@ import { ContactForm } from '@components/contact-form/contact-form';
   styleUrl: './home.scss'
 })
 export class HomeComponent implements AfterViewInit {
-  private sections: Element[] = [];
   private currentSection = 0;
-  private isScrolling = false;
+  private sections: HTMLElement[] = [];
+  private isMobile = false;
 
   ngAfterViewInit(): void {
     this.sections = Array.from(
       document.querySelectorAll('app-hero, app-about, app-skills, app-projects, app-reviews, app-footer')
     );
+    this.isMobile = window.innerWidth <= 1081;
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    this.isMobile = window.innerWidth <= 1081;
   }
 
   @HostListener('wheel', ['$event'])
   onWheel(event: WheelEvent): void {
-    // No preventDefault - user keeps control
-
-    if (this.isScrolling || !this.sections.length) return;
-
-    // Measure scroll intensity
-    const intensity = Math.abs(event.deltaY);
-
-    // Strong scroll = no intervention, let user scroll freely
-    if (intensity > 150) return;
-
-    this.isScrolling = true;
-
-    // Skip more sections with medium intensity
-    const sectionsToSkip = intensity > 80 ? 2 : 1;
+    if (this.isMobile) return;
+    event.preventDefault();
+    if (!this.sections.length) return;
 
     if (event.deltaY > 0) {
-      this.currentSection = Math.min(this.currentSection + sectionsToSkip, this.sections.length - 1);
+      this.currentSection = Math.min(this.currentSection + 1, this.sections.length - 1);
     } else {
-      this.currentSection = Math.max(this.currentSection - sectionsToSkip, 0);
+      this.currentSection = Math.max(this.currentSection - 1, 0);
     }
 
     this.sections[this.currentSection].scrollIntoView({ behavior: 'smooth' });
-
-    // Shorter debounce for responsiveness
-    setTimeout(() => {
-      this.isScrolling = false;
-    }, 400);
   }
 }
