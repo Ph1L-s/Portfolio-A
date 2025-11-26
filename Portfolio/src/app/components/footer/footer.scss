@@ -25,8 +25,12 @@
  * - Context: Dark background with social links and legal information
  */
 
-.footer {
+:host {
+  display: block;
   background: $color-bg-dark;
+}
+
+.footer {
   min-height: 200px;
   @include flex-center;
   @include content-container;

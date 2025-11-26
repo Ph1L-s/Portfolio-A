@@ -1,15 +1,23 @@
 @use 'abstracts/variables' as *;
 
+:host {
+  display: block;
+}
+
 .hero-section {
-  background: linear-gradient(35deg, #1C1C1C 0%, #1C1C1C 35%, #08463b 60%, #2a6b5f 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(35deg, #1C1C1C 0%, #1C1C1C 35%, #08463b 60%, #2a6b5f 100%);
+}
+
+.content-container {
   max-width: $max-width-content;
   margin: 0 auto;
+  width: 100%;
 }
 
 .hero-content {
