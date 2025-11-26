@@ -109,7 +109,7 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      transition: all 0.3s ease;
+      transition: border-color 0.3s ease, color 0.3s ease;
 
       @media (max-width: 480px) {
         padding: 10px 20px;
@@ -120,14 +120,15 @@
         padding: 8px 16px;
         width: 180px;
       }
-      
+
       .text-static {
         position: relative;
         z-index: 2;
         display: block;
         transition: transform 1.5s ease;
+        will-change: transform;
       }
-      
+
       .text-loop {
         position: absolute;
         left: 0;
@@ -141,6 +142,7 @@
         z-index: 1;
         opacity: 0;
         white-space: nowrap;
+        will-change: transform, opacity;
       }
       
       &:hover {

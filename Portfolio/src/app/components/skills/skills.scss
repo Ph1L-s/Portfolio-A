@@ -136,7 +136,7 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: border-color 0.3s ease, color 0.3s ease;
     text-decoration: none;
     display: inline-block;
 
@@ -147,14 +147,15 @@
     @media (max-width: 320px) {
       padding: 8px 16px;
     }
-    
+
     .text-static {
       position: relative;
       z-index: 2;
       display: block;
       transition: transform 1.5s ease;
+      will-change: transform;
     }
-    
+
     .text-loop {
       position: absolute;
       left: 0;
@@ -168,6 +169,7 @@
       z-index: 1;
       opacity: 0;
       white-space: nowrap;
+      will-change: transform, opacity;
     }
     
     &:hover {
@@ -269,6 +271,7 @@
       height: 100%;
       object-fit: contain;
       transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+      will-change: opacity, transform;
     }
 
     .icon-default {
