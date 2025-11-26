@@ -53,6 +53,9 @@ export class HomeComponent implements AfterViewInit {
     event.preventDefault();
     if (!this.sections.length) return;
 
+    // Sync currentSection with actual scroll position
+    this.detectCurrentSection();
+
     if (event.deltaY > 0) {
       this.currentSection = Math.min(this.currentSection + 1, this.sections.length - 1);
     } else {
@@ -60,5 +63,28 @@ export class HomeComponent implements AfterViewInit {
     }
 
     this.sections[this.currentSection].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /**
+   * Detects which section is currently most visible in viewport
+   */
+  private detectCurrentSection(): void {
+    const viewportTop = window.scrollY;
+    const viewportHeight = window.innerHeight;
+    let bestIndex = 0;
+    let bestDistance = Infinity;
+
+    for (let i = 0; i < this.sections.length; i++) {
+      const rect = this.sections[i].getBoundingClientRect();
+      const sectionTop = viewportTop + rect.top;
+      const distance = Math.abs(sectionTop - viewportTop);
+
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestIndex = i;
+      }
+    }
+
+    this.currentSection = bestIndex;
   }
 }
