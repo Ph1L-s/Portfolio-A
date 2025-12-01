@@ -148,15 +148,46 @@
         color: rgba(255, 255, 255, 0.6);
         transition: color 0.3s ease;
       }
-      
-      input.error-placeholder::placeholder, textarea.error-placeholder::placeholder {
-        color: #ff6b6b;
-      }
-      
+
       .field-container {
         position: relative;
+
+        .field-error {
+          display: block;
+          color: #ff6b6b;
+          font-size: 0.8rem;
+          margin-top: 0.25rem;
+          font-style: italic;
+          animation: fadeInError 0.2s ease-in-out;
+        }
+
+        input.has-error,
+        textarea.has-error {
+          color: #ff6b6b;
+
+          &::placeholder {
+            color: rgba(255, 107, 107, 0.6);
+          }
+        }
+
+        .underline.error-underline {
+          background: #ff6b6b;
+          opacity: 1;
+          box-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+        }
       }
     }
+  }
+}
+
+@keyframes fadeInError {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
