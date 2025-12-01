@@ -290,56 +290,30 @@
   border-radius: 20px;
   max-width: 1200px;
   width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
+  height: 80vh;
+  overflow-y: hidden;
   overflow-x: hidden;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   padding: 3rem;
   position: relative;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
 
-  // Custom scrollbar styling - subtle and non-intrusive
-  scrollbar-width: thin;  // Firefox: thin scrollbar
-  scrollbar-color: transparent transparent;  // Firefox: hidden by default
+  // Scroll + Fade only on smaller screens (<=1200px)
+  @media (max-width: 1200px) {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 
-  // Webkit browsers (Chrome, Safari, Edge)
-  &::-webkit-scrollbar {
-    width: 8px;  // Slim scrollbar width
-  }
+    // Subtle fade-out effect at bottom
+    mask-image: linear-gradient(to bottom, black 94%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 94%, transparent 100%);
 
-  &::-webkit-scrollbar-track {
-    background: transparent;  // Invisible track
-    margin: 20px 0;  // Respect border-radius at top/bottom
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: transparent;  // Hidden by default
-    border-radius: 10px;
-    transition: background 0.3s ease;
-  }
-
-  // Show subtle scrollbar on hover
-  &:hover::-webkit-scrollbar-thumb {
-    background: rgba(61, 207, 182, 0.3);  // Subtle teal matching brand color
-  }
-
-  // More visible when hovering directly on scrollbar
-  &::-webkit-scrollbar-thumb:hover {
-    background: rgba(61, 207, 182, 0.5);
-  }
-
-  // Most visible when actively dragging
-  &::-webkit-scrollbar-thumb:active {
-    background: rgba(61, 207, 182, 0.7);
-  }
-
-  // Firefox: show scrollbar on hover
-  &:hover {
-    scrollbar-color: rgba(61, 207, 182, 0.3) transparent;
+    // Hidden scrollbar
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar { display: none; }
   }
 }
 
@@ -510,13 +484,14 @@
   .lightbox-content {
     grid-template-columns: 1fr;
     padding: 2rem;
+    height: 85vh;
   }
 }
 
 @media (max-width: 480px) {
   .lightbox-content {
     padding: 1.5rem;
-    max-height: 85vh;
+    height: 90vh;
   }
 
   .lightbox-left {
