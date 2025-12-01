@@ -214,6 +214,17 @@ export class ContactForm implements OnInit, OnDestroy {
   });
 
   /**
+   * Signal tracking which fields have been touched (blurred).
+   * Used to show validation errors only after user interaction.
+   */
+  touched = signal<Record<string, boolean>>({
+    name: false,
+    email: false,
+    message: false,
+    agree: false
+  });
+
+  /**
    * Signal tracking whether the form is currently being submitted.
    * Used to disable the submit button and show loading state.
    */
@@ -308,48 +319,27 @@ export class ContactForm implements OnInit, OnDestroy {
 
   /**
    * Computed property returning the placeholder text for the name field.
-   * Shows error message if present, otherwise shows translated default placeholder.
    */
   namePlaceholder = computed(() => {
     this.currentLang(); // Trigger reactivity on language change
-    return this.errors().name || this.translate.instant('contact.placeholderName');
+    return this.translate.instant('contact.placeholderName');
   });
 
   /**
    * Computed property returning the placeholder text for the email field.
-   * Shows error message if present, otherwise shows translated default placeholder.
    */
   emailPlaceholder = computed(() => {
     this.currentLang(); // Trigger reactivity on language change
-    return this.errors().email || this.translate.instant('contact.placeholderEmail');
+    return this.translate.instant('contact.placeholderEmail');
   });
 
   /**
    * Computed property returning the placeholder text for the message field.
-   * Shows error message if present, otherwise shows translated default placeholder.
    */
   messagePlaceholder = computed(() => {
     this.currentLang(); // Trigger reactivity on language change
-    return this.errors().message || this.translate.instant('contact.placeholderMessage');
+    return this.translate.instant('contact.placeholderMessage');
   });
-
-  /**
-   * Computed property indicating whether the name field has an error.
-   * Used to apply error styling in the template.
-   */
-  nameErrorClass = computed(() => !!this.errors().name);
-
-  /**
-   * Computed property indicating whether the email field has an error.
-   * Used to apply error styling in the template.
-   */
-  emailErrorClass = computed(() => !!this.errors().email);
-
-  /**
-   * Computed property indicating whether the message field has an error.
-   * Used to apply error styling in the template.
-   */
-  messageErrorClass = computed(() => !!this.errors().message);
 
   /**
    * Computed property indicating whether the privacy checkbox has an error.
@@ -361,6 +351,51 @@ export class ContactForm implements OnInit, OnDestroy {
    * Computed property returning the privacy policy error text.
    */
   privacyErrorText = computed(() => this.errors().privacy);
+
+  /**
+   * Computed property returning the specific error message for the name field.
+   * Returns null if field is not touched or has no errors.
+   */
+  nameErrorMessage = computed(() => {
+    const nameControl = this.contactForm.get('name');
+    if (!nameControl || !this.touched()['name']) return null;
+    if (nameControl.hasError('required')) return 'contact.nameMissing';
+    return null;
+  });
+
+  /**
+   * Computed property returning the specific error message for the email field.
+   * Returns null if field is not touched or has no errors.
+   * Error priority: required > email format > trash email > suspicious pattern
+   */
+  emailErrorMessage = computed(() => {
+    const emailControl = this.contactForm.get('email');
+    if (!emailControl || !this.touched()['email']) return null;
+    if (emailControl.hasError('required')) return 'contact.emailRequired';
+    if (emailControl.hasError('email')) return 'contact.invalidEmail';
+    if (emailControl.hasError('trashEmail')) return 'contact.disposableEmailError';
+    if (emailControl.hasError('suspiciousEmail')) return 'contact.suspiciousEmailError';
+    return null;
+  });
+
+  /**
+   * Computed property returning the specific error message for the message field.
+   * Returns null if field is not touched or has no errors.
+   */
+  messageErrorMessage = computed(() => {
+    const messageControl = this.contactForm.get('message');
+    if (!messageControl || !this.touched()['message']) return null;
+    if (messageControl.hasError('required')) return 'contact.messageRequired';
+    return null;
+  });
+
+  /**
+   * Handler for field blur events. Marks the field as touched and triggers validation.
+   * @param fieldName - The name of the field that was blurred
+   */
+  onFieldBlur(fieldName: string): void {
+    this.touched.update(t => ({ ...t, [fieldName]: true }));
+  }
 
   /**
    * Handles form submission with validation, spam prevention, and backend communication.
@@ -475,31 +510,26 @@ export class ContactForm implements OnInit, OnDestroy {
    * Only the first error for each field is displayed to avoid overwhelming the user.
    */
   private showValidationErrors() {
+    // Mark all fields as touched to trigger inline error display
+    this.touched.set({
+      name: true,
+      email: true,
+      message: true,
+      agree: true
+    });
+
+    // Set privacy error (still uses the old error signal for the checkbox)
     const newErrors = { name: '', email: '', message: '', privacy: '' };
-
-    if (this.contactForm.get('name')?.hasError('required')) {
-      newErrors.name = this.translate.instant('contact.nameMissing');
-    }
-
-    if (this.contactForm.get('email')?.hasError('required')) {
-      newErrors.email = this.translate.instant('contact.emailRequired');
-    } else if (this.contactForm.get('email')?.hasError('email')) {
-      newErrors.email = this.translate.instant('contact.invalidEmail');
-    } else if (this.contactForm.get('email')?.hasError('trashEmail')) {
-      newErrors.email = this.translate.instant('contact.disposableEmailError');
-    } else if (this.contactForm.get('email')?.hasError('suspiciousEmail')) {
-      newErrors.email = this.translate.instant('contact.suspiciousEmailError');
-    }
-
-    if (this.contactForm.get('message')?.hasError('required')) {
-      newErrors.message = this.translate.instant('contact.messageRequired');
-    }
-
     if (this.contactForm.get('privacy')?.hasError('required')) {
       newErrors.privacy = this.translate.instant('contact.privacyError');
     }
-
     this.errors.set(newErrors);
+
+    // Scroll to first error field
+    setTimeout(() => {
+      const firstErrorField = document.querySelector('.has-error, .field-error');
+      firstErrorField?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 50);
   }
   
   /**
@@ -531,5 +561,6 @@ export class ContactForm implements OnInit, OnDestroy {
    */
   private clearAllErrors() {
     this.errors.set({ name: '', email: '', message: '', privacy: '' });
+    this.touched.set({ name: false, email: false, message: false, agree: false });
   }
 }
