@@ -18,32 +18,46 @@
           <div class="field-container">
             <div class="underline"></div>
             <label for="name">{{ 'contact.labelName' | translate }}</label>
-            @if (nameErrorClass()) {
-              <input type="text" id="name" formControlName="name" [placeholder]="namePlaceholder()" class="error-placeholder">
-            } @else {
-              <input type="text" id="name" formControlName="name" [placeholder]="namePlaceholder()">
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              [placeholder]="namePlaceholder()"
+              [class.has-error]="nameErrorMessage()"
+              (blur)="onFieldBlur('name')">
+            <div class="underline" [class.error-underline]="nameErrorMessage()"></div>
+            @if (nameErrorMessage()) {
+              <span class="field-error">{{ nameErrorMessage() | translate }}</span>
             }
-            <div class="underline"></div>
           </div>
 
           <div class="field-container">
             <label for="email">{{ 'contact.labelEmail' | translate }}</label>
-            @if (emailErrorClass()) {
-              <input type="email" id="email" formControlName="email" [placeholder]="emailPlaceholder()" class="error-placeholder">
-            } @else {
-              <input type="email" id="email" formControlName="email" [placeholder]="emailPlaceholder()">
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              [placeholder]="emailPlaceholder()"
+              [class.has-error]="emailErrorMessage()"
+              (blur)="onFieldBlur('email')">
+            <div class="underline" [class.error-underline]="emailErrorMessage()"></div>
+            @if (emailErrorMessage()) {
+              <span class="field-error">{{ emailErrorMessage() | translate }}</span>
             }
-            <div class="underline"></div>
           </div>
-          
+
           <div class="field-container">
             <label for="message">{{ 'contact.labelMessage' | translate }}</label>
-            @if (messageErrorClass()) {
-              <textarea id="message" formControlName="message" [placeholder]="messagePlaceholder()" class="error-placeholder"></textarea>
-            } @else {
-              <textarea id="message" formControlName="message" [placeholder]="messagePlaceholder()"></textarea>
+            <textarea
+              id="message"
+              formControlName="message"
+              [placeholder]="messagePlaceholder()"
+              [class.has-error]="messageErrorMessage()"
+              (blur)="onFieldBlur('message')"></textarea>
+            <div class="underline last-underline" [class.error-underline]="messageErrorMessage()"></div>
+            @if (messageErrorMessage()) {
+              <span class="field-error">{{ messageErrorMessage() | translate }}</span>
             }
-            <div class="underline last-underline"></div>
           </div>
         </div>
         
