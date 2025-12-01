@@ -46,7 +46,7 @@ $black-alpha-90: rgba(0, 0, 0, 0.9);
 $font-primary: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 $font-code: 'FiraCode', monospace;
 
-// Font Sizes (Desktop First)
+// Font Sizes (Desktop First) - Minimum 16px (1rem) for accessibility
 $font-size-hero: 6.5rem;
 $font-size-h1: 3rem;
 $font-size-h2: 2.5rem;
@@ -56,9 +56,13 @@ $font-size-h5: 1.3rem;
 $font-size-h6: 1.2rem;
 $font-size-body-large: 1.1rem;
 $font-size-body: 1rem;
-$font-size-body-small: 0.9rem;
-$font-size-caption: 0.8rem;
-$font-size-tiny: 0.75rem;
+$font-size-body-small: 1rem;   // min 16px (was 0.9rem)
+$font-size-caption: 1rem;      // min 16px (was 0.8rem)
+$font-size-tiny: 1rem;         // min 16px (was 0.75rem)
+
+// Lightbox specific sizes
+$font-size-lightbox-title: 6rem;
+$font-size-lightbox-subtitle: 2.4rem;
 
 // Line Heights
 $line-height-tight: 1.1;
