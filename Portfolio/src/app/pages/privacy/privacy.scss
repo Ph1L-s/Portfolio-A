@@ -26,7 +26,7 @@
   .page-title {
     text-align: center;
     color: #3DCFB6;
-    font-size: 3rem;
+    font-size: $font-size-h1;
     font-weight: 700;
     margin-bottom: 2rem;
     font-family: 'Fira Code', monospace;
@@ -38,14 +38,14 @@
     h2 {
       font-weight: 700;
       color: #3DCFB6;
-      font-size: 1.3rem;
+      font-size: $font-size-h5;
       margin: 2rem 0 1rem;
     }
 
     p {
       color: white;
       line-height: 1.7;
-      font-size: 1rem;
+      font-size: $font-size-body;
       margin: 1rem 0;
 
       strong {
@@ -55,7 +55,7 @@
     }
 
     .intro-text {
-      font-size: 1.1rem;
+      font-size: $font-size-body-large;
       margin-top: 0;
     }
 
@@ -67,7 +67,7 @@
       li {
         color: white;
         margin-bottom: 0.5rem;
-        font-size: 1rem;
+        font-size: $font-size-body;
         line-height: 1.6;
       }
     }
@@ -85,12 +85,12 @@
     gap: 1rem;
 
     .page-title {
-      font-size: 2.5rem;
+      font-size: $font-size-h2;
     }
 
     .privacy-section {
       h2 {
-        font-size: 1.2rem;
+        font-size: $font-size-h6;
       }
     }
   }
@@ -105,12 +105,12 @@
     margin: 0 1.5rem;
 
     .page-title {
-      font-size: 2rem;
+      font-size: $font-size-h3;
     }
 
     .privacy-section {
       h2 {
-        font-size: 1.1rem;
+        font-size: $font-size-body-large;
       }
     }
   }
@@ -121,7 +121,7 @@
     margin: 0 1rem;
 
     .page-title {
-      font-size: 1.8rem;
+      font-size: $font-size-h4;
     }
   }
 }

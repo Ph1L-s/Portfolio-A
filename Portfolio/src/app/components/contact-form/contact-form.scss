@@ -27,40 +27,40 @@
   
   .section-label {
     color: #3DCFB6;
-    font-size: 1rem;
+    font-size: $font-size-body;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1px;
     display: block;
     margin-bottom: 1rem;
   }
-  
+
   h2 {
     font-family: 'Fira Code', monospace;
-    font-size: 3rem;
+    font-size: $font-size-h1;
     font-weight: 700;
     color: #3DCFB6;
     margin-bottom: 2rem;
     line-height: 1.1;
   }
-  
+
   .contact-description {
     font-family: 'Fira Code', monospace;
-    font-size: 1.5rem;
+    font-size: $font-size-h4;
     color: #3DCFB6;
     font-weight: 500;
     margin-bottom: 2rem;
   }
-  
+
   .contact-text {
-    font-size: 1rem;
+    font-size: $font-size-body;
     line-height: 1.6;
     opacity: 0.9;
     margin-bottom: 1.5rem;
   }
-  
+
   .contact-cta {
-    font-size: 1rem;
+    font-size: $font-size-body;
     line-height: 1.6;
     opacity: 0.9;
     
@@ -83,21 +83,21 @@
         font-family: 'Fira Code', monospace;
         display: block;
         color: #3DCFB6;
-        font-size: 1.1rem;
+        font-size: $font-size-body-large;
         font-weight: 500;
         padding: 1.5rem 0 0.5rem 0;
       }
-      
+
       label:first-child {
         padding-top: 1rem;
       }
-      
+
       input, textarea {
         width: 100%;
         background: transparent;
         border: none;
         color: white;
-        font-size: 1rem;
+        font-size: $font-size-body;
         font-family: inherit;
         outline: none;
         padding: 0 0 1.5rem 0;
@@ -155,7 +155,7 @@
         .field-error {
           display: block;
           color: #ff6b6b;
-          font-size: 0.8rem;
+          font-size: $font-size-body;
           margin-top: 0.25rem;
           font-style: italic;
           animation: fadeInError 0.2s ease-in-out;
@@ -239,7 +239,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
+        font-size: $font-size-body;
         color: transparent;
         background: transparent;
         transition: all 0.3s ease;
@@ -258,7 +258,7 @@
       top: 100%;
       left: 0;
       color: #ff6b6b !important;
-      font-size: 1rem;
+      font-size: $font-size-body;
       margin-top: 0.4rem;
       font-style: italic;
       text-align: left;
@@ -280,7 +280,7 @@
 
     .privacy-text {
       color: rgba(255, 255, 255, 0.8);
-      font-size: 1rem;
+      font-size: $font-size-body;
       line-height: 1.4;
       margin: 0;
       display: block;
@@ -305,7 +305,7 @@
   border: 1px solid rgba(255, 255, 255, 0.9);
   padding: 1rem 2rem;
   border-radius: 25px;
-  font-size: 1rem;
+  font-size: $font-size-body;
   font-weight: 500;
   cursor: pointer;
   display: block;
@@ -328,7 +328,7 @@
   color: #3DCFB6;
   border-radius: 8px;
   text-align: center;
-  font-size: 1rem;
+  font-size: $font-size-body;
   line-height: 1.4;
 }
 
@@ -340,7 +340,7 @@
   color: #ff6b6b;
   border-radius: 8px;
   text-align: center;
-  font-size: 1rem;
+  font-size: $font-size-body;
   line-height: 1.4;
 }
 
@@ -351,7 +351,7 @@
   border: 1px solid #ffc107;
   color: #ffc107;
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: $font-size-body;
 }
 
 .rate-limit-error {
@@ -372,9 +372,9 @@
   
   .contact-left {
     text-align: center;
-    
+
     h2 {
-      font-size: 2.5rem;
+      font-size: $font-size-h2;
     }
   }
   
@@ -396,21 +396,21 @@
   
   .contact-left {
     h2 {
-      font-size: 2rem;
+      font-size: $font-size-h3;
     }
-    
+
     .contact-description {
-      font-size: 1.2rem;
+      font-size: $font-size-h6;
     }
   }
-  
+
   .contact-form .form-section label {
-    font-size: 1rem;
+    font-size: $font-size-body;
   }
 }
 
 @media (max-width: 320px) {
   .contact-left h2 {
-    font-size: 1.8rem;
+    font-size: $font-size-h4;
   }
 }

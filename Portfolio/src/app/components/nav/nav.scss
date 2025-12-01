@@ -1,3 +1,5 @@
+@use 'abstracts/variables' as *;
+
 nav {
   display: flex;
   align-items: center;
@@ -59,7 +61,7 @@ nav {
     position: relative;
     z-index: 2;
     min-width: 44px;
-    font-size: 1rem;
+    font-size: $font-size-body;
 
     @media (max-width: 480px) {
       padding: 6px 12px;
@@ -101,7 +103,7 @@ nav {
     font-weight: 300;
     transition: color 0.3s ease;
     position: relative;
-    font-size: 1rem;
+    font-size: $font-size-body;
     
     &::before {
       content: '';
@@ -224,7 +226,7 @@ nav {
       text-align: center;
       
       a {
-        font-size: 1.1rem;
+        font-size: $font-size-body-large;
         padding: 0.5rem 0;
         
         &::before {
