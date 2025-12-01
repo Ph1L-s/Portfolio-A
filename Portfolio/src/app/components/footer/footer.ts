@@ -1,5 +1,4 @@
 import { Component, HostListener } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 /**
@@ -169,7 +168,7 @@ export interface LogoAnimationConfig {
  */
 @Component({
   selector: 'app-footer',
-  imports: [RouterLink, TranslateModule],
+  imports: [TranslateModule],
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
   host: {
