@@ -126,7 +126,7 @@
   
   .section-label {
     color: #3DCFB6;
-    font-size: 1rem;
+    font-size: $font-size-body;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -162,7 +162,7 @@
   
   .section-title {
     font-family: 'Fira Code', monospace;
-    font-size: 3rem;
+    font-size: $font-size-h1;
     font-weight: 700;
     margin: 0 0 1.5rem;
     color: #3DCFB6;
@@ -181,7 +181,7 @@
   }
   
   .about-text {
-    font-size: 1rem;
+    font-size: $font-size-body;
     line-height: 1.7;
     margin-bottom: 1.5rem;
     opacity: 0.9;
@@ -215,7 +215,7 @@
     }
 
     span {
-      font-size: 1rem;
+      font-size: $font-size-body;
       opacity: 0.9;
       line-height: 1.6;
     }
