@@ -306,14 +306,24 @@
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
 
-    // Subtle fade-out effect at bottom
-    mask-image: linear-gradient(to bottom, black 94%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 94%, transparent 100%);
-
     // Hidden scrollbar
     scrollbar-width: none;
     -ms-overflow-style: none;
     &::-webkit-scrollbar { display: none; }
+
+    // Fade-to-transparent overlay at bottom
+    &::after {
+      content: '';
+      position: fixed;
+      bottom: 5vh;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.9) 100%);
+      pointer-events: none;
+      border-radius: 0 0 20px 20px;
+      z-index: 10;
+    }
   }
 }
 
