@@ -39,7 +39,7 @@
   
   .subtitle {
     font-family: 'FiraCode', monospace;
-    font-size: 1.95rem;
+    font-size: $font-size-h3;
     font-weight: 300;
     margin-bottom: 1rem;
     opacity: 0.9;
@@ -58,7 +58,7 @@
   }
   
   .main-title {
-    font-size: 6.5rem;
+    font-size: $font-size-hero;
     font-weight: 800;
     margin: 0;
     line-height: 1.1;
@@ -81,7 +81,7 @@
   }
   
   .description {
-    font-size: 1rem;
+    font-size: $font-size-body;
     font-weight: 400;
     margin-top: 1rem;
     opacity: 0.8;
@@ -197,7 +197,7 @@
   span {
     color: white;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: $font-size-body;
     white-space: nowrap;
     transition: color 0.3s ease;
   }
@@ -427,7 +427,7 @@
         align-items: center;
         gap: 0.8rem;
         color: #3dcfb6;
-        font-size: 1rem;
+        font-size: $font-size-body;
         font-weight: 500;
         white-space: nowrap;
         flex-shrink: 0;
