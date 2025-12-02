@@ -1,12 +1,26 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection, isDevMode } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection, isDevMode, APP_INITIALIZER } from '@angular/core';
 import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideServiceWorker } from '@angular/service-worker';
+
+/**
+ * Initializes translations before app bootstrap.
+ * Always loads English first as default, then applies saved language preference.
+ * This ensures translations are ready when components first render.
+ */
+export function initializeTranslations(translate: TranslateService) {
+  return () => {
+    translate.setDefaultLang('en');
+    const savedLang = localStorage.getItem('selectedLanguage')?.toLowerCase();
+    const langToUse = savedLang && (savedLang === 'en' || savedLang === 'de') ? savedLang : 'en';
+    return translate.use(langToUse).toPromise();
+  };
+}
 
 /**
  * Application configuration for the Angular portfolio.
@@ -59,14 +73,28 @@ export const appConfig: ApplicationConfig = {
      * Loads translations from assets/i18n/ directory.
      */
     provideTranslateService({
+      defaultLang: 'en',
       fallbackLang: 'en',
       loader: provideTranslateHttpLoader({
         prefix: './assets/i18n/',
         suffix: '.json'
       })
-    }), provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          })
+    }),
+
+    /**
+     * Initializes translations before app renders.
+     * Prevents translation keys from showing on first load.
+     */
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeTranslations,
+      deps: [TranslateService],
+      multi: true
+    },
+
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ]
 };
