@@ -23,6 +23,15 @@ import { Subscription } from 'rxjs';
 export class Reviews implements OnInit, OnDestroy {
   private translate = inject(TranslateService);
   private langChangeSubscription?: Subscription;
+
+  /** Responsive breakpoint configuration for card widths. */
+  private readonly CARD_CONFIG = {
+    gap: 32,
+    mobile: { maxWidth: 480, cardWidth: 0 },
+    tablet: { maxWidth: 768, cardWidth: 400 },
+    small: { maxWidth: 1024, cardWidth: 480 },
+    default: { cardWidth: 520 }
+  };
   /**
    * Current active testimonial index in the testimonials array.
    * Starts at the middle array (originalTestimonials.length) for infinite scroll.
@@ -152,40 +161,26 @@ export class Reviews implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Calculates the CSS transform string for carousel positioning.
-   *
-   * Centers the current testimonial by offsetting 50% and then shifting based on
-   * the current index. Each testimonial takes up 50% of the container width.
-   *
-   * @returns CSS translateX transform string
-   *
-   * @example
-   * // With currentIndex = 3
-   * // Returns: "translateX(calc(50% - 150%))"
-   *
-   * @remarks
-   * Uses pixel-based calculation for accurate centering with fixed-width cards.
-   * Centers the active card and positions prev/next cards with equal spacing.
-   */
+  /** Gets card width based on current viewport. */
+  private getCardWidth(): number {
+    if (typeof window === 'undefined') return this.CARD_CONFIG.default.cardWidth;
+
+    const width = window.innerWidth;
+    const { mobile, tablet, small } = this.CARD_CONFIG;
+
+    if (width <= mobile.maxWidth) return mobile.cardWidth;
+    if (width <= tablet.maxWidth) return tablet.cardWidth;
+    if (width <= small.maxWidth) return small.cardWidth;
+    return this.CARD_CONFIG.default.cardWidth;
+  }
+
+  /** Calculates CSS transform for carousel positioning. */
   getTransform(): string {
-    // Responsive card widths matching CSS breakpoints
-    let cardWidth = 520;
-    const gap = 32;
+    const cardWidth = this.getCardWidth();
+    if (cardWidth === 0) return 'none';
 
-    if (typeof window !== 'undefined') {
-      const width = window.innerWidth;
-      if (width <= 480) {
-        return 'none'; // Mobile: no transform needed
-      } else if (width <= 768) {
-        cardWidth = 400;
-      } else if (width <= 1024) {
-        cardWidth = 480;
-      }
-    }
-
-    const totalCardWidth = cardWidth + gap;
-    const offset = this.currentIndex * totalCardWidth;
+    const totalWidth = cardWidth + this.CARD_CONFIG.gap;
+    const offset = this.currentIndex * totalWidth;
     return `translateX(calc(50% - ${offset}px - ${cardWidth / 2}px))`;
   }
 
