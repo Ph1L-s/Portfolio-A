@@ -202,7 +202,6 @@
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  transition: opacity 0.5s ease;
 
   @media (max-width: 1440px) {
     right: 6rem;
@@ -222,14 +221,8 @@
     gap: 1.5rem;
   }
 
-  @media (max-width: 700px) {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-  }
-
-  @media (max-width: 480px) {
-    display: none;
+  @media (max-width: 320px) {
+    right: 1.5rem;
   }
 }
 
@@ -240,6 +233,14 @@
   height: 125px;
   width: 100%;
   position: relative;
+  opacity: 1;
+  transition: opacity 0.5s ease, height 0.5s ease;
+
+  @media (max-width: 700px) {
+    opacity: 0;
+    height: 0;
+    pointer-events: none;
+  }
 
   a, a:visited {
     color: white;
@@ -367,8 +368,8 @@
     left: 2rem;
   }
 
-  @media (max-width: 480px) {
-    display: none;
+  @media (max-width: 320px) {
+    left: 1.5rem;
   }
 
   .scroll-button {
