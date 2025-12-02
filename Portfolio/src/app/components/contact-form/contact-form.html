@@ -22,7 +22,7 @@
               type="text"
               id="name"
               formControlName="name"
-              [placeholder]="namePlaceholder()"
+              [placeholder]="'contact.placeholderName' | translate"
               [class.has-error]="nameErrorMessage()"
               (blur)="onFieldBlur('name')">
             <div class="underline" [class.error-underline]="nameErrorMessage()"></div>
@@ -37,7 +37,7 @@
               type="email"
               id="email"
               formControlName="email"
-              [placeholder]="emailPlaceholder()"
+              [placeholder]="'contact.placeholderEmail' | translate"
               [class.has-error]="emailErrorMessage()"
               (blur)="onFieldBlur('email')">
             <div class="underline" [class.error-underline]="emailErrorMessage()"></div>
@@ -51,7 +51,7 @@
             <textarea
               id="message"
               formControlName="message"
-              [placeholder]="messagePlaceholder()"
+              [placeholder]="'contact.placeholderMessage' | translate"
               [class.has-error]="messageErrorMessage()"
               (blur)="onFieldBlur('message')"></textarea>
             <div class="underline last-underline" [class.error-underline]="messageErrorMessage()"></div>
