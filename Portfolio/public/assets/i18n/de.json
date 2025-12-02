@@ -65,6 +65,7 @@
     "errorMessage": "Hoppla! Beim Senden deiner Nachricht ist etwas schiefgelaufen. Bitte versuche es später erneut.",
     "disposableEmailError": "Wegwerf-E-Mail-Adressen sind nicht erlaubt",
     "suspiciousEmailError": "E-Mail-Format erscheint verdächtig",
+    "unknownProvider": "Bitte verwende einen bekannten E-Mail-Anbieter (Gmail, Outlook, GMX, etc.)",
     "nameMissing": "Hoppla! Es scheint, dass dein Name fehlt",
     "emailRequired": "Deine E-Mail-Adresse wird benötigt",
     "invalidEmail": "Bitte gib eine gültige E-Mail-Adresse ein",
