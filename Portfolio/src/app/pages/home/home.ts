@@ -33,7 +33,6 @@ import { ContactForm } from '@components/contact-form/contact-form';
 export class HomeComponent implements AfterViewInit {
   private currentSection = 0;
   private sections: HTMLElement[] = [];
-  private isMobile = false;
   private wheelThrottleTimer: ReturnType<typeof setTimeout> | null = null;
   private readonly WHEEL_THROTTLE = 100;
 
@@ -41,17 +40,11 @@ export class HomeComponent implements AfterViewInit {
     this.sections = Array.from(
       document.querySelectorAll('app-hero, app-about, app-skills, app-projects, app-reviews, app-footer')
     );
-    this.isMobile = window.innerWidth <= 1081;
-  }
-
-  @HostListener('window:resize')
-  onResize(): void {
-    this.isMobile = window.innerWidth <= 1081;
   }
 
   /** Checks if wheel navigation should be skipped. */
   private shouldSkipWheelNavigation(): boolean {
-    return this.isMobile || !this.sections.length || !!this.wheelThrottleTimer;
+    return !this.sections.length || !!this.wheelThrottleTimer;
   }
 
   /** Starts wheel throttle timer. */
@@ -83,7 +76,8 @@ export class HomeComponent implements AfterViewInit {
   private findClosestSection(): number {
     const viewportTop = window.scrollY;
     return this.sections.reduce((best, section, i) => {
-      const distance = Math.abs(viewportTop + section.getBoundingClientRect().top - viewportTop);
+      const sectionTop = viewportTop + section.getBoundingClientRect().top;
+      const distance = Math.abs(sectionTop - viewportTop);
       return distance < best.distance ? { index: i, distance } : best;
     }, { index: 0, distance: Infinity }).index;
   }
