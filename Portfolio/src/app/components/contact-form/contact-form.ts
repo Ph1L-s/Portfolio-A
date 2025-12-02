@@ -415,24 +415,67 @@ export class ContactForm implements OnInit, OnDestroy {
     this.touched.update(t => ({ ...t, [fieldName]: true }));
   }
 
-  /**
-   * Handles form submission with validation, spam prevention, and backend communication.
-   *
-   * Process flow:
-   * 1. Validates all form fields
-   * 2. If invalid, displays error messages and exits
-   * 3. If valid, sends data to PHP backend via HTTP POST
-   * 4. Handles success/error responses and updates UI accordingly
-   * 5. Resets form on success
-   *
-   * @returns void
-   *
-   * @remarks
-   * - The honeypot field ('website') is included in submission for backend validation
-   * - Success/error status automatically resets after 5 seconds
-   * - Form is disabled during submission via isSubmitting signal
-   * - All errors are cleared before submission attempt
-   */
+  /** Prepares form data for submission. */
+  private prepareFormData() {
+    return {
+      name: this.contactForm.get('name')?.value,
+      email: this.contactForm.get('email')?.value,
+      message: this.contactForm.get('message')?.value,
+      agree: this.contactForm.get('privacy')?.value,
+      website: this.contactForm.get('website')?.value
+    };
+  }
+
+  /** Handles successful form submission response. */
+  private handleSubmitSuccess(responseText: string) {
+    try {
+      const response = JSON.parse(responseText);
+      console.info('Mail sent successfully:', response);
+      if (response.remaining !== undefined) this.remainingEmails.set(response.remaining);
+      if (response.showWarning) this.showRateLimitWarning.set(true);
+    } catch { /* Non-JSON response, still success */ }
+
+    this.submitStatus.set('success');
+    this.contactForm.reset();
+    this.clearAllErrors();
+    this.clearSession();
+  }
+
+  /** Handles form submission error response. */
+  private handleSubmitError(error: any) {
+    console.error('Error sending mail:', error);
+
+    if (error.status === 429) {
+      this.handleRateLimitError(error);
+    } else {
+      this.submitStatus.set('error');
+    }
+  }
+
+  /** Handles rate limit (HTTP 429) error. */
+  private handleRateLimitError(error: any) {
+    this.submitStatus.set('rate_limited');
+    this.remainingEmails.set(0);
+
+    try {
+      const response = JSON.parse(error.error);
+      this.cooldownMinutes.set(Math.ceil(response.cooldown / 60));
+    } catch {
+      this.cooldownMinutes.set(15);
+    }
+  }
+
+  /** Resets submit status after timeout. */
+  private resetStatusAfterTimeout() {
+    this.isSubmitting.set(false);
+    const timeout = this.submitStatus() === 'rate_limited' ? 10000 : 5000;
+    setTimeout(() => {
+      this.submitStatus.set('idle');
+      this.showRateLimitWarning.set(false);
+    }, timeout);
+  }
+
+  /** Handles form submission. */
   onSubmit() {
     if (!this.contactForm.valid) {
       this.showValidationErrors();
@@ -443,111 +486,41 @@ export class ContactForm implements OnInit, OnDestroy {
     this.submitStatus.set('idle');
     this.clearAllErrors();
 
-    const formData = {
-      name: this.contactForm.get('name')?.value,
-      email: this.contactForm.get('email')?.value,
-      message: this.contactForm.get('message')?.value,
-      agree: this.contactForm.get('privacy')?.value,
-      website: this.contactForm.get('website')?.value // Honeypot field
-    };
+    const formData = this.prepareFormData();
 
     this.http.post(this.post.endPoint, this.post.body(formData), this.post.options)
       .subscribe({
-        next: (responseText) => {
-          try {
-            const response = JSON.parse(responseText as string);
-            console.info('Mail sent successfully:', response);
-            this.submitStatus.set('success');
-            this.contactForm.reset();
-            this.clearAllErrors();
-            this.clearSession();
-
-            // Update rate limit status from response
-            if (response.remaining !== undefined) {
-              this.remainingEmails.set(response.remaining);
-            }
-            if (response.showWarning) {
-              this.showRateLimitWarning.set(true);
-            }
-          } catch (e) {
-            // Fallback for non-JSON response
-            this.submitStatus.set('success');
-            this.contactForm.reset();
-            this.clearAllErrors();
-            this.clearSession();
-          }
-        },
-        error: (error) => {
-          console.error('Error sending mail:', error);
-
-          // Handle rate limit error (HTTP 429)
-          if (error.status === 429) {
-            try {
-              const response = JSON.parse(error.error);
-              this.submitStatus.set('rate_limited');
-              this.cooldownMinutes.set(Math.ceil(response.cooldown / 60));
-              this.remainingEmails.set(0);
-            } catch (e) {
-              this.submitStatus.set('rate_limited');
-              this.cooldownMinutes.set(15);
-            }
-          } else {
-            this.submitStatus.set('error');
-          }
-        },
-        complete: () => {
-          this.isSubmitting.set(false);
-          // Reset status after 5 seconds (except rate_limited which stays longer)
-          const timeout = this.submitStatus() === 'rate_limited' ? 10000 : 5000;
-          setTimeout(() => {
-            this.submitStatus.set('idle');
-            this.showRateLimitWarning.set(false);
-          }, timeout);
-        }
+        next: (response) => this.handleSubmitSuccess(response as string),
+        error: (error) => this.handleSubmitError(error),
+        complete: () => this.resetStatusAfterTimeout()
       });
   }
   
-  /**
-   * Collects and displays validation error messages for all form fields.
-   *
-   * Checks each form field for validation errors and generates appropriate
-   * user-friendly error messages. Error messages are stored in the errors signal
-   * which triggers UI updates via computed properties.
-   *
-   * Error priority (for email field):
-   * 1. Required error
-   * 2. Email format error
-   * 3. Disposable email error
-   * 4. Suspicious pattern error
-   *
-   * @returns void
-   * @private
-   *
-   * @remarks
-   * This method is called when form submission is attempted with invalid fields.
-   * Only the first error for each field is displayed to avoid overwhelming the user.
-   */
-  private showValidationErrors() {
-    // Mark all fields as touched to trigger inline error display
-    this.touched.set({
-      name: true,
-      email: true,
-      message: true,
-      agree: true
-    });
+  /** Marks all fields as touched. */
+  private markAllFieldsTouched() {
+    this.touched.set({ name: true, email: true, message: true, agree: true });
+  }
 
-    // Set privacy error (still uses the old error signal for the checkbox)
-    const newErrors = { name: '', email: '', message: '', privacy: '' };
-    if (this.contactForm.get('privacy')?.hasError('required')) {
-      newErrors.privacy = this.translate.instant('contact.privacyError');
-    }
-    this.errors.set(newErrors);
+  /** Updates privacy error state. */
+  private updatePrivacyError() {
+    const hasPrivacyError = this.contactForm.get('privacy')?.hasError('required');
+    const privacyMsg = hasPrivacyError ? this.translate.instant('contact.privacyError') : '';
+    this.errors.set({ name: '', email: '', message: '', privacy: privacyMsg });
+  }
 
-    // Scroll to first error field
+  /** Scrolls to first error field. */
+  private scrollToFirstError() {
     setTimeout(() => {
-      const firstErrorField = document.querySelector('.has-error, .field-error');
-      firstErrorField?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const errorField = document.querySelector('.has-error, .field-error');
+      errorField?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 50);
+  }
+
+  /** Displays validation errors for all form fields. */
+  private showValidationErrors() {
+    this.markAllFieldsTouched();
+    this.updatePrivacyError();
+    this.scrollToFirstError();
   }
   
   /**
