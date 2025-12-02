@@ -22,6 +22,24 @@ require_once __DIR__ . '/phpmailer/Exception.php';
 // Load SMTP configuration
 $smtpConfig = require __DIR__ . '/smtp-config.php';
 
+// Whitelist of allowed email domains
+$allowedDomains = [
+    // Große internationale Provider
+    'gmail.com', 'googlemail.com', 'outlook.com', 'outlook.de',
+    'hotmail.com', 'hotmail.de', 'live.com', 'live.de',
+    'yahoo.com', 'yahoo.de', 'icloud.com', 'me.com', 'mac.com',
+    'msn.com', 'aol.com', 'aol.de', 'protonmail.com', 'proton.me',
+    'zoho.com', 'fastmail.com', 'tutanota.com', 'tutamail.com',
+    // Deutsche Provider
+    'gmx.de', 'gmx.net', 'gmx.at', 'gmx.ch',
+    'web.de', 't-online.de', 'freenet.de', 'arcor.de',
+    'posteo.de', 'posteo.net', 'mailbox.org',
+    '1und1.de', 'online.de', 'email.de',
+    'vodafone.de', 'o2online.de', 'telekom.de',
+    // Österreich/Schweiz
+    'a1.net', 'chello.at', 'bluewin.ch', 'sunrise.ch'
+];
+
 // Trashmail/Disposable email domain blacklist
 $blacklistedDomains = [
     '10minutemail.com', '20minutemail.com', '2prong.com', '3d-game.com', '4warding.com',
@@ -220,6 +238,12 @@ function recordSuccessfulSend() {
     saveRateLimits($limits);
 }
 
+function isAllowedEmailDomain($email) {
+    global $allowedDomains;
+    $domain = strtolower(substr(strrchr($email, "@"), 1));
+    return in_array($domain, $allowedDomains);
+}
+
 function isTrashEmailDomain($email) {
     global $blacklistedDomains;
     $domain = strtolower(substr(strrchr($email, "@"), 1));
@@ -291,6 +315,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if (!empty($honeypot)) {
             http_response_code(400);
             echo json_encode(['status' => 'error', 'message' => 'Spam detected']);
+            exit;
+        }
+
+        if (!isAllowedEmailDomain($email)) {
+            http_response_code(400);
+            echo json_encode(['status' => 'error', 'message' => 'Please use a known email provider (Gmail, Outlook, GMX, etc.)']);
             exit;
         }
 
