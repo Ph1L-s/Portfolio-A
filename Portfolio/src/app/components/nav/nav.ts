@@ -123,36 +123,23 @@ export class Nav implements OnInit {
     document.body.style.overflow = '';
   }
 
-  /**
-   * Scrolls smoothly to a section identified by its ID.
-   *
-   * @param event - The click event from the anchor link
-   * @param sectionId - The ID of the target section (without #)
-   * @returns void
-   *
-   * @remarks
-   * Prevents default anchor link behavior and uses smooth scrolling.
-   * Automatically closes the mobile menu after initiating scroll.
-   * If not on home page, navigates to home first, then scrolls to section.
-   */
+  /** Scrolls to element by ID with smooth behavior. */
+  private scrollToElement(sectionId: string) {
+    const element = document.getElementById(sectionId);
+    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /** Scrolls to section, navigating to home first if needed. */
   scrollToSection(event: Event, sectionId: string) {
     event.preventDefault();
     this.closeMenu();
 
     if (this.router.url !== '/') {
       this.router.navigate(['/']).then(() => {
-        setTimeout(() => {
-          const element = document.getElementById(sectionId);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 100);
+        setTimeout(() => this.scrollToElement(sectionId), 100);
       });
     } else {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      this.scrollToElement(sectionId);
     }
   }
 }
