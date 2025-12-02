@@ -300,11 +300,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
             exit;
         }
 
-        if (!hasValidMXRecord($email)) {
-            http_response_code(400);
-            echo json_encode(['status' => 'error', 'message' => 'Invalid email domain']);
-            exit;
-        }
+        // MX Record validation removed - can cause false positives due to DNS issues
+        // if (!hasValidMXRecord($email)) {
+        //     http_response_code(400);
+        //     echo json_encode(['status' => 'error', 'message' => 'Invalid email domain']);
+        //     exit;
+        // }
 
         if (!isValidEmailPattern($email)) {
             http_response_code(400);
