@@ -65,6 +65,7 @@
     "errorMessage": "Oops! Something went wrong while sending your message. Please try again later.",
     "disposableEmailError": "Disposable email addresses are not allowed",
     "suspiciousEmailError": "Email format appears suspicious",
+    "unknownProvider": "Please use a known email provider (Gmail, Outlook, GMX, etc.)",
     "nameMissing": "Oops! It seems your name is missing",
     "emailRequired": "Your email is required",
     "invalidEmail": "Please enter a valid email address",
