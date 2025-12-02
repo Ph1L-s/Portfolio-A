@@ -1,5 +1,6 @@
-<section id="projects" class="projects-section">
-  <div class="container">
+<div class="projects-outer-wrapper">
+  <section id="projects" class="projects-section">
+    <div class="container">
     <div class="projects-header" data-aos="fade-up">
       <span class="section-label">{{ 'projects.headline' | translate }}</span>
       <h2 class="section-title">{{ 'projects.featured' | translate }}</h2>
@@ -40,8 +41,9 @@
         }
       </div>
     </div>
-  </div>
-</section>
+    </div>
+  </section>
+</div>
 
 <!-- Lightbox -->
 @if (selectedProject) {
