@@ -1,5 +1,6 @@
-import { Component, ViewEncapsulation, inject, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, inject, OnInit, OnDestroy } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-hero',
@@ -8,20 +9,21 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrl: './hero.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class Hero implements OnInit {
+export class Hero implements OnInit, OnDestroy {
   private translate = inject(TranslateService);
+  private langSubscription?: Subscription;
 
-  // Marquee info items - defined once, duplicated in template
   infoItems: string[] = [];
 
   ngOnInit() {
-    // Initialize with translated values
     this.updateInfoItems();
-
-    // Update when language changes
-    this.translate.onLangChange.subscribe(() => {
+    this.langSubscription = this.translate.onLangChange.subscribe(() => {
       this.updateInfoItems();
     });
+  }
+
+  ngOnDestroy() {
+    this.langSubscription?.unsubscribe();
   }
 
   private updateInfoItems() {

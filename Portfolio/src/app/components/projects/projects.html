@@ -50,7 +50,7 @@
       <button class="close-btn" (click)="closeProject()">×</button>
       
       <div class="lightbox-left">
-        <h4>{{ (selectedIndex || 0) + 1 < 10 ? '0' + ((selectedIndex || 0) + 1) : (selectedIndex || 0) + 1 }}</h4>
+        <h4>{{ formatProjectNumber(selectedIndex) }}</h4>
         <h2>{{ selectedProject.nameKey }}</h2>
         <h3>{{ 'projects.about' | translate }}</h3>
         <p>{{ selectedProject.descriptionKey | translate }}</p>

@@ -43,24 +43,13 @@ export class Projects {
    */
   selectedIndex: number | null = null;
 
-  /**
-   * Calculates the vertical offset percentage for project card images.
-   *
-   * Returns different top position percentages for visual variety in the project grid.
-   * Creates a staggered layout where project cards appear at different vertical positions.
-   *
-   * @param index - The index of the project in the projects array
-   * @returns CSS top position as a percentage string
-   *
-   * @example
-   * getImageTop(0) // Returns "0%"
-   * getImageTop(1) // Returns "10%"
-   * getImageTop(2) // Returns "20%"
-   *
-   * @remarks
-   * The pattern repeats every 3 projects. Indices beyond 2 will use modulo
-   * to wrap back to the pattern.
-   */
+  /** Formats project number with leading zero. */
+  formatProjectNumber(index: number | null): string {
+    const num = (index ?? 0) + 1;
+    return num < 10 ? `0${num}` : `${num}`;
+  }
+
+  /** Calculates vertical offset for project card images. */
   getImageTop(index: number): string {
     const percentages = [0, 10, 20];
     return percentages[index] + '%';
