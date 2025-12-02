@@ -64,37 +64,28 @@ export class App implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Prints ASCII art initials "P.S" to the browser console.
-   * Uses website brand colors (green #3DCFB6 and white).
-   */
-  private printConsoleArt(): void {
-    const asciiArt = `
+  /** Console styling constants. */
+  private readonly CONSOLE_STYLES = {
+    white: 'color: #FFFFFF; font-weight: bold;',
+    green: 'color: #3DCFB6; font-weight: bold;',
+    title: 'color: #3DCFB6; font-size: 14px; font-weight: bold;'
+  };
+
+  /** ASCII art logo. */
+  private readonly ASCII_ART = `
 %c██████╗ %c   %c███████╗
 %c██╔══██╗%c   %c██╔════╝
 %c██████╔╝%c   %c███████╗
 %c██╔═══╝ %c   %c╚════██║
 %c██║     %c██╗%c███████║
-%c╚═╝     %c╚═╝%c╚══════╝
-`;
-    const white = 'color: #FFFFFF; font-weight: bold;';
-    const green = 'color: #3DCFB6; font-weight: bold;';
-    const dot = 'color: #3DCFB6; font-weight: bold;';
+%c╚═╝     %c╚═╝%c╚══════╝`;
 
-    console.log(
-      asciiArt,
-      white, dot, green,
-      white, dot, green,
-      white, dot, green,
-      white, dot, green,
-      white, dot, green,
-      white, dot, green
-    );
-
-    console.log(
-      '%cFrontend Developer',
-      'color: #3DCFB6; font-size: 14px; font-weight: bold;'
-    );
+  /** Prints ASCII art to console. */
+  private printConsoleArt(): void {
+    const { white, green } = this.CONSOLE_STYLES;
+    const styles = Array(6).fill([white, green, green]).flat();
+    console.log(this.ASCII_ART, ...styles);
+    console.log('%cFrontend Developer', this.CONSOLE_STYLES.title);
   }
 
   /**

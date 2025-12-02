@@ -1,25 +1,15 @@
-<nav>
-  <!-- Mobile backdrop overlay -->
-  <div class="mobile-backdrop" *ngIf="isMenuOpen" (click)="toggleMenu()"></div>
-  
-  <!-- Desktop navigation -->
+<nav role="navigation">
+  @if (isMenuOpen) {
+    <div class="mobile-backdrop" (click)="toggleMenu()" [attr.aria-hidden]="!isMenuOpen"></div>
+  }
+
   <div class="nav-container">
     <div class="navbar-left" [class.open]="isMenuOpen">
       <div class="language-toggle" [class.de-active]="selectedLanguage === 'DE'">
-        <button 
-          class="lang-btn" 
-          [class.active]="selectedLanguage === 'EN'"
-          (click)="selectLanguage('EN')">
-          EN
-        </button>
-        <button 
-          class="lang-btn" 
-          [class.active]="selectedLanguage === 'DE'"
-          (click)="selectLanguage('DE')">
-          DE
-        </button>
+        <button class="lang-btn" [class.active]="selectedLanguage === 'EN'" (click)="selectLanguage('EN')">EN</button>
+        <button class="lang-btn" [class.active]="selectedLanguage === 'DE'" (click)="selectLanguage('DE')">DE</button>
       </div>
-      
+
       <ul class="nav-links">
         <li><a href="#about" (click)="scrollToSection($event, 'about')">{{ 'navbar.about' | translate }}</a></li>
         <li><a href="#skills" (click)="scrollToSection($event, 'skills')">{{ 'navbar.skills' | translate }}</a></li>
@@ -27,12 +17,12 @@
         <li><a href="#contact" (click)="scrollToSection($event, 'contact')">{{ 'navbar.contact' | translate }}</a></li>
       </ul>
     </div>
-    
-    <!-- Burger menu (mobile only) -->
-    <div class="burger" (click)="toggleMenu()" [class.active]="isMenuOpen">
+
+    <button class="burger" (click)="toggleMenu()" [class.active]="isMenuOpen"
+            [attr.aria-expanded]="isMenuOpen" aria-label="Toggle navigation">
       <span></span>
       <span></span>
       <span></span>
-    </div>
+    </button>
   </div>
 </nav>

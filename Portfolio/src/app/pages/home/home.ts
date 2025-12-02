@@ -49,49 +49,47 @@ export class HomeComponent implements AfterViewInit {
     this.isMobile = window.innerWidth <= 1081;
   }
 
-  @HostListener('wheel', ['$event'])
-  onWheel(event: WheelEvent): void {
-    if (this.isMobile) return;
-    event.preventDefault();
-    if (!this.sections.length || this.wheelThrottleTimer) return;
+  /** Checks if wheel navigation should be skipped. */
+  private shouldSkipWheelNavigation(): boolean {
+    return this.isMobile || !this.sections.length || !!this.wheelThrottleTimer;
+  }
 
-    // Throttle wheel events for smoother performance
+  /** Starts wheel throttle timer. */
+  private startThrottleTimer(): void {
     this.wheelThrottleTimer = setTimeout(() => {
       this.wheelThrottleTimer = null;
     }, this.WHEEL_THROTTLE);
+  }
 
-    // Sync currentSection with actual scroll position
-    this.detectCurrentSection();
-
-    if (event.deltaY > 0) {
-      this.currentSection = Math.min(this.currentSection + 1, this.sections.length - 1);
-    } else {
-      this.currentSection = Math.max(this.currentSection - 1, 0);
-    }
-
+  /** Navigates to next or previous section. */
+  private navigateSection(direction: number): void {
+    const max = this.sections.length - 1;
+    this.currentSection = direction > 0
+      ? Math.min(this.currentSection + 1, max)
+      : Math.max(this.currentSection - 1, 0);
     this.sections[this.currentSection].scrollIntoView({ behavior: 'smooth' });
   }
 
-  /**
-   * Detects which section is currently most visible in viewport
-   */
-  private detectCurrentSection(): void {
+  @HostListener('wheel', ['$event'])
+  onWheel(event: WheelEvent): void {
+    if (this.shouldSkipWheelNavigation()) return;
+    event.preventDefault();
+    this.startThrottleTimer();
+    this.detectCurrentSection();
+    this.navigateSection(event.deltaY);
+  }
+
+  /** Finds section closest to current viewport. */
+  private findClosestSection(): number {
     const viewportTop = window.scrollY;
-    const viewportHeight = window.innerHeight;
-    let bestIndex = 0;
-    let bestDistance = Infinity;
+    return this.sections.reduce((best, section, i) => {
+      const distance = Math.abs(viewportTop + section.getBoundingClientRect().top - viewportTop);
+      return distance < best.distance ? { index: i, distance } : best;
+    }, { index: 0, distance: Infinity }).index;
+  }
 
-    for (let i = 0; i < this.sections.length; i++) {
-      const rect = this.sections[i].getBoundingClientRect();
-      const sectionTop = viewportTop + rect.top;
-      const distance = Math.abs(sectionTop - viewportTop);
-
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        bestIndex = i;
-      }
-    }
-
-    this.currentSection = bestIndex;
+  /** Syncs currentSection with actual scroll position. */
+  private detectCurrentSection(): void {
+    this.currentSection = this.findClosestSection();
   }
 }

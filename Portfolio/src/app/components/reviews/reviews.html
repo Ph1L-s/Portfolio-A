@@ -5,8 +5,8 @@
     </div>
 
     <div class="testimonial-carousel" data-aos="fade-up" data-aos-delay="200">
-      <div class="testimonial-track" 
-           [class.transitioning]="isTransitioning" 
+      <div class="testimonial-track" aria-live="polite"
+           [class.transitioning]="isTransitioning"
            [style.transform]="getTransform()">
         @for (testimonial of testimonials; track $index) {
           <div class="testimonial-card"

@@ -214,16 +214,17 @@
   transform: rotate(90deg);
   transform-origin: center;
 
-  span {
+  a, a:visited {
     color: white;
     font-weight: 500;
     font-size: $font-size-body;
     white-space: nowrap;
+    text-decoration: none;
     transition: color 0.3s ease;
   }
-  
-  &:hover span {
-    color: #3dcfb6;
+
+  a:hover {
+    color: $color-primary;
   }
 }
 
