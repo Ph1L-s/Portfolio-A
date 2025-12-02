@@ -74,19 +74,25 @@
     font-weight: 800;
     margin: 0;
     line-height: 1.1;
-    
+
     @media (max-width: 1080px) {
       font-size: 5.5rem;
     }
-    
+
+    @media (max-width: 950px) {
+      display: flex;
+      flex-direction: column;
+      word-spacing: 9999px;
+    }
+
     @media (max-width: 768px) {
       font-size: 4rem;
     }
-    
+
     @media (max-width: 480px) {
       font-size: 3rem;
     }
-    
+
     @media (max-width: 320px) {
       font-size: 2.5rem;
     }
@@ -195,24 +201,45 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7rem;
+  gap: 2rem;
+  transition: opacity 0.5s ease;
 
   @media (max-width: 1440px) {
     right: 6rem;
   }
 
+  @media (max-width: 1150px) {
+    right: 3rem;
+    gap: 1.5rem;
+  }
+
   @media (max-width: 1080px) {
-    right: 4rem;
+    right: 2.5rem;
   }
 
   @media (max-width: 768px) {
+    right: 2rem;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 700px) {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+
+  @media (max-width: 480px) {
     display: none;
   }
 }
 
 .email-vertical {
-  transform: rotate(90deg);
-  transform-origin: center;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 125px;
+  width: 100%;
+  position: relative;
 
   a, a:visited {
     color: white;
@@ -221,6 +248,10 @@
     white-space: nowrap;
     text-decoration: none;
     transition: color 0.3s ease;
+    transform: rotate(90deg);
+    transform-origin: center;
+    position: absolute;
+    top: 0;
   }
 
   a:hover {
