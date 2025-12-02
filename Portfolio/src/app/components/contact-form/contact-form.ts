@@ -187,46 +187,6 @@ export class ContactForm implements OnInit, OnDestroy {
     return null;
   };
 
-  /**
-   * Whitelist of allowed email domains.
-   * Only emails from these known providers are accepted.
-   */
-  private allowedDomains = [
-    // Große internationale Provider
-    'gmail.com', 'googlemail.com', 'outlook.com', 'outlook.de',
-    'hotmail.com', 'hotmail.de', 'live.com', 'live.de',
-    'yahoo.com', 'yahoo.de', 'icloud.com', 'me.com', 'mac.com',
-    'msn.com', 'aol.com', 'aol.de', 'protonmail.com', 'proton.me',
-    'zoho.com', 'fastmail.com', 'tutanota.com', 'tutamail.com',
-    // Deutsche Provider
-    'gmx.de', 'gmx.net', 'gmx.at', 'gmx.ch',
-    'web.de', 't-online.de', 'freenet.de', 'arcor.de',
-    'posteo.de', 'posteo.net', 'mailbox.org',
-    '1und1.de', 'online.de', 'email.de',
-    'vodafone.de', 'o2online.de', 'telekom.de',
-    // Österreich/Schweiz
-    'a1.net', 'chello.at', 'bluewin.ch', 'sunrise.ch'
-  ];
-
-  /**
-   * Custom validator that only allows emails from known providers (whitelist approach).
-   *
-   * @param control - The form control containing the email value to validate
-   * @returns ValidationErrors with 'unknownProvider' key if domain not in whitelist, null if valid
-   */
-  private allowedDomainValidator = (control: AbstractControl): ValidationErrors | null => {
-    if (!control.value) return null;
-    const email = control.value.toLowerCase();
-    const domain = email.split('@')[1];
-
-    if (!domain) return null; // Let email validator handle this
-
-    if (!this.allowedDomains.includes(domain)) {
-      return { unknownProvider: true };
-    }
-
-    return null;
-  };
   
   /**
    * Contact form with validation for name, email, message, privacy policy, and honeypot field.
@@ -237,7 +197,7 @@ export class ContactForm implements OnInit, OnDestroy {
    */
   contactForm: FormGroup = this.fb.group({
     name: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email, this.noTrashEmailValidator, this.noSuspiciousPatternValidator, this.allowedDomainValidator]],
+    email: ['', [Validators.required, Validators.email, this.noTrashEmailValidator, this.noSuspiciousPatternValidator]],
     message: ['', [Validators.required]],
     privacy: [false, [Validators.requiredTrue]],
     website: [''] // Honeypot field
@@ -383,14 +343,13 @@ export class ContactForm implements OnInit, OnDestroy {
   /**
    * Computed property returning the specific error message for the email field.
    * Returns null if field is not touched or has no errors.
-   * Error priority: required > email format > unknown provider > trash email > suspicious pattern
+   * Error priority: required > email format > trash email > suspicious pattern
    */
   emailErrorMessage = computed(() => {
     const emailControl = this.contactForm.get('email');
     if (!emailControl || !this.touched()['email']) return null;
     if (emailControl.hasError('required')) return 'contact.emailRequired';
     if (emailControl.hasError('email')) return 'contact.invalidEmail';
-    if (emailControl.hasError('unknownProvider')) return 'contact.unknownProvider';
     if (emailControl.hasError('trashEmail')) return 'contact.disposableEmailError';
     if (emailControl.hasError('suspiciousEmail')) return 'contact.suspiciousEmailError';
     return null;
