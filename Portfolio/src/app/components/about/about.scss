@@ -20,6 +20,10 @@
   margin: 0 auto;
   contain: layout style paint;
 
+  @media (max-width: 1440px) {
+    min-height: 80vh;
+  }
+
   @media (max-width: 768px) {
     padding: $section-padding-tablet 0;
     min-height: auto;

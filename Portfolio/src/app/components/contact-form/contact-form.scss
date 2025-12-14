@@ -19,6 +19,14 @@
   max-width: $max-width-content;
   margin: 0 auto;
   contain: layout style paint;
+
+  @media (max-width: 1440px) {
+    min-height: 75vh;
+  }
+
+  @media (max-width: 768px) {
+    min-height: auto;
+  }
 }
 
 .contact-container {
