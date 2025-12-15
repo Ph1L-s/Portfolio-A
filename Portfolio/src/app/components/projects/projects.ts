@@ -43,6 +43,11 @@ export class Projects {
    */
   selectedIndex: number | null = null;
 
+  /**
+   * Stores scroll position before opening modal to restore after closing.
+   */
+  private scrollPosition = 0;
+
   /** Formats project number with leading zero. */
   formatProjectNumber(index: number | null): string {
     const num = (index ?? 0) + 1;
@@ -72,7 +77,9 @@ export class Projects {
   openProject(project: ProjectInterface, index: number) {
     this.selectedProject = project;
     this.selectedIndex = index;
-    document.body.style.overflow = 'hidden';
+    this.scrollPosition = window.scrollY;
+    document.documentElement.classList.add('no-scroll');
+    document.body.style.top = `-${this.scrollPosition}px`;
   }
 
   /**
@@ -89,7 +96,9 @@ export class Projects {
   closeProject() {
     this.selectedProject = null;
     this.selectedIndex = null;
-    document.body.style.overflow = '';
+    document.documentElement.classList.remove('no-scroll');
+    document.body.style.top = '';
+    window.scrollTo({ top: this.scrollPosition, behavior: 'instant' });
   }
 
   /**

@@ -274,7 +274,6 @@
   &.active{img,.image-shadow{opacity:1}}
 }
 
-// Lightbox Styles
 .lightbox-overlay {
   position: fixed;
   top: 0;
@@ -309,19 +308,20 @@
   padding: 3rem;
   position: relative;
 
-  // Scroll + Fade only on smaller screens (<=1200px)
+  @media (max-width: 1440px) {
+    height: 75vh;
+  }
+
   @media (max-width: 1200px) {
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
 
-    // Hidden scrollbar
     scrollbar-width: none;
     -ms-overflow-style: none;
     &::-webkit-scrollbar { display: none; }
 
-    // Fade-to-transparent overlay at bottom
     &::after {
       content: '';
       position: fixed;
@@ -351,6 +351,20 @@
 
 .lightbox-left {
   color: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 100%;
+
+  .lightbox-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 0.5rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar { display: none; }
+  }
 
   h4 {
     color: #3DCFB6;
@@ -407,7 +421,10 @@
 .project-links {
   display: flex;
   gap: 1rem;
-  
+  flex-shrink: 0;
+  margin-top: 1rem;
+  padding-top: 1rem;
+
   a {
     background: transparent;
     border: 2px solid white;
@@ -440,13 +457,25 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
-  .project-image img {
-    width: 100%;
-    border-radius: 1rem;
+  overflow: hidden;
+  max-height: 100%;
+
+  .project-image {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 100%;
+      border-radius: 1rem;
+      object-fit: contain;
+      max-height: 100%;
+    }
   }
-  
+
   .next-btn {
+    flex-shrink: 0;
     background: none;
     border: none;
     color: #3DCFB6;
@@ -475,7 +504,6 @@
   }
 }
 
-// Responsive
 @media (max-width: 1080px) {
   .projects-wrapper {
     flex-direction: column;
