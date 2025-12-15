@@ -20,17 +20,17 @@
   "about": {
     "headline": "Wer ich bin",
     "title": "Über mich",
-    "intro": "Hallo, ich bin Phillip! Mit einigen Informationen über dich selbst und deine Erfahrung kannst du beschreiben, wer du bist und was deine Inspirationsquelle für die Verbesserung deiner Programmierfähigkeiten ist.",
-    "location": "Wo bist du ansässig? Bist du offen für Remote-Arbeit oder einen möglichen Umzug?",
-    "mindset": "Zeige, dass du aufgeschlossen bist. Bist du begeistert davon, neue Technologien zu lernen und deine Fähigkeiten kontinuierlich zu verbessern?",
-    "approach": "Eine kurze Beschreibung deines Problemlösungsansatzes. Lernst du aus jeder Herausforderung, während du nach der effizientesten oder elegantesten Lösung suchst? Du kannst einige Schlagworte einbeziehen wie: analytisches Denken, Kreativität, Ausdauer und Zusammenarbeit."
+    "intro": "Hey, ich bin Phillip – ein leidenschaftlicher Junior Frontend-Entwickler, der es liebt, Ideen in sauberen, funktionalen Code zu verwandeln. Was mich antreibt, ist die Begeisterung für neue Herausforderungen und die endlosen Möglichkeiten, die die Webentwicklung bietet.",
+    "location": "Ich bin in Deutschland ansässig und voll verfügbar für Remote-Arbeit. Ich bin offen für Möglichkeiten, die es mir erlauben, als Entwickler zu wachsen und gleichzeitig zu bedeutsamen Projekten beizutragen.",
+    "mindset": "Ich glaube, dass jede neue Technologie eine Chance ist, meinen Horizont zu erweitern. Ob es darum geht, ein neues Framework zu erkunden oder ein komplexes Konzept zu meistern – ich begegne der Lernreise mit Neugier und Entschlossenheit.",
+    "approach": "Mein Ansatz in der Entwicklung verbindet analytisches Denken mit kreativer Problemlösung. Ich sehe jede Herausforderung als Chance, etwas Neues zu lernen, und bin bestrebt, Lösungen zu finden, die sowohl effizient als auch elegant sind."
   },
   "skills": {
     "technologies": "Technologien",
     "skillset": "Fähigkeiten",
-    "intro": "Eine kurze Einführung in deine Fähigkeiten. Hebe deine Erfahrung mit verschiedenen Frontend-Technologien hervor und betone deine Offenheit, neue Technologien zu lernen und dich anzupassen. Zeige, wie wichtig es für dich ist, mit den schnellen Veränderungen in der Webentwicklung Schritt zu halten.",
-    "anotherSkill": "Du brauchst eine weitere Fähigkeit?",
-    "contactMe": "Kontaktiere mich gerne. Ich freue mich darauf, mein Wissen weiter auszubauen.",
+    "intro": "Als Frontend-Entwickler arbeite ich mit modernen Webtechnologien, um responsive und benutzerfreundliche Anwendungen zu erstellen. Ich schreibe leidenschaftlich gerne sauberen Code und erweitere kontinuierlich mein Repertoire – denn in diesem sich ständig weiterentwickelnden Bereich gibt es immer etwas Spannendes zu lernen.",
+    "anotherSkill": "Was brauchst du?",
+    "contactMe": "Kontaktiere mich gerne. Ich freue mich darauf.",
     "letsTalk": "Lass uns sprechen",
     "interestIn": "Ich habe ein besonderes Interesse an"
   },

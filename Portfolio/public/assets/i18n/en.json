@@ -20,17 +20,17 @@
   "about": {
     "headline": "Who I Am",
     "title": "About me",
-    "intro": "Hey there, I'm Phillip! With some information about yourself and experience, you can write about who you are and what is your source of inspiration for improving your programming skills.",
-    "location": "Where are you based? Would you be open to working remotely or potentially relocating?",
-    "mindset": "Show that you are open-minded. Are you enthusiastic about learning new technologies and continually improving your skills?",
-    "approach": "A brief description of your problem-solving approach. Do you learn from each challenge as you search for the most efficient or elegant solution? You can include some keywords like: analytical thinking, creativity, persistence and collaboration."
+    "intro": "Hey there, I'm Phillip – a passionate Junior Frontend Developer who thrives on turning ideas into clean, functional code. What drives me most is the excitement of tackling new challenges and the endless possibilities that web development offers.",
+    "location": "Based in Germany, I'm fully available for remote work and open to opportunities that allow me to grow as a developer while contributing to meaningful projects.",
+    "mindset": "I believe that every new technology is an opportunity to expand my horizons. Whether it's diving into a new framework or mastering a complex concept – I embrace the learning journey with curiosity and determination.",
+    "approach": "My approach to development combines analytical thinking with creative problem-solving. I see every challenge as a chance to learn something new, and I'm committed to finding solutions that are both efficient and elegant."
   },
   "skills": {
     "technologies": "Technologies",
     "skillset": "Skillset",
-    "intro": "A short introduction of your skills. Highlight your experience with different front-end technologies and emphasise your openness to learning and adapting to new technologies. Show how important it is for you to keep up with rapid changes in web development.",
-    "anotherSkill": "You need another skill?",
-    "contactMe": "Feel free to contact me. I look forward to expanding on my previous knowledge.",
+    "intro": "As a Frontend Developer, I work with modern web technologies to build responsive, user-friendly applications. I'm passionate about writing clean code and continuously expanding my toolkit – because in this ever-evolving field, there's always something exciting to learn.",
+    "anotherSkill": "What do you need?",
+    "contactMe": "Feel free to contact me. I look forward to it.",
     "letsTalk": "let's talk",
     "interestIn": "I have a special interest in learning"
   },
