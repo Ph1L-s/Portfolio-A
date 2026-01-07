@@ -73,7 +73,6 @@ export const appConfig: ApplicationConfig = {
      * Loads translations from assets/i18n/ directory.
      */
     provideTranslateService({
-      useDefaultLang: true,
       fallbackLang: 'en',
       loader: provideTranslateHttpLoader({
         prefix: './assets/i18n/',
