@@ -108,8 +108,8 @@
     "polloLoco": {
       "description": "Spring-, Lauf- und Wurfspiel basierend auf objektorientiertem Ansatz. Hilf Pepe, Münzen und Tabasco-Salsa zu finden, um gegen die verrückte Henne zu kämpfen."
     },
-    "daBubble": {
-      "description": "Slack-inspirierte Chat-Anwendung mit Echtzeit-Messaging, Kanälen und Direktnachrichten. Entwickelt mit Angular und Firebase."
+    "pokeDex": {
+      "description": "Interaktive Pokédex-Webanwendung mit Echtzeit-Suche, generationsbasierter Navigation (Gen 1-9) und Evolutionsketten-Anzeige. Angetrieben von PokéAPI."
     }
   },
   "footer": {

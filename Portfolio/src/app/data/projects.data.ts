@@ -38,15 +38,15 @@ export const PROJECTS: Projects[] = [
     liveTest: 'https://phils-web.site/epl/index.html'
   },
   {
-    nameKey: 'DA Bubble',
-    descriptionKey: 'projects.daBubble.description',
+    nameKey: 'PokéDex',
+    descriptionKey: 'projects.pokeDex.description',
     tech: [
-      { tech: 'Angular', image: '/designs/images/languages/angular.svg' },
-      { tech: 'Firebase', image: '/designs/images/languages/firebase.svg' },
-      { tech: 'TypeScript', image: '/designs/images/languages/type_script.svg' }
+      { tech: 'JavaScript', image: '/designs/images/languages/java_script.svg' },
+      { tech: 'HTML', image: '/designs/images/languages/html.svg' },
+      { tech: 'CSS', image: '/designs/images/languages/stylesheet.svg' }
     ],
-    image: '/designs/images/featured_projects/da_bubble.svg',
-    github: 'https://github.com/Ph1L-s',
-    liveTest: 'https://phils-web.site/dabubble/'
+    image: '/designs/images/featured_projects/poke_dex.png',
+    github: 'https://github.com/Ph1L-s/PokeApi',
+    liveTest: 'https://phils-web.site/pokedex/index.html'
   }
 ];

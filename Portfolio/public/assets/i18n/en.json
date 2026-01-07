@@ -108,8 +108,8 @@
     "polloLoco": {
       "description": "Jump, run and throw game based on object-oriented approach. Help Pepe to find coins and tabasco salsa to fight against the crazy hen."
     },
-    "daBubble": {
-      "description": "Slack-inspired chat application with real-time messaging, channels, and direct messages. Built with Angular and Firebase."
+    "pokeDex": {
+      "description": "Interactive Pokédex web application with real-time search, generation-based navigation (Gen 1-9), and evolution chain display. Powered by PokéAPI."
     }
   },
   "footer": {
